@@ -1,4 +1,4 @@
-package com.facli.server.pages;
+package com.flux.example.pages;
 
 import io.jettra.flux.widgets.Paragraph;
 import io.jettra.flux.widgets.Scaffold;

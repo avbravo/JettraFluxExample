@@ -1,7 +1,7 @@
-package com.facli.server.controller;
+package com.flux.example.controller;
 
-import com.facli.server.entity.ContenedorMaritimo;
-import com.facli.server.repository.ContenedorMaritimoRepository;
+import com.flux.example.entity.ContenedorMaritimo;
+import com.flux.example.repository.ContenedorMaritimoRepository;
 import io.jettra.core.inject.annotation.Inject;
 import io.jettra.rest.annotations.Consumes;
 import io.jettra.rest.annotations.DELETE;

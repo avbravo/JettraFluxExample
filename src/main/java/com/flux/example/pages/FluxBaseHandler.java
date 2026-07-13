@@ -1,4 +1,4 @@
-package com.facli.server.pages;
+package com.flux.example.pages;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

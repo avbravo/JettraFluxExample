@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package com.facli.server.repository;
+package com.flux.example.repository;
 
-import com.facli.server.entity.ContenedorMaritimo;
+import com.flux.example.entity.ContenedorMaritimo;
 import java.util.List;
 import java.util.Optional;
 

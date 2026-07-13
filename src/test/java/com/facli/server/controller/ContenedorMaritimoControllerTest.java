@@ -1,12 +1,13 @@
 package com.facli.server.controller;
 
+import com.flux.example.controller.ContenedorMaritimoController;
 import io.jettra.server.discoverer.DiscoveredLoad;
 import io.jettra.test.annotation.JettraTest;
 import io.jettra.test.annotation.RequiresRunningServer;
 import io.jettra.test.core.JettraAssert;
 import io.jettra.test.jwt.JwtTestClient;
 import io.jettra.core.inject.annotation.Inject;
-import com.facli.server.entity.ContenedorMaritimo;
+import com.flux.example.entity.ContenedorMaritimo;
 import io.jettra.rest.core.Response;
 import java.util.List;
 import java.util.UUID;
