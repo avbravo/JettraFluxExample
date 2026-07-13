@@ -5,12 +5,9 @@ import io.jettra.server.JettraServer;
 import io.jettra.server.config.ConfigInjector;
 import io.jettra.server.config.JettraConfigProperty;
 import io.jettra.server.discoverer.DiscoveredLoad;
-import io.jettra.server.discoverer.DiscoveredRegistry;
 import io.jettra.server.openapi.OpenApiHandler;
 import io.jettra.server.openapi.SwaggerUIHandler;
-import java.util.ArrayList;
 import java.util.List;
-import com.flux.example.controller.ContenedorMaritimoController;
 
 
 /**
@@ -54,8 +51,8 @@ public class App {
         server.addHandler("/swagger-ui", io.jettra.wui.complex.SwaggerUIPage.class);
 
         // Registro de Páginas JettraFlux
-        server.addHandler("/", com.flux.example.pages.LoginPage.class);
-        server.addHandler("/login", com.flux.example.pages.LoginPage.class);
+        server.addHandler("/", com.flux.example.pages.login.LoginPage.class);
+        server.addHandler("/login", com.flux.example.pages.login.LoginPage.class);
         server.addHandler("/dashboard", com.flux.example.pages.DashboardPage.class);
         server.addHandler("/forms", com.flux.example.pages.FormsPage.class);
 
@@ -65,7 +62,7 @@ public class App {
         // Puedes agregar aquí manualmente las clases que tengan @Discovered(automatic=false)
         // o que no tengan la anotación
         // controllers.add(MiControladorManual.class);
-        controllers.add(com.flux.example.controller.ContenedorMaritimoController.class);
+//        controllers.add(com.flux.example.controller.ContenedorMaritimoController.class);
         // Exponer el JSON de OpenAPI
         server.addHandler("/openapi.json", new OpenApiHandler(controllers));
 

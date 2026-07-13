@@ -1,5 +1,6 @@
-package com.flux.example.pages;
+package com.flux.example.pages.login;
 
+import com.flux.example.pages.FluxBaseHandler;
 import io.jettra.flux.widgets.Paragraph;
 import io.jettra.flux.widgets.Scaffold;
 import io.jettra.flux.widgets.Login;
@@ -21,31 +22,25 @@ public class LoginPage extends FluxBaseHandler {
     }
 
     @Override
-    protected boolean onGet(HttpExchange exchange, Map<String, String> params) throws IOException {
-        if (params.containsKey("logout")) {
-            clearSessionCookie(exchange);
-            redirect(exchange, "/login");
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    protected boolean onPost(HttpExchange exchange, Map<String, String> params) throws IOException {
-        String user = params.get("username");
-        String pass = params.get("password");
-
-        if (isValidUser(user, pass)) {
-            setSessionCookie(exchange, user);
-            redirect(exchange, "/dashboard");
-        } else {
-            redirect(exchange, "/login?error=invalid_credentials");
-        }
-        return true;
-    }
-
-    @Override
     protected Widget buildUI(HttpExchange exchange, Map<String, String> params, String currentTheme) {
+        new io.jettra.flux.core.ActionBinder(params)
+            .on("logout", () -> {
+                clearSessionCookie(exchange);
+                try { redirect(exchange, "/login"); } catch (Exception e) {}
+            })
+            .on("username", p -> {
+                String user = p.get("username");
+                String pass = p.get("password");
+                try {
+                    if (isValidUser(user, pass)) {
+                        setSessionCookie(exchange, user);
+                        redirect(exchange, "/dashboard");
+                    } else {
+                        redirect(exchange, "/login?error=invalid_credentials");
+                    }
+                } catch (Exception e) {}
+            })
+            .execute();
         Widget loginForm = Login.create().action(JettraServer.resolvePath("/login")).title("JettraFlux Admin");
         
         Widget body = Center.of(
