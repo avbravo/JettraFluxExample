@@ -22,6 +22,7 @@
         <jettra.rest.version>1.0.0-SNAPSHOT</jettra.rest.version>
         <jettra.json.version>1.0.0-SNAPSHOT</jettra.json.version>
         <jettra.test.version>1.0.0-SNAPSHOT</jettra.test.version>
+        <jettra.flux.version>1.0.0-SNAPSHOT</jettra.flux.version>
     </properties>
 
     <dependencies>
@@ -73,6 +74,11 @@
             <groupId>io.jettra</groupId>
             <artifactId>JettraTest</artifactId>
             <version>${jettra.test.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jettra</groupId>
+            <artifactId>JettraFlux</artifactId>
+            <version>${jettra.flux.version}</version>
         </dependency>
     </dependencies>
     <build>

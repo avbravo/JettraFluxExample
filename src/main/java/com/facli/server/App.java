@@ -53,13 +53,19 @@ public class App {
         server.addHandler("/error", io.jettra.wui.complex.ErrorPage.class);
         server.addHandler("/swagger-ui", io.jettra.wui.complex.SwaggerUIPage.class);
 
+        // Registro de Páginas JettraFlux
+        server.addHandler("/", com.facli.server.pages.LoginPage.class);
+        server.addHandler("/login", com.facli.server.pages.LoginPage.class);
+        server.addHandler("/dashboard", com.facli.server.pages.DashboardPage.class);
+        server.addHandler("/forms", com.facli.server.pages.FormsPage.class);
+
         // Cargamos los controladores descubiertos automáticamente
-        List<Class<?>> controllers = new ArrayList<>(DiscoveredRegistry.getDiscoveredClasses(App.class));
+        List<Class<?>> controllers = new java.util.ArrayList<>(io.jettra.server.discoverer.DiscoveredRegistry.getDiscoveredClasses(App.class));
 
         // Puedes agregar aquí manualmente las clases que tengan @Discovered(automatic=false)
         // o que no tengan la anotación
         // controllers.add(MiControladorManual.class);
-        controllers.add(ContenedorMaritimoController.class);
+        controllers.add(com.facli.server.controller.ContenedorMaritimoController.class);
         // Exponer el JSON de OpenAPI
         server.addHandler("/openapi.json", new OpenApiHandler(controllers));
 
