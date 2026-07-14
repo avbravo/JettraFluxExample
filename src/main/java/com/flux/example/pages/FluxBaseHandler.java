@@ -51,8 +51,38 @@ public abstract class FluxBaseHandler implements HttpHandler {
             // Verificación de @PageWidgetAllow
             if (this.getClass().isAnnotationPresent(io.jettra.core.security.widget.PageWidgetAllow.class)) {
                 io.jettra.core.security.widget.PageWidgetAllow pageAllow = this.getClass().getAnnotation(io.jettra.core.security.widget.PageWidgetAllow.class);
-                // Aquí se validaría contra FluxLogin.getCredential().role() en un entorno completo
-                // asumiendo que el inyector cargó FluxLogin en la sesión.
+                String userRole = getLoggedRole(exchange);
+                boolean hasAccess = false;
+                if (pageAllow.role().length == 0) {
+                    hasAccess = true;
+                } else {
+                    for (String r : pageAllow.role()) {
+                        if (r.equalsIgnoreCase(userRole)) {
+                            hasAccess = true;
+                            break;
+                        }
+                    }
+                }
+                if (!hasAccess) {
+                    io.jettra.flux.widgets.Modal modal = io.jettra.flux.widgets.Modal.of(
+                        io.jettra.flux.widgets.Column.of(
+                            io.jettra.flux.widgets.Label.of("Acceso Denegado").modifier(new io.jettra.flux.core.Modifier().cssClass("bold").padding(10)),
+                            io.jettra.flux.widgets.Paragraph.of("No tienes los permisos (" + String.join(",", pageAllow.role()) + ") necesarios para ver esta página."),
+                            io.jettra.flux.widgets.Paragraph.of("<script>setTimeout(function(){ window.location.href='" + io.jettra.server.JettraServer.resolvePath("/dashboard") + "'; }, 3000);</script>")
+                        )
+                    );
+                    modal.open(true);
+                    String themeName = getThemeCookie(exchange);
+                    if (themeName == null || themeName.isEmpty()) themeName = "Ast";
+                    io.jettra.flux.theme.ThemeData theme = getThemeByName(themeName);
+                    String html = "<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
+                            + theme.generateGlobalCss()
+                            + "</head><body style=\"margin:0; padding:0; box-sizing: border-box;\">"
+                            + io.jettra.flux.widgets.Scaffold.of().body(modal).render(theme)
+                            + "</body></html>";
+                    renderResponse(exchange, html, 403);
+                    return;
+                }
             }
         }
         // --- Fin Security Filter ---
@@ -61,6 +91,40 @@ public abstract class FluxBaseHandler implements HttpHandler {
         
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
             params.putAll(parseRequestBody(exchange));
+            
+            // Verificación de @ActionWidgetAllow (Invocación de Método)
+            if (params.containsKey("_action_method")) {
+                String methodName = params.get("_action_method");
+                try {
+                    java.lang.reflect.Method method = this.getClass().getDeclaredMethod(methodName, HttpExchange.class, Map.class);
+                    if (method.isAnnotationPresent(io.jettra.core.security.widget.ActionWidgetAllow.class)) {
+                        io.jettra.core.security.widget.ActionWidgetAllow actionAllow = method.getAnnotation(io.jettra.core.security.widget.ActionWidgetAllow.class);
+                        String userRole = getLoggedRole(exchange);
+                        boolean hasAccess = false;
+                        if (actionAllow.role().length == 0) {
+                            hasAccess = true;
+                        } else {
+                            for (String r : actionAllow.role()) {
+                                if (r.equalsIgnoreCase(userRole)) {
+                                    hasAccess = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!hasAccess) {
+                            String errorHtml = "<script>alert('Acceso Denegado al Método: " + methodName + "'); window.history.back();</script>";
+                            renderResponse(exchange, errorHtml, 403);
+                            return;
+                        }
+                    }
+                    method.setAccessible(true);
+                    method.invoke(this, exchange, params);
+                    return; // Si el método se invoca con éxito, asume que manejó la redirección.
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
             if (onPost(exchange, params)) {
                 return; // If onPost returns true, it handled the response (e.g. redirect)
             }
@@ -119,18 +183,26 @@ public abstract class FluxBaseHandler implements HttpHandler {
         exchange.getResponseBody().close();
     }
 
-    protected void setSessionCookie(HttpExchange exchange, String username) {
+    protected void setSessionCookie(HttpExchange exchange, String username, String role) {
         String cPath = JettraServer.getContextPath();
         if (cPath == null || cPath.isEmpty()) cPath = "/";
         exchange.getResponseHeaders().set("Set-Cookie", "username=" + username + "; Path=" + cPath);
+        exchange.getResponseHeaders().add("Set-Cookie", "role=" + role + "; Path=" + cPath);
         JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "username", username);
+        JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "role", role);
+    }
+
+    protected void setSessionCookie(HttpExchange exchange, String username) {
+        setSessionCookie(exchange, username, "USER");
     }
 
     protected void clearSessionCookie(HttpExchange exchange) {
         String cPath = JettraServer.getContextPath();
         if (cPath == null || cPath.isEmpty()) cPath = "/";
         exchange.getResponseHeaders().set("Set-Cookie", "username=; Path=" + cPath + "; Max-Age=0");
+        exchange.getResponseHeaders().add("Set-Cookie", "role=; Path=" + cPath + "; Max-Age=0");
         JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "username", null);
+        JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "role", null);
     }
 
     protected String getLoggedUser(HttpExchange exchange) {
@@ -145,6 +217,20 @@ public abstract class FluxBaseHandler implements HttpHandler {
             }
         }
         return null;
+    }
+
+    protected String getLoggedRole(HttpExchange exchange) {
+        // Simple cookie parse for role
+        String cookies = exchange.getRequestHeaders().getFirst("Cookie");
+        if (cookies != null) {
+            for (String c : cookies.split(";")) {
+                c = c.trim();
+                if (c.startsWith("role=")) {
+                    return c.substring("role=".length());
+                }
+            }
+        }
+        return "USER";
     }
 
     protected String getThemeCookie(HttpExchange exchange) {

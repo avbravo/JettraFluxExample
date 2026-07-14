@@ -6,8 +6,10 @@ import io.jettra.flux.widgets.Paragraph;
 import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
+import io.jettra.core.security.widget.PageWidgetAllow;
 import java.util.Map;
 
+@PageWidgetAllow(role={"USER", "ADMIN", "MANAGER"}, department="")
 public class DashboardPage extends TemplatePage {
 
     @Override
@@ -46,8 +48,8 @@ public class DashboardPage extends TemplatePage {
 
         // Assemble structure manually using raw HTML strings since JettraFlux doesn't have a Grid widget
         Widget layout = Column.of(
-            io.jettra.flux.widgets.Grid.of(stat1, stat2, stat3).modifier(new io.jettra.flux.core.Modifier().cssClass("atlantis-dashboard-grid")),
-            io.jettra.flux.widgets.Grid.of(mainChart, transactions).modifier(new io.jettra.flux.core.Modifier().cssClass("atlantis-main-grid"))
+            io.jettra.flux.widgets.Grid.of(stat1, stat2, stat3).modifier(new io.jettra.flux.core.Modifier().cssClass("oceantheme-dashboard-grid")),
+            io.jettra.flux.widgets.Grid.of(mainChart, transactions).modifier(new io.jettra.flux.core.Modifier().cssClass("oceantheme-main-grid"))
         );
 
         // --- Center Content ---

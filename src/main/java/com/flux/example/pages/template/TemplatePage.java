@@ -45,31 +45,61 @@ public abstract class TemplatePage extends FluxBaseHandler {
             io.jettra.flux.widgets.SidebarCategory.of("Dashboards"),
             Menu.of(
                 MenuItem.of(
-                    Icon.of(io.jettra.flux.widgets.Icon.HOME),
-                    Link.of(JettraServer.resolvePath("/dashboard"), " E-Commerce").modifier(new io.jettra.flux.core.Modifier().cssClass("active"))
+                    Link.of(JettraServer.resolvePath("/dashboard"), 
+                            Icon.of(io.jettra.flux.widgets.Icon.HOME), 
+                            io.jettra.flux.widgets.Text.of(" E-Commerce")
+                    ).modifier(new io.jettra.flux.core.Modifier().cssClass("active"))
                 )
             ),
             
             io.jettra.flux.widgets.SidebarCategory.of("Apps"),
             Menu.of(
                 MenuItem.of(
-                    Icon.of(io.jettra.flux.widgets.Icon.TH_LARGE),
-                    Link.of(JettraServer.resolvePath("/cms"), " CMS")
+                    Link.of(JettraServer.resolvePath("/cms"), 
+                            Icon.of(io.jettra.flux.widgets.Icon.TH_LARGE), 
+                            io.jettra.flux.widgets.Text.of(" CMS")
+                    )
                 ),
                 MenuItem.of(
-                    Icon.of(io.jettra.flux.widgets.Icon.COMMENTS),
-                    Link.of(JettraServer.resolvePath("/chat"), " Chat")
+                    Link.of(JettraServer.resolvePath("/chat"), 
+                            Icon.of(io.jettra.flux.widgets.Icon.COMMENTS), 
+                            io.jettra.flux.widgets.Text.of(" Chat")
+                    )
                 )
             ),
             
             io.jettra.flux.widgets.SidebarCategory.of("UI Kit"),
             widgetLetMenu,
             
+            io.jettra.flux.widgets.SidebarCategory.of("Example"),
+            Menu.of(
+                MenuItem.of(
+                    Link.of(JettraServer.resolvePath("/forms"), 
+                            Icon.of(io.jettra.flux.widgets.Icon.EDIT), 
+                            io.jettra.flux.widgets.Text.of(" Forms Page")
+                    )
+                ),
+                MenuItem.of(
+                    Link.of(JettraServer.resolvePath("/button-demo"), 
+                            Icon.of(io.jettra.flux.widgets.Icon.MOUSE_POINTER), 
+                            io.jettra.flux.widgets.Text.of(" Button Demo")
+                    )
+                ),
+                MenuItem.of(
+                    Link.of(JettraServer.resolvePath("/card-demo"), 
+                            Icon.of(io.jettra.flux.widgets.Icon.WINDOW_MAXIMIZE), 
+                            io.jettra.flux.widgets.Text.of(" Card Demo")
+                    )
+                )
+            ),
+            
             io.jettra.flux.widgets.SidebarCategory.of("System"),
             Menu.of(
                 MenuItem.of(
-                    Icon.of(io.jettra.flux.widgets.Icon.SIGN_OUT_ALT),
-                    Link.of(JettraServer.resolvePath("/login?logout=true"), " Logout")
+                    Link.of(JettraServer.resolvePath("/login?logout=true"), 
+                            Icon.of(io.jettra.flux.widgets.Icon.SIGN_OUT_ALT), 
+                            io.jettra.flux.widgets.Text.of(" Logout")
+                    )
                 )
             )
         ).modifier(new io.jettra.flux.core.Modifier().cssClass("professional-left"));

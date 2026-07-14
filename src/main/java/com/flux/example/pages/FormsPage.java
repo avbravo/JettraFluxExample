@@ -20,9 +20,12 @@ import io.jettra.flux.core.Widget;
 import io.jettra.server.JettraServer;
 import io.jettra.wui.sync.JettraPageSincronized;
 import io.jettra.wui.sync.SyncType;
+import io.jettra.core.security.widget.PageWidgetAllow;
+import io.jettra.core.security.widget.ActionWidgetAllow;
 import java.util.Map;
 
 @JettraPageSincronized(SyncType.ALL)
+@PageWidgetAllow(role={"ADMIN","MANAGER"}, department="") 
 public class FormsPage extends TemplatePage {
 
     @Override
@@ -30,12 +33,19 @@ public class FormsPage extends TemplatePage {
         return "Forms - JettraFlux Pro";
     }
 
+    @ActionWidgetAllow(role={"ADMIN","MANAGER"}, department="")
+    private void saveForm(HttpExchange exchange, Map<String, String> params) {
+        System.out.println("Formulario recibido con datos (Método de acción seguro): " + params);
+        try { redirect(exchange, "/forms?success=true"); } catch (Exception e) {}
+    }
+
     @Override
     protected Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme) {
+        // Fallback para ActionBinder en caso de no usar _action_method (Se deja por compatibilidad si es necesario, 
+        // pero preferimos el _action_method)
         new io.jettra.flux.core.ActionBinder(params)
             .on("nombre", p -> {
-                System.out.println("Formulario recibido con datos: " + p);
-                try { redirect(exchange, "/forms?success=true"); } catch (Exception e) {}
+                // Ignore, handled by saveForm if _action_method is present
             })
             .execute();
 
@@ -65,7 +75,7 @@ public class FormsPage extends TemplatePage {
                     ElevatedButton.of("Guardar Cambios")
                 ).modifier(new io.jettra.flux.core.Modifier().padding(15))
             )
-        ).action(JettraServer.resolvePath("/forms")).method("POST");
+        ).action(JettraServer.resolvePath("/forms?_action_method=saveForm")).method("POST");
 
         // --- Center Content ---
         return Center.of(
