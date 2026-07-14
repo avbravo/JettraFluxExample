@@ -9,9 +9,9 @@ import io.jettra.flux.widgets.Notification;
 import io.jettra.flux.widgets.Center;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
+import io.jettra.flux.model.CredentialFlux;
 import io.jettra.server.JettraServer;
 
-import java.io.IOException;
 import java.util.Map;
 
 public class LoginPage extends FluxBaseHandler {
@@ -33,6 +33,8 @@ public class LoginPage extends FluxBaseHandler {
                 String pass = p.get("password");
                 try {
                     if (isValidUser(user, pass)) {
+                        //Registra las credenciales
+                        CredentialFlux CredentialFlux = new CredentialFlux(user, user+"Prueba", "", "", "");
                         setSessionCookie(exchange, user);
                         redirect(exchange, "/dashboard");
                     } else {

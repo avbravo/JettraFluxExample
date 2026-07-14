@@ -18,8 +18,11 @@ import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
 import io.jettra.server.JettraServer;
+import io.jettra.wui.sync.JettraPageSincronized;
+import io.jettra.wui.sync.SyncType;
 import java.util.Map;
 
+@JettraPageSincronized(SyncType.ALL)
 public class FormsPage extends TemplatePage {
 
     @Override
