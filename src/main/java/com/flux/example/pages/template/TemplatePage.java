@@ -32,71 +32,43 @@ public abstract class TemplatePage extends FluxBaseHandler {
             return Column.of();
         }
 
-        Widget customCss = Paragraph.of("<style>\n"
-            + "/* Atlantis Layout Adjustments */\n"
-            + ".espresso-left { border-right: none !important; box-shadow: 2px 0 10px rgba(0,0,0,0.2) !important; z-index: 100; }\n"
-            + ".espresso-top { border-bottom: 1px solid rgba(128,128,128,0.1); justify-content: space-between; }\n"
-            + ".top-left-section { display: flex; align-items: center; gap: 20px; }\n"
-            + ".top-right-section { display: flex; align-items: center; gap: 15px; color: var(--on-surface-color); }\n"
-            + ".top-right-section i { font-size: 1.2rem; cursor: pointer; transition: color 0.2s; }\n"
-            + ".top-right-section i:hover { color: var(--primary-color); }\n"
-            + ".top-btn-today { background-color: #6366F1; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }\n"
-            + ".top-avatar { width: 32px; height: 32px; border-radius: 50%; background-color: #ccc; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #333; }\n"
-            + ".sidebar-logo { font-size: 1.5rem; font-weight: 700; color: var(--on-surface-color); padding: 10px 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }\n"
-            + ".sidebar-category { margin-top: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 10px; padding-left: 15px; font-weight: 600; }\n"
-            + ".professional-left a, .professional-left p { color: var(--on-surface-color); opacity: 0.8; text-decoration: none; display: flex; align-items: center; padding: 10px 15px; border-radius: 8px; transition: all 0.2s ease; margin-bottom: 4px; cursor: pointer; font-weight: 500; font-size: 0.95rem; }\n"
-            + ".professional-left a:hover, .professional-left p:hover { background-color: rgba(128,128,128,0.1); opacity: 1; }\n"
-            + ".professional-left a.active { background-color: var(--primary-color); color: var(--on-primary-color) !important; opacity: 1; }\n"
-            + ".professional-left a.active i { color: var(--on-primary-color) !important; }\n"
-            + ".professional-left i { margin-right: 12px; font-size: 1.1rem; width: 20px; text-align: center; color: #94a3b8; }\n"
-            + "/* Card Styling */\n"
-            + ".espresso-card { background: var(--surface-color); border-radius: 12px; padding: 20px; border: 1px solid rgba(128, 128, 128, 0.1); }\n"
-            + ".professional-center { height: 100%; display: flex; flex-direction: column; gap: 1.5rem; }\n"
-            + ".top-bars-icon { font-size: 1.2rem; cursor: pointer; color: var(--on-surface-color); opacity: 0.7; margin-right: 15px; }\n"
-            + ".top-dashboard-title { margin: 0; font-weight: 600; font-size: 1.1rem; }\n"
-            + "</style>\n"
-            + "<script>\n"
-            + "function toggleSidebar() {\n"
-            + "  var sidebar = document.querySelector('.espresso-left');\n"
-            + "  if(sidebar) sidebar.classList.toggle('open');\n"
-            + "}\n"
-            + "</script>");
+        Widget customCss = Paragraph.of(io.jettra.flux.theme.OceanTheme.Template.CustomCSS);
 
-        io.jettra.flux.widgets.WidgetLet widgetLetMenu = io.jettra.flux.widgets.WidgetLet.of("UI Components").icon("<i class='fas fa-cube'></i>");
-        widgetLetMenu.add(io.jettra.flux.widgets.WidgetLet.of("Button").icon("<i class='fas fa-mouse-pointer'></i>").url(JettraServer.resolvePath("/button-demo")));
-        widgetLetMenu.add(io.jettra.flux.widgets.WidgetLet.of("Card").icon("<i class='fas fa-window-maximize'></i>").url(JettraServer.resolvePath("/card-demo")));
+        io.jettra.flux.widgets.WidgetLet widgetLetMenu = io.jettra.flux.widgets.WidgetLet.of("UI Components").icon("<i class='" + io.jettra.flux.widgets.Icon.CUBE + "'></i>");
+        widgetLetMenu.add(io.jettra.flux.widgets.WidgetLet.of("Button").icon("<i class='" + io.jettra.flux.widgets.Icon.MOUSE_POINTER + "'></i>").url(JettraServer.resolvePath("/button-demo")));
+        widgetLetMenu.add(io.jettra.flux.widgets.WidgetLet.of("Card").icon("<i class='" + io.jettra.flux.widgets.Icon.WINDOW_MAXIMIZE + "'></i>").url(JettraServer.resolvePath("/card-demo")));
 
         // --- Left Sidebar (Atlantis Style) ---
         Widget menu = Left.of(
-            Paragraph.of("<div class='sidebar-logo'><i class='fas fa-layer-group'></i> Atlantis</div>"),
+            io.jettra.flux.widgets.SidebarLogo.of(io.jettra.flux.widgets.Icon.LAYER_GROUP, "Atlantis"),
             
-            Paragraph.of("<div class='sidebar-category'>Dashboards</div>"),
+            io.jettra.flux.widgets.SidebarCategory.of("Dashboards"),
             Menu.of(
                 MenuItem.of(
-                    Icon.of("fas fa-home"),
+                    Icon.of(io.jettra.flux.widgets.Icon.HOME),
                     Link.of(JettraServer.resolvePath("/dashboard"), " E-Commerce").modifier(new io.jettra.flux.core.Modifier().cssClass("active"))
                 )
             ),
             
-            Paragraph.of("<div class='sidebar-category'>Apps</div>"),
+            io.jettra.flux.widgets.SidebarCategory.of("Apps"),
             Menu.of(
                 MenuItem.of(
-                    Icon.of("fas fa-th-large"),
+                    Icon.of(io.jettra.flux.widgets.Icon.TH_LARGE),
                     Link.of(JettraServer.resolvePath("/cms"), " CMS")
                 ),
                 MenuItem.of(
-                    Icon.of("fas fa-comments"),
+                    Icon.of(io.jettra.flux.widgets.Icon.COMMENTS),
                     Link.of(JettraServer.resolvePath("/chat"), " Chat")
                 )
             ),
             
-            Paragraph.of("<div class='sidebar-category'>UI Kit</div>"),
+            io.jettra.flux.widgets.SidebarCategory.of("UI Kit"),
             widgetLetMenu,
             
-            Paragraph.of("<div class='sidebar-category'>System</div>"),
+            io.jettra.flux.widgets.SidebarCategory.of("System"),
             Menu.of(
                 MenuItem.of(
-                    Icon.of("fas fa-sign-out-alt"),
+                    Icon.of(io.jettra.flux.widgets.Icon.SIGN_OUT_ALT),
                     Link.of(JettraServer.resolvePath("/login?logout=true"), " Logout")
                 )
             )
@@ -105,17 +77,17 @@ public abstract class TemplatePage extends FluxBaseHandler {
         // --- Professional Top Bar ---
         Widget topBar = Top.of(
             Row.of(
-                Paragraph.of("<i class='fas fa-bars top-bars-icon' onclick='toggleSidebar()'></i>"),
+                io.jettra.flux.widgets.ActionIcon.of(io.jettra.flux.widgets.Icon.BARS + " top-bars-icon", "toggleSidebar()"),
                 Header.of(4, "E-Commerce Dashboard").modifier(new io.jettra.flux.core.Modifier().cssClass("top-dashboard-title"))
             ).modifier(new io.jettra.flux.core.Modifier().cssClass("top-left-section")),
             
             Row.of(
-                Icon.of("fas fa-search"),
-                Icon.of("fas fa-bell"),
-                Icon.of("fas fa-comment-alt"),
+                Icon.of(io.jettra.flux.widgets.Icon.SEARCH),
+                Icon.of(io.jettra.flux.widgets.Icon.BELL),
+                Icon.of(io.jettra.flux.widgets.Icon.COMMENT_ALT),
                 ThemeChanged.of().current(currentTheme),
-                Paragraph.of("<div class='top-avatar'>U</div>"),
-                Paragraph.of("<button class='top-btn-today'><i class='fas fa-calendar'></i> Today</button>")
+                io.jettra.flux.widgets.TopAvatar.of("U"),
+                io.jettra.flux.widgets.ActionButton.of(io.jettra.flux.widgets.Icon.CALENDAR, "Today")
             ).modifier(new io.jettra.flux.core.Modifier().cssClass("top-right-section"))
         );
 
