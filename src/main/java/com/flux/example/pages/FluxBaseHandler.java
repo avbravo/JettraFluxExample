@@ -125,6 +125,8 @@ public abstract class FluxBaseHandler implements HttpHandler {
         if ("FlatTheme".equalsIgnoreCase(name)) return io.jettra.flux.theme.Themes.FlatTheme();
         if ("Theme3D".equalsIgnoreCase(name)) return io.jettra.flux.theme.Themes.Theme3D();
         if ("FuturisticTheme".equalsIgnoreCase(name)) return io.jettra.flux.theme.Themes.FuturisticTheme();
+        if ("AtlantisTheme".equalsIgnoreCase(name)) return io.jettra.flux.theme.Themes.AtlantisTheme();
+        if ("OceanTheme".equalsIgnoreCase(name)) return io.jettra.flux.theme.Themes.OceanTheme();
         return io.jettra.flux.theme.Themes.AstTheme();
     }
 

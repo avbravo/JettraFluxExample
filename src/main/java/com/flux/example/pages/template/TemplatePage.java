@@ -33,59 +33,74 @@ public abstract class TemplatePage extends FluxBaseHandler {
         }
 
         Widget customCss = Paragraph.of("<style>\n"
-            + "body { margin: 0; padding: 0; font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; }\n"
-            + ".top-row.professional-top { display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 15px 30px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; width: 100%; box-sizing: border-box; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }\n"
-            + ".top-row.professional-top > div { display: flex; align-items: center; gap: 15px; }\n"
-            + ".professional-top h2 { margin: 0; font-size: 1.5rem; font-weight: 600; }\n"
-            + ".professional-top p { margin: 0; font-size: 1rem; opacity: 0.9; }\n"
-            + ".professional-left { background-color: #2c3e50; color: #ecf0f1; min-height: calc(100vh - 70px); padding: 25px 15px; min-width: 260px; box-shadow: 2px 0 10px rgba(0,0,0,0.05); }\n"
-            + ".professional-left h3 { margin-top: 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; color: #7f8c8d; margin-bottom: 15px; padding-left: 10px; }\n"
-            + ".professional-left a, .professional-left p { color: #bdc3c7; text-decoration: none; display: flex; align-items: center; padding: 12px 15px; border-radius: 8px; transition: all 0.3s ease; margin-bottom: 5px; cursor: pointer; }\n"
-            + ".professional-left a:hover, .professional-left p:hover { background-color: #34495e; color: #ffffff; transform: translateX(5px); }\n"
-            + ".professional-left i { margin-right: 15px; font-size: 1.2rem; width: 25px; text-align: center; }\n"
-            + ".professional-center { padding: 30px; flex: 1; overflow-y: auto; box-sizing: border-box; width: 100%; }\n"
-            + ".espresso-dashboard { display: flex; flex-direction: row; flex-wrap: wrap; }\n"
+            + "/* Atlantis Layout Adjustments */\n"
+            + ".espresso-left { border-right: none !important; box-shadow: 2px 0 10px rgba(0,0,0,0.2) !important; z-index: 100; }\n"
+            + ".espresso-top { border-bottom: 1px solid rgba(128,128,128,0.1); justify-content: space-between; }\n"
+            + ".top-left-section { display: flex; align-items: center; gap: 20px; }\n"
+            + ".top-right-section { display: flex; align-items: center; gap: 15px; color: var(--on-surface-color); }\n"
+            + ".top-right-section i { font-size: 1.2rem; cursor: pointer; transition: color 0.2s; }\n"
+            + ".top-right-section i:hover { color: var(--primary-color); }\n"
+            + ".top-btn-today { background-color: #6366F1; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }\n"
+            + ".top-avatar { width: 32px; height: 32px; border-radius: 50%; background-color: #ccc; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #333; }\n"
+            + ".sidebar-logo { font-size: 1.5rem; font-weight: 700; color: var(--on-surface-color); padding: 10px 15px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }\n"
+            + ".sidebar-category { margin-top: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 10px; padding-left: 15px; font-weight: 600; }\n"
+            + ".professional-left a, .professional-left p { color: var(--on-surface-color); opacity: 0.8; text-decoration: none; display: flex; align-items: center; padding: 10px 15px; border-radius: 8px; transition: all 0.2s ease; margin-bottom: 4px; cursor: pointer; font-weight: 500; font-size: 0.95rem; }\n"
+            + ".professional-left a:hover, .professional-left p:hover { background-color: rgba(128,128,128,0.1); opacity: 1; }\n"
+            + ".professional-left a.active { background-color: var(--primary-color); color: var(--on-primary-color) !important; opacity: 1; }\n"
+            + ".professional-left a.active i { color: var(--on-primary-color) !important; }\n"
+            + ".professional-left i { margin-right: 12px; font-size: 1.1rem; width: 20px; text-align: center; color: #94a3b8; }\n"
             + "/* Card Styling */\n"
-            + ".espresso-card { background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); transition: transform 0.3s ease, box-shadow 0.3s ease; padding: 20px; border: 1px solid rgba(0,0,0,0.05); }\n"
-            + ".espresso-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }\n"
-            + "/* Responsive */\n"
-            + "@media (max-width: 768px) {\n"
-            + "  .espresso-dashboard { flex-direction: column !important; }\n"
-            + "  .professional-left { min-height: auto; min-width: 100%; padding: 15px; }\n"
-            + "  .top-row.professional-top { flex-direction: column; text-align: center; gap: 15px; }\n"
-            + "  .professional-center { padding: 15px; }\n"
-            + "}\n"
+            + ".espresso-card { background: var(--surface-color); border-radius: 12px; padding: 20px; border: 1px solid rgba(128, 128, 128, 0.1); }\n"
+            + ".professional-center { height: 100%; display: flex; flex-direction: column; gap: 1.5rem; }\n"
+            + ".top-bars-icon { font-size: 1.2rem; cursor: pointer; color: var(--on-surface-color); opacity: 0.7; margin-right: 15px; }\n"
+            + ".top-dashboard-title { margin: 0; font-weight: 600; font-size: 1.1rem; }\n"
             + "</style>");
 
-        // --- Left Menu with Icons and Submenus ---
+        // --- Left Sidebar (Atlantis Style) ---
         Widget menu = Left.of(
-            Header.of(3, "Navegación"),
+            Paragraph.of("<div class='sidebar-logo'><i class='fas fa-layer-group'></i> Atlantis</div>"),
+            
+            Paragraph.of("<div class='sidebar-category'>Dashboards</div>"),
             Menu.of(
                 MenuItem.of(
-                    Icon.of("fas fa-tachometer-alt"),
-                    Link.of(JettraServer.resolvePath("/dashboard"), " Dashboard")
+                    Icon.of("fas fa-home"),
+                    Link.of(JettraServer.resolvePath("/dashboard"), " E-Commerce").modifier(new io.jettra.flux.core.Modifier().cssClass("active"))
+                )
+            ),
+            
+            Paragraph.of("<div class='sidebar-category'>Apps</div>"),
+            Menu.of(
+                MenuItem.of(
+                    Icon.of("fas fa-th-large"),
+                    Link.of(JettraServer.resolvePath("/cms"), " CMS")
                 ),
+                MenuItem.of(
+                    Icon.of("fas fa-comments"),
+                    Link.of(JettraServer.resolvePath("/chat"), " Chat")
+                ),
+                MenuItem.of(
+                    Icon.of("fas fa-folder"),
+                    Link.of(JettraServer.resolvePath("/files"), " Files")
+                ),
+                MenuItem.of(
+                    Icon.of("fas fa-envelope"),
+                    Link.of(JettraServer.resolvePath("/mail"), " Mail")
+                ),
+                MenuItem.of(
+                    Icon.of("fas fa-check-square"),
+                    Link.of(JettraServer.resolvePath("/tasks"), " Task List")
+                )
+            ),
+            
+            Paragraph.of("<div class='sidebar-category'>UI Kit</div>"),
+            Menu.of(
                 MenuItem.of(
                     Icon.of("fas fa-wpforms"),
-                    Link.of(JettraServer.resolvePath("/forms"), " Formularios")
-                ),
-                MenuItem.of(
-                    Icon.of("fas fa-cogs"),
-                    Paragraph.of(" Configuración"),
-                    Menu.of(
-                        MenuItem.of(
-                            Icon.of("fas fa-user-shield"),
-                            Link.of(JettraServer.resolvePath("/roles"), " Roles")
-                        ),
-                        MenuItem.of(
-                            Icon.of("fas fa-users"),
-                            Link.of(JettraServer.resolvePath("/users"), " Usuarios")
-                        )
-                    )
+                    Link.of(JettraServer.resolvePath("/forms"), " Form Layout")
                 ),
                 MenuItem.of(
                     Icon.of("fas fa-sign-out-alt"),
-                    Link.of(JettraServer.resolvePath("/login?logout=true"), " Cerrar Sesión")
+                    Link.of(JettraServer.resolvePath("/login?logout=true"), " Logout")
                 )
             )
         ).modifier(new io.jettra.flux.core.Modifier().cssClass("professional-left"));
@@ -93,15 +108,18 @@ public abstract class TemplatePage extends FluxBaseHandler {
         // --- Professional Top Bar ---
         Widget topBar = Top.of(
             Row.of(
-                Row.of(
-                    Icon.of("fas fa-cubes"),
-                    Header.of(2, " JettraFlux Pro Admin")
-                ),
-                Row.of(
-                    ThemeChanged.of().current(currentTheme),
-                    Paragraph.of("Usuario: " + username)
-                )
-            ).modifier(new io.jettra.flux.core.Modifier().cssClass("top-row professional-top"))
+                Icon.of("fas fa-bars").modifier(new io.jettra.flux.core.Modifier().cssClass("top-bars-icon")),
+                Header.of(4, "E-Commerce Dashboard").modifier(new io.jettra.flux.core.Modifier().cssClass("top-dashboard-title"))
+            ).modifier(new io.jettra.flux.core.Modifier().cssClass("top-left-section")),
+            
+            Row.of(
+                Icon.of("fas fa-search"),
+                Icon.of("fas fa-bell"),
+                Icon.of("fas fa-comment-alt"),
+                ThemeChanged.of().current(currentTheme),
+                Paragraph.of("<div class='top-avatar'>U</div>"),
+                Paragraph.of("<button class='top-btn-today'><i class='fas fa-calendar'></i> Today</button>")
+            ).modifier(new io.jettra.flux.core.Modifier().cssClass("top-right-section"))
         );
 
         // --- Center Content from Subclass ---
@@ -112,7 +130,7 @@ public abstract class TemplatePage extends FluxBaseHandler {
 
         // --- Footer ---
         Widget footerContent = Footer.of(
-            Paragraph.of("© 2026 JettraStack Foundation - Powered by JettraFlux")
+            Paragraph.of("© 2026 JettraStack - Atlantis Clone")
         );
 
         Widget body = Dashboard.of(
