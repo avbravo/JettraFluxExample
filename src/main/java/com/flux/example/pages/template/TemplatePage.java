@@ -54,7 +54,17 @@ public abstract class TemplatePage extends FluxBaseHandler {
             + ".professional-center { height: 100%; display: flex; flex-direction: column; gap: 1.5rem; }\n"
             + ".top-bars-icon { font-size: 1.2rem; cursor: pointer; color: var(--on-surface-color); opacity: 0.7; margin-right: 15px; }\n"
             + ".top-dashboard-title { margin: 0; font-weight: 600; font-size: 1.1rem; }\n"
-            + "</style>");
+            + "</style>\n"
+            + "<script>\n"
+            + "function toggleSidebar() {\n"
+            + "  var sidebar = document.querySelector('.espresso-left');\n"
+            + "  if(sidebar) sidebar.classList.toggle('open');\n"
+            + "}\n"
+            + "</script>");
+
+        io.jettra.flux.widgets.WidgetLet widgetLetMenu = io.jettra.flux.widgets.WidgetLet.of("UI Components").icon("<i class='fas fa-cube'></i>");
+        widgetLetMenu.add(io.jettra.flux.widgets.WidgetLet.of("Button").icon("<i class='fas fa-mouse-pointer'></i>").url(JettraServer.resolvePath("/button-demo")));
+        widgetLetMenu.add(io.jettra.flux.widgets.WidgetLet.of("Card").icon("<i class='fas fa-window-maximize'></i>").url(JettraServer.resolvePath("/card-demo")));
 
         // --- Left Sidebar (Atlantis Style) ---
         Widget menu = Left.of(
@@ -77,27 +87,14 @@ public abstract class TemplatePage extends FluxBaseHandler {
                 MenuItem.of(
                     Icon.of("fas fa-comments"),
                     Link.of(JettraServer.resolvePath("/chat"), " Chat")
-                ),
-                MenuItem.of(
-                    Icon.of("fas fa-folder"),
-                    Link.of(JettraServer.resolvePath("/files"), " Files")
-                ),
-                MenuItem.of(
-                    Icon.of("fas fa-envelope"),
-                    Link.of(JettraServer.resolvePath("/mail"), " Mail")
-                ),
-                MenuItem.of(
-                    Icon.of("fas fa-check-square"),
-                    Link.of(JettraServer.resolvePath("/tasks"), " Task List")
                 )
             ),
             
             Paragraph.of("<div class='sidebar-category'>UI Kit</div>"),
+            widgetLetMenu,
+            
+            Paragraph.of("<div class='sidebar-category'>System</div>"),
             Menu.of(
-                MenuItem.of(
-                    Icon.of("fas fa-wpforms"),
-                    Link.of(JettraServer.resolvePath("/forms"), " Form Layout")
-                ),
                 MenuItem.of(
                     Icon.of("fas fa-sign-out-alt"),
                     Link.of(JettraServer.resolvePath("/login?logout=true"), " Logout")
@@ -108,7 +105,7 @@ public abstract class TemplatePage extends FluxBaseHandler {
         // --- Professional Top Bar ---
         Widget topBar = Top.of(
             Row.of(
-                Icon.of("fas fa-bars").modifier(new io.jettra.flux.core.Modifier().cssClass("top-bars-icon")),
+                Paragraph.of("<i class='fas fa-bars top-bars-icon' onclick='toggleSidebar()'></i>"),
                 Header.of(4, "E-Commerce Dashboard").modifier(new io.jettra.flux.core.Modifier().cssClass("top-dashboard-title"))
             ).modifier(new io.jettra.flux.core.Modifier().cssClass("top-left-section")),
             

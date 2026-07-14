@@ -14,6 +14,7 @@ import io.jettra.server.JettraServer;
 
 import java.util.Map;
 
+@io.jettra.core.login.NoLoginRequired
 public class LoginPage extends FluxBaseHandler {
 
     @Override
@@ -34,7 +35,7 @@ public class LoginPage extends FluxBaseHandler {
                 try {
                     if (isValidUser(user, pass)) {
                         //Registra las credenciales
-                        CredentialFlux CredentialFlux = new CredentialFlux(user, user+"Prueba", "", "", "");
+                        CredentialFlux CredentialFlux = new CredentialFlux(user, user+"Prueba", "ADMIN", "", "");
                         setSessionCookie(exchange, user);
                         redirect(exchange, "/dashboard");
                     } else {

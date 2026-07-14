@@ -18,6 +18,45 @@ public abstract class FluxBaseHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        
+        // --- Security Filter ---
+        boolean isNoLogin = this.getClass().isAnnotationPresent(io.jettra.core.login.NoLoginRequired.class);
+        
+        if (!isNoLogin) {
+            String username = getLoggedUser(exchange);
+            if (username == null || username.isEmpty()) {
+                io.jettra.flux.widgets.Modal modal = io.jettra.flux.widgets.Modal.of(
+                    io.jettra.flux.widgets.Column.of(
+                        io.jettra.flux.widgets.Label.of("Sesión Requerida").modifier(new io.jettra.flux.core.Modifier().cssClass("bold").padding(10)),
+                        io.jettra.flux.widgets.Paragraph.of("Su sesión ha expirado o no ha iniciado sesión. Redirigiendo al login en 3 segundos..."),
+                        io.jettra.flux.widgets.Paragraph.of("<script>setTimeout(function(){ window.location.href='" + io.jettra.server.JettraServer.resolvePath("/login") + "'; }, 3000);</script>")
+                    )
+                );
+                modal.open(true);
+                
+                String themeName = getThemeCookie(exchange);
+                if (themeName == null || themeName.isEmpty()) themeName = "Ast";
+                io.jettra.flux.theme.ThemeData theme = getThemeByName(themeName);
+                
+                String html = "<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
+                        + theme.generateGlobalCss()
+                        + "</head><body style=\"margin:0; padding:0; box-sizing: border-box;\">"
+                        + io.jettra.flux.widgets.Scaffold.of().body(modal).render(theme)
+                        + "</body></html>";
+                        
+                renderResponse(exchange, html, 401);
+                return;
+            }
+            
+            // Verificación de @PageWidgetAllow
+            if (this.getClass().isAnnotationPresent(io.jettra.core.security.widget.PageWidgetAllow.class)) {
+                io.jettra.core.security.widget.PageWidgetAllow pageAllow = this.getClass().getAnnotation(io.jettra.core.security.widget.PageWidgetAllow.class);
+                // Aquí se validaría contra FluxLogin.getCredential().role() en un entorno completo
+                // asumiendo que el inyector cargó FluxLogin en la sesión.
+            }
+        }
+        // --- Fin Security Filter ---
+        
         Map<String, String> params = new HashMap<>(parseQueryParams(exchange.getRequestURI().getQuery()));
         
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
