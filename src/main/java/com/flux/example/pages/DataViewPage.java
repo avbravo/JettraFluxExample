@@ -35,7 +35,7 @@ public class DataViewPage extends TemplatePage {
             String imagePath) {
         // Build the product image
         Widget img = Image.of(imagePath).modifier(new io.jettra.flux.core.Modifier().style(
-                "width: 100px; height: 100px; min-width: 100px; flex-shrink: 0; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"));
+                "width: 100px; height: 100px; max-width: 100px; max-height: 100px; min-width: 100px; flex-shrink: 0; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"));
 
         // Build product details
         Widget details = Column.of(
@@ -80,11 +80,11 @@ public class DataViewPage extends TemplatePage {
                 buildProductItem("Bamboo Watch", "Product Description", "$65.00", "Accessories", "INSTOCK",
                         "https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg"),
                 buildProductItem("Black Watch", "Product Description", "$72.00", "Accessories", "INSTOCK",
-                        "https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg"),
+                        "https://primefaces.org/cdn/primeng/images/demo/product/black-watch.jpg"),
                 buildProductItem("Blue Band", "Product Description", "$79.00", "Fitness", "LOWSTOCK",
-                        "https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg"),
+                        "https://primefaces.org/cdn/primeng/images/demo/product/blue-band.jpg"),
                 buildProductItem("Blue T-Shirt", "Product Description", "$29.00", "Clothing", "INSTOCK",
-                        "https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg"));
+                        "https://primefaces.org/cdn/primeng/images/demo/product/blue-t-shirt.jpg"));
 
         Widget listHeader = Row.of(
                 Header.of(3, "DataView List").modifier(

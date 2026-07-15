@@ -2,7 +2,6 @@ package com.flux.example.pages;
 
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
-import io.jettra.flux.widgets.Label;
 import io.jettra.wui.sync.JettraPageSincronized;
 import io.jettra.wui.sync.SyncType;
 import java.util.Map;

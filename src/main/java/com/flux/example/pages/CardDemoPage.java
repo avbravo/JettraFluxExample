@@ -1,6 +1,8 @@
 package com.flux.example.pages;
 
+import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;
+import io.jettra.core.security.widget.PageWidgetAllow;
 import io.jettra.flux.core.Widget;
 import io.jettra.flux.widgets.Card;
 import io.jettra.flux.widgets.Scaffold;
@@ -12,10 +14,17 @@ import io.jettra.wui.sync.SyncType;
 import java.util.Map;
 
 @JettraPageSincronized(SyncType.ALL)
-public class CardDemoPage extends FluxBaseHandler {
+@PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })
+public class CardDemoPage  extends TemplatePage {
+
+ 
+  @Override
+    protected String getTitle() {
+        return "Card Demo";
+    }
 
     @Override
-    protected Widget buildUI(HttpExchange exchange, Map<String, String> params, String currentTheme) {
+    protected Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme) {
         Widget content = Card.of(
             io.jettra.flux.widgets.Column.of(
                 Label.of("Título del Card").modifier(new io.jettra.flux.core.Modifier().cssClass("bold-label")),

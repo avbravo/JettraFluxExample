@@ -49,6 +49,18 @@ public class InputPage extends TemplatePage {
                 ).modifier(new io.jettra.flux.core.Modifier().style("margin-left: 2rem;"))
             )
         );
+        Widget textInputs2 = createInputGroup("Input Text",
+            Row.of(
+                Column.of(
+                    Label.of("Basic").forId("name"),
+                    TextField.of("name", "Name")
+                ),
+                Column.of(
+                    Label.of("Email").forId("email"),
+                    TextField.of("email", "Email address")
+                ).modifier(new io.jettra.flux.core.Modifier().style("margin-left: 2rem;"))
+            )
+        );
 
         // 2. Text Area
         Widget textArea = createInputGroup("Text Area",
@@ -85,6 +97,7 @@ public class InputPage extends TemplatePage {
         return Column.of(
             Header.of(2, "Input Components").modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px;")),
             textInputs,
+            textInputs2,
             textArea,
             checkboxes,
             radioButtons,
