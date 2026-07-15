@@ -39,6 +39,7 @@ public abstract class FluxBaseHandler implements HttpHandler {
                 io.jettra.flux.theme.ThemeData theme = getThemeByName(themeName);
                 
                 String html = "<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
+                        + "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\">\n"
                         + theme.generateGlobalCss()
                         + "</head><body style=\"margin:0; padding:0; box-sizing: border-box;\">"
                         + io.jettra.flux.widgets.Scaffold.of().body(modal).render(theme)
@@ -82,6 +83,7 @@ public abstract class FluxBaseHandler implements HttpHandler {
                     if (themeName == null || themeName.isEmpty()) themeName = "Ast";
                     io.jettra.flux.theme.ThemeData theme = getThemeByName(themeName);
                     String html = "<!DOCTYPE html><html><head><meta charset=\"UTF-8\">"
+                            + "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\">\n"
                             + theme.generateGlobalCss()
                             + "</head><body style=\"margin:0; padding:0; box-sizing: border-box;\">"
                             + io.jettra.flux.widgets.Scaffold.of().body(modal).render(theme)
@@ -159,6 +161,7 @@ public abstract class FluxBaseHandler implements HttpHandler {
                           "<meta charset=\"UTF-8\">\n" +
                           "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                           "<title>" + getTitle() + "</title>\n" +
+                          "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\">\n" +
                           theme.generateGlobalCss() + "\n" +
                           "</head>\n<body style=\"margin: 0; padding: 0; box-sizing: border-box;\">\n" +
                           ui.render(theme) + "\n" +

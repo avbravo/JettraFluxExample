@@ -54,37 +54,48 @@ public class FormsPage extends TemplatePage {
             alert = Notification.of(Paragraph.of("¡Formulario enviado correctamente!"));
         }
 
-        // --- Forms Demo Content ---
-        Widget sampleForm = Form.of(Card.of(Column.of(
-                    Header.of(3, "Datos Personales"),
-                    
-                    Label.of("Nombre Completo").forId("nombre"),
-                    TextField.of("nombre", "Ingrese su nombre..."),
-                    
-                    Label.of("Correo Electrónico").forId("correo"),
-                    TextField.of("correo", "ejemplo@correo.com"),
+        // --- Vertical Form ---
+        Widget verticalForm = Card.of(Column.of(
+            Header.of(4, "Vertical").modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; margin-bottom: 15px; font-weight: 600;")),
+            
+            Label.of("Name").forId("name").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
+            TextField.of("name", "Enter your name").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
+            
+            Label.of("Email").forId("email").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
+            TextField.of("email", "Enter your email").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
+            
+            Label.of("Age").forId("age").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
+            TextField.of("age", "Enter your age").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;"))
+        ).modifier(new io.jettra.flux.core.Modifier().style("width: 100%; align-items: stretch; gap: 5px;")));
 
-                    Header.of(4, "Preferencias"),
-                    Checkbox.of("suscripcion", "Suscribirse al boletín"),
-                    Checkbox.of("terminos", "Acepto los términos y condiciones"),
-                    
-                    Header.of(4, "Opciones de Tema"),
-                    RadioButton.create().name("tema").value("claro").label("Claro").checked(true),
-                    RadioButton.create().name("tema").value("oscuro").label("Oscuro"),
+        // --- Horizontal Form ---
+        Widget horizontalForm = Card.of(Column.of(
+            Header.of(4, "Horizontal").modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; margin-bottom: 15px; font-weight: 600;")),
+            
+            io.jettra.flux.widgets.Row.of(
+                Label.of("Name").forId("h_name").modifier(new io.jettra.flux.core.Modifier().style("width: 100px; font-weight: 500;")),
+                TextField.of("h_name", "Enter your name").modifier(new io.jettra.flux.core.Modifier().style("flex: 1; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;"))
+            ).modifier(new io.jettra.flux.core.Modifier().style("align-items: center; margin-bottom: 15px;")),
+            
+            io.jettra.flux.widgets.Row.of(
+                Label.of("Email").forId("h_email").modifier(new io.jettra.flux.core.Modifier().style("width: 100px; font-weight: 500;")),
+                TextField.of("h_email", "Enter your email").modifier(new io.jettra.flux.core.Modifier().style("flex: 1; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;"))
+            ).modifier(new io.jettra.flux.core.Modifier().style("align-items: center; margin-bottom: 15px;"))
+        ).modifier(new io.jettra.flux.core.Modifier().style("width: 100%; align-items: stretch; gap: 5px;")));
 
-                    ElevatedButton.of("Guardar Cambios")
-                ).modifier(new io.jettra.flux.core.Modifier().padding(15))
-            )
+        // Submit form wrapper
+        Widget mainForm = Form.of(
+            Column.of(
+                io.jettra.flux.widgets.Grid.of(verticalForm, horizontalForm).modifier(new io.jettra.flux.core.Modifier().style("grid-template-columns: 1fr 1fr; gap: 20px; align-items: flex-start; margin-bottom: 20px;")),
+                io.jettra.flux.widgets.ElevatedButton.of("Guardar Cambios").modifier(new io.jettra.flux.core.Modifier().style("align-self: flex-start; padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;"))
+            ).modifier(new io.jettra.flux.core.Modifier().style("width: 100%;"))
         ).action(JettraServer.resolvePath("/forms?_action_method=saveForm")).method("POST");
 
         // --- Center Content ---
-        return Center.of(
-            Column.of(
-                Header.of(1, "Componentes de Formulario JettraFlux"),
-                Paragraph.of("Aquí puedes ver ejemplos de inputs, checkboxes, y radio buttons usando la librería Espresso."),
-                (alert != null ? alert : Div.of()),
-                sampleForm
-            )
-        );
+        return Column.of(
+            Header.of(2, "Form Layout").modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; font-weight: 600; margin-bottom: 20px;")),
+            (alert != null ? alert : Div.of()),
+            mainForm
+        ).modifier(new io.jettra.flux.core.Modifier().style("width: 100%; align-items: flex-start; max-width: 1200px; padding: 20px;"));
     }
 }

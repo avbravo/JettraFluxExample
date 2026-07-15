@@ -110,6 +110,12 @@ public abstract class TemplatePage extends FluxBaseHandler {
                     )
                 ),
                 MenuItem.of(
+                    Link.of(JettraServer.resolvePath("/table"), 
+                            Icon.of(io.jettra.flux.widgets.Icon.CHART_BAR), 
+                            io.jettra.flux.widgets.Text.of(" Table Page")
+                    )
+                ),
+                MenuItem.of(
                     Link.of(JettraServer.resolvePath("/button-demo"), 
                             Icon.of(io.jettra.flux.widgets.Icon.MOUSE_POINTER), 
                             io.jettra.flux.widgets.Text.of(" Button Demo")
