@@ -7,6 +7,7 @@ import io.jettra.flux.widgets.Row;
 import io.jettra.flux.widgets.Card;
 import io.jettra.flux.widgets.Header;
 import io.jettra.flux.widgets.Paragraph;
+import io.jettra.flux.widgets.RawHtml;
 import io.jettra.flux.widgets.DataView;
 import io.jettra.flux.widgets.Image;
 import io.jettra.flux.widgets.Badge;
@@ -101,7 +102,7 @@ public class DataViewPage extends TemplatePage {
                         "width: 100%; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); padding: 0;"));
 
         return Column.of(
-                Paragraph.of(io.jettra.flux.theme.DataViewCSS.get()),
+                RawHtml.of(io.jettra.flux.theme.DataViewCSS.get()),
                 Header.of(2, "DataView Component")
                         .modifier(new io.jettra.flux.core.Modifier()
                                 .style("margin-top: 0; font-weight: 700; margin-bottom: 20px;")),
