@@ -10,11 +10,13 @@ import io.jettra.flux.widgets.Center;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
 import io.jettra.flux.model.CredentialFlux;
+import io.jettra.json.SessionScoped;
 import io.jettra.server.JettraServer;
 
 import java.util.Map;
 
 @io.jettra.core.login.NoLoginRequired
+@SessionScoped
 public class LoginPage extends FluxBaseHandler {
 
     @Override
@@ -23,27 +25,31 @@ public class LoginPage extends FluxBaseHandler {
     }
 
     @Override
+    protected boolean onPost(HttpExchange exchange, Map<String, String> params) throws java.io.IOException {
+        if (params.containsKey("username")) {
+            String user = params.get("username");
+            String pass = params.get("password");
+            if (isValidUser(user, pass)) {
+                CredentialFlux credentialFlux = new CredentialFlux(user, user + "Prueba", "ADMIN", "", "");
+                io.jettra.server.core.JettraContext.getCurrent().set(io.jettra.server.core.JettraContext.Scope.SESSION, "credentialFlux", credentialFlux);
+                setSessionCookie(exchange, user, credentialFlux.role(), credentialFlux.department());
+                redirect(exchange, "/dashboard");
+                return true;
+            } else {
+                redirect(exchange, "/login?error=invalid_credentials");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     protected Widget buildUI(HttpExchange exchange, Map<String, String> params, String currentTheme) {
-        new io.jettra.flux.core.ActionBinder(params)
-            .on("logout", () -> {
-                clearSessionCookie(exchange);
-                try { redirect(exchange, "/login"); } catch (Exception e) {}
-            })
-            .on("username", p -> {
-                String user = p.get("username");
-                String pass = p.get("password");
-                try {
-                    if (isValidUser(user, pass)) {
-                        //Registra las credenciales
-                        CredentialFlux CredentialFlux = new CredentialFlux(user, user+"Prueba", "ADMIN", "", "");
-                        setSessionCookie(exchange, user);
-                        redirect(exchange, "/dashboard");
-                    } else {
-                        redirect(exchange, "/login?error=invalid_credentials");
-                    }
-                } catch (Exception e) {}
-            })
-            .execute();
+        if ("true".equals(params.get("logout"))) {
+            clearSessionCookie(exchange);
+            try { redirect(exchange, "/login"); } catch (Exception e) {}
+            return Column.of();
+        }
         Widget loginForm = Login.create().action(JettraServer.resolvePath("/login")).title("JettraFlux Admin");
         
         Widget body = Center.of(

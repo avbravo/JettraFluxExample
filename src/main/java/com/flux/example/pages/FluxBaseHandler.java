@@ -52,6 +52,7 @@ public abstract class FluxBaseHandler implements HttpHandler {
             if (this.getClass().isAnnotationPresent(io.jettra.core.security.widget.PageWidgetAllow.class)) {
                 io.jettra.core.security.widget.PageWidgetAllow pageAllow = this.getClass().getAnnotation(io.jettra.core.security.widget.PageWidgetAllow.class);
                 String userRole = getLoggedRole(exchange);
+                String userDept = getLoggedDepartment(exchange);
                 boolean hasAccess = false;
                 if (pageAllow.role().length == 0) {
                     hasAccess = true;
@@ -63,12 +64,17 @@ public abstract class FluxBaseHandler implements HttpHandler {
                         }
                     }
                 }
+                if (hasAccess && !pageAllow.department().isEmpty()) {
+                    if (!pageAllow.department().equalsIgnoreCase(userDept)) {
+                        hasAccess = false;
+                    }
+                }
                 if (!hasAccess) {
                     io.jettra.flux.widgets.Modal modal = io.jettra.flux.widgets.Modal.of(
                         io.jettra.flux.widgets.Column.of(
                             io.jettra.flux.widgets.Label.of("Acceso Denegado").modifier(new io.jettra.flux.core.Modifier().cssClass("bold").padding(10)),
                             io.jettra.flux.widgets.Paragraph.of("No tienes los permisos (" + String.join(",", pageAllow.role()) + ") necesarios para ver esta página."),
-                            io.jettra.flux.widgets.Paragraph.of("<script>setTimeout(function(){ window.location.href='" + io.jettra.server.JettraServer.resolvePath("/dashboard") + "'; }, 3000);</script>")
+                            io.jettra.flux.widgets.Paragraph.of("<button onclick=\"window.location.href='" + io.jettra.server.JettraServer.resolvePath("/login") + "'\" style=\"padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px;\">Cerrar</button>")
                         )
                     );
                     modal.open(true);
@@ -100,6 +106,7 @@ public abstract class FluxBaseHandler implements HttpHandler {
                     if (method.isAnnotationPresent(io.jettra.core.security.widget.ActionWidgetAllow.class)) {
                         io.jettra.core.security.widget.ActionWidgetAllow actionAllow = method.getAnnotation(io.jettra.core.security.widget.ActionWidgetAllow.class);
                         String userRole = getLoggedRole(exchange);
+                        String userDept = getLoggedDepartment(exchange);
                         boolean hasAccess = false;
                         if (actionAllow.role().length == 0) {
                             hasAccess = true;
@@ -109,6 +116,11 @@ public abstract class FluxBaseHandler implements HttpHandler {
                                     hasAccess = true;
                                     break;
                                 }
+                            }
+                        }
+                        if (hasAccess && !actionAllow.department().isEmpty()) {
+                            if (!actionAllow.department().equalsIgnoreCase(userDept)) {
+                                hasAccess = false;
                             }
                         }
                         if (!hasAccess) {
@@ -183,17 +195,23 @@ public abstract class FluxBaseHandler implements HttpHandler {
         exchange.getResponseBody().close();
     }
 
-    protected void setSessionCookie(HttpExchange exchange, String username, String role) {
+    protected void setSessionCookie(HttpExchange exchange, String username, String role, String department) {
         String cPath = JettraServer.getContextPath();
         if (cPath == null || cPath.isEmpty()) cPath = "/";
         exchange.getResponseHeaders().set("Set-Cookie", "username=" + username + "; Path=" + cPath);
         exchange.getResponseHeaders().add("Set-Cookie", "role=" + role + "; Path=" + cPath);
+        exchange.getResponseHeaders().add("Set-Cookie", "department=" + department + "; Path=" + cPath);
         JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "username", username);
         JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "role", role);
+        JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "department", department);
+    }
+
+    protected void setSessionCookie(HttpExchange exchange, String username, String role) {
+        setSessionCookie(exchange, username, role, "");
     }
 
     protected void setSessionCookie(HttpExchange exchange, String username) {
-        setSessionCookie(exchange, username, "USER");
+        setSessionCookie(exchange, username, "USER", "");
     }
 
     protected void clearSessionCookie(HttpExchange exchange) {
@@ -201,8 +219,10 @@ public abstract class FluxBaseHandler implements HttpHandler {
         if (cPath == null || cPath.isEmpty()) cPath = "/";
         exchange.getResponseHeaders().set("Set-Cookie", "username=; Path=" + cPath + "; Max-Age=0");
         exchange.getResponseHeaders().add("Set-Cookie", "role=; Path=" + cPath + "; Max-Age=0");
+        exchange.getResponseHeaders().add("Set-Cookie", "department=; Path=" + cPath + "; Max-Age=0");
         JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "username", null);
         JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "role", null);
+        JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "department", null);
     }
 
     protected String getLoggedUser(HttpExchange exchange) {
@@ -231,6 +251,19 @@ public abstract class FluxBaseHandler implements HttpHandler {
             }
         }
         return "USER";
+    }
+
+    protected String getLoggedDepartment(HttpExchange exchange) {
+        String cookies = exchange.getRequestHeaders().getFirst("Cookie");
+        if (cookies != null) {
+            for (String c : cookies.split(";")) {
+                c = c.trim();
+                if (c.startsWith("department=")) {
+                    return c.substring("department=".length());
+                }
+            }
+        }
+        return "";
     }
 
     protected String getThemeCookie(HttpExchange exchange) {

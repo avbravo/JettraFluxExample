@@ -9,7 +9,7 @@ import io.jettra.flux.core.Widget;
 import io.jettra.core.security.widget.PageWidgetAllow;
 import java.util.Map;
 
-@PageWidgetAllow(role={"USER", "ADMIN", "MANAGER"}, department="")
+@PageWidgetAllow(role={"ADMIN", "MANAGER"}, department="")
 public class DashboardPage extends TemplatePage {
 
     @Override

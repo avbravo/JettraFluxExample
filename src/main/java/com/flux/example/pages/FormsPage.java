@@ -33,7 +33,7 @@ public class FormsPage extends TemplatePage {
         return "Forms - JettraFlux Pro";
     }
 
-    @ActionWidgetAllow(role={"ADMIN","MANAGER"}, department="")
+    @ActionWidgetAllow(role={"ADMIN","MANAGER"})
     private void saveForm(HttpExchange exchange, Map<String, String> params) {
         System.out.println("Formulario recibido con datos (Método de acción seguro): " + params);
         try { redirect(exchange, "/forms?success=true"); } catch (Exception e) {}
