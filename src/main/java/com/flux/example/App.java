@@ -60,6 +60,10 @@ public class App {
         server.addHandler("/grid-demo", com.flux.example.pages.GridDemoPage.class);
         server.addHandler("/table", com.flux.example.pages.TablePage.class);
         server.addHandler("/dataview", com.flux.example.pages.DataViewPage.class);
+        server.addHandler("/input", com.flux.example.pages.InputPage.class);
+        server.addHandler("/panel", com.flux.example.pages.PanelPage.class);
+        server.addHandler("/message", com.flux.example.pages.MessagePage.class);
+        server.addHandler("/misc", com.flux.example.pages.MiscPage.class);
 
         // Cargamos los controladores descubiertos automáticamente
         List<Class<?>> controllers = new java.util.ArrayList<>(io.jettra.server.discoverer.DiscoveredRegistry.getDiscoveredClasses(App.class));
