@@ -112,10 +112,10 @@ public class MiscPage extends TemplatePage {
             
             Header.of(6, "Icon").modifier(new Modifier().style("margin-bottom: 1rem; color: var(--text-color); font-weight: 500;")),
             Row.of(
-                Chip.of("Apple").icon("fas fa-apple"),
-                Chip.of("Facebook").icon("fab fa-facebook-f"),
-                Chip.of("Google").icon("fab fa-google"),
-                Chip.of("Microsoft").icon("fab fa-microsoft").removable(true)
+                Chip.of("Settings").icon("fas fa-cog"),
+                Chip.of("Contact").icon("fas fa-address-book"),
+                Chip.of("Alert").icon("fas fa-exclamation-triangle"),
+                Chip.of("Message").icon("fas fa-envelope").removable(true)
             ).modifier(new Modifier().style("gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;")),
             
             Header.of(6, "Image").modifier(new Modifier().style("margin-bottom: 1rem; color: var(--text-color); font-weight: 500;")),
