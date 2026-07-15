@@ -56,13 +56,13 @@ public class App {
         
         // E-Commerce
         server.addHandler("/dashboard", com.flux.example.pages.DashboardPage.class);
-        server.addHandler("/product-overview", com.flux.example.pages.ProductOverviewPage.class);
-        server.addHandler("/product-list", com.flux.example.pages.ProductListPage.class);
-        server.addHandler("/new-product", com.flux.example.pages.NewProductPage.class);
-        server.addHandler("/shopping-cart", com.flux.example.pages.ShoppingCartPage.class);
-        server.addHandler("/checkout-form", com.flux.example.pages.CheckoutFormPage.class);
-        server.addHandler("/order-history", com.flux.example.pages.OrderHistoryPage.class);
-        server.addHandler("/order-summary", com.flux.example.pages.OrderSummaryPage.class);
+        server.addHandler("/product-overview", com.flux.example.pages.ecomerce.ProductOverviewPage.class);
+        server.addHandler("/product-list", com.flux.example.pages.ecomerce.ProductListPage.class);
+        server.addHandler("/new-product", com.flux.example.pages.ecomerce.NewProductPage.class);
+        server.addHandler("/shopping-cart", com.flux.example.pages.ecomerce.ShoppingCartPage.class);
+        server.addHandler("/checkout-form", com.flux.example.pages.ecomerce.CheckoutFormPage.class);
+        server.addHandler("/order-history", com.flux.example.pages.ecomerce.OrderHistoryPage.class);
+        server.addHandler("/order-summary", com.flux.example.pages.ecomerce.OrderSummaryPage.class);
 
         // Apps
         server.addHandler("/chat", com.flux.example.pages.ChatPage.class);

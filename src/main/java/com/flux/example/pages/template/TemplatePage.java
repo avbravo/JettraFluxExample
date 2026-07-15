@@ -108,9 +108,9 @@ public abstract class TemplatePage extends FluxBaseHandler {
         rootUiKitMenu.add(uiKitMenu);
         rootUiKitMenu.add(uiLayoutMenu);
 
-        // --- Left Sidebar (Atlantis Style) ---
+        // --- Left Sidebar (Ocean Style) ---
         Widget menu = Left.of(
-            io.jettra.flux.widgets.SidebarLogo.of(io.jettra.flux.widgets.Icon.LAYER_GROUP, "Atlantis"),
+            io.jettra.flux.widgets.SidebarLogo.of(io.jettra.flux.widgets.Icon.LAYER_GROUP, "Ocean"),
             io.jettra.flux.widgets.SidebarCategory.of("Navigation"),
             ecommMenu,
             appsMenu,
