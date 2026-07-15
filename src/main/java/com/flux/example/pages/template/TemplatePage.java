@@ -80,11 +80,11 @@ public abstract class TemplatePage extends FluxBaseHandler {
         appsMenu.add(io.jettra.flux.widgets.WidgetLet.of("Files").icon("fas fa-folder").url(JettraServer.resolvePath("/files")));
         appsMenu.add(io.jettra.flux.widgets.WidgetLet.of("File").icon("fas fa-file").url(JettraServer.resolvePath("/file")));
 
-        io.jettra.flux.widgets.WidgetLet profileMenu = io.jettra.flux.widgets.WidgetLet.of("User Profile").icon(io.jettra.flux.widgets.Icon.USER);
-        profileMenu.add(io.jettra.flux.widgets.WidgetLet.of("Profile List").icon("fas fa-users").url(JettraServer.resolvePath("/profile-list")));
-        profileMenu.add(io.jettra.flux.widgets.WidgetLet.of("Basic Information").icon(io.jettra.flux.widgets.Icon.INFO_CIRCLE).url(JettraServer.resolvePath("/profile-basic-information")));
+        io.jettra.flux.widgets.WidgetLet userManagementMenu = io.jettra.flux.widgets.WidgetLet.of("User Management").icon(io.jettra.flux.widgets.Icon.USER);
+        userManagementMenu.add(io.jettra.flux.widgets.WidgetLet.of("Profile List").icon("fas fa-users").url(JettraServer.resolvePath("/profile-list")));
+        userManagementMenu.add(io.jettra.flux.widgets.WidgetLet.of("Basic Information").icon(io.jettra.flux.widgets.Icon.INFO_CIRCLE).url(JettraServer.resolvePath("/profile-basic-information")));
 
-        io.jettra.flux.widgets.WidgetLet uiKitMenu = io.jettra.flux.widgets.WidgetLet.of("UI Kit").icon(io.jettra.flux.widgets.Icon.LAYER_GROUP);
+        io.jettra.flux.widgets.WidgetLet uiKitMenu = io.jettra.flux.widgets.WidgetLet.of("UI Components").icon(io.jettra.flux.widgets.Icon.LAYER_GROUP);
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Input").icon("fas fa-edit").url(JettraServer.resolvePath("/input")));
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Forms").icon("fas fa-align-justify").url(JettraServer.resolvePath("/forms")));
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Button Demo").icon(io.jettra.flux.widgets.Icon.MOUSE_POINTER).url(JettraServer.resolvePath("/button-demo")));
@@ -99,8 +99,14 @@ public abstract class TemplatePage extends FluxBaseHandler {
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Charts").icon("fas fa-chart-pie").url(JettraServer.resolvePath("/charts")));
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Timeline").icon("fas fa-calendar-alt").url(JettraServer.resolvePath("/timeline")));
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Misc").icon(io.jettra.flux.widgets.Icon.CUBE).url(JettraServer.resolvePath("/misc")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Card Demo").icon(io.jettra.flux.widgets.Icon.WINDOW_MAXIMIZE).url(JettraServer.resolvePath("/card-demo")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Grid & Layout").icon("fas fa-border-all").url(JettraServer.resolvePath("/grid-demo")));
+        
+        io.jettra.flux.widgets.WidgetLet uiLayoutMenu = io.jettra.flux.widgets.WidgetLet.of("Layout & Grid").icon(io.jettra.flux.widgets.Icon.WINDOW_MAXIMIZE);
+        uiLayoutMenu.add(io.jettra.flux.widgets.WidgetLet.of("Card Demo").icon(io.jettra.flux.widgets.Icon.WINDOW_MAXIMIZE).url(JettraServer.resolvePath("/card-demo")));
+        uiLayoutMenu.add(io.jettra.flux.widgets.WidgetLet.of("Grid Layout").icon("fas fa-border-all").url(JettraServer.resolvePath("/grid-demo")));
+        
+        io.jettra.flux.widgets.WidgetLet rootUiKitMenu = io.jettra.flux.widgets.WidgetLet.of("UI Kit").icon(io.jettra.flux.widgets.Icon.LAYER_GROUP);
+        rootUiKitMenu.add(uiKitMenu);
+        rootUiKitMenu.add(uiLayoutMenu);
 
         // --- Left Sidebar (Atlantis Style) ---
         Widget menu = Left.of(
@@ -108,8 +114,8 @@ public abstract class TemplatePage extends FluxBaseHandler {
             io.jettra.flux.widgets.SidebarCategory.of("Navigation"),
             ecommMenu,
             appsMenu,
-            profileMenu,
-            uiKitMenu
+            userManagementMenu,
+            rootUiKitMenu
         ).modifier(new io.jettra.flux.core.Modifier().cssClass("professional-left"));
 
         // User Profile Dropdown
@@ -148,7 +154,7 @@ public abstract class TemplatePage extends FluxBaseHandler {
         Widget centerContent = Column.of(
             customCss,
             buildCenter(exchange, params, currentTheme)
-        ).modifier(new io.jettra.flux.core.Modifier().cssClass("professional-center"));
+        ).modifier(new io.jettra.flux.core.Modifier().cssClass("professional-center espresso-center"));
 
         // --- Footer ---
         Widget footerContent = Footer.of(

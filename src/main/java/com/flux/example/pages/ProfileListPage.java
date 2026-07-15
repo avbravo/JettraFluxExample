@@ -33,8 +33,8 @@ public class ProfileListPage extends TemplatePage {
 
         return Column.of(
             Row.of(
-                Header.of(2, "Team Profiles").modifier(new Modifier().style("margin-top: 0; font-weight: 700;")),
-                Button.of("Add New Profile").modifier(new Modifier().style("background: #3b82f6; color: white; padding: 10px 20px; border-radius: 6px; font-weight: 600;"))
+                Header.of(2, "Team Profiles").modifier(new Modifier().style("margin-top: 0; font-weight: 700; color: var(--text-color);")),
+                Button.of("Add New Profile").modifier(new Modifier().style("background: var(--primary-color); color: var(--on-primary-color); border:none; padding: 10px 20px; border-radius: 6px; font-weight: 600;"))
             ).modifier(new Modifier().style("justify-content: space-between; align-items: center; width: 100%; margin-bottom: 30px;")),
             grid
         ).modifier(new Modifier().style("width: 100%; align-items: stretch; max-width: 1200px; padding: 20px;"));
@@ -45,18 +45,18 @@ public class ProfileListPage extends TemplatePage {
             Row.of(
                 Avatar.of(avatarUrl).shape("circle").modifier(new Modifier().style("width: 64px; height: 64px; margin-right: 20px;")),
                 Column.of(
-                    Text.of(name).modifier(new Modifier().style("font-weight: 700; color: #1e293b; font-size: 1.1rem; margin-bottom: 5px;")),
-                    Text.of(role).modifier(new Modifier().style("color: #64748b; font-size: 0.9rem; margin-bottom: 5px;")),
+                    Text.of(name).modifier(new Modifier().style("font-weight: 700; color: var(--text-color); font-size: 1.1rem; margin-bottom: 5px;")),
+                    Text.of(role).modifier(new Modifier().style("color: var(--text-color-secondary); font-size: 0.9rem; margin-bottom: 5px;")),
                     Row.of(
-                        Icon.of(Icon.Heroicons.LOCATION_MARKER).modifier(new Modifier().style("width: 14px; height: 14px; color: #94a3b8; margin-right: 5px;")),
-                        Text.of(location).modifier(new Modifier().style("color: #94a3b8; font-size: 0.85rem;"))
+                        Icon.of(Icon.Heroicons.LOCATION_MARKER).modifier(new Modifier().style("width: 14px; height: 14px; color: var(--text-color-secondary); margin-right: 5px;")),
+                        Text.of(location).modifier(new Modifier().style("color: var(--text-color-secondary); font-size: 0.85rem;"))
                     ).modifier(new Modifier().style("align-items: center;"))
                 ).modifier(new Modifier().style("flex: 1; justify-content: center;"))
             ).modifier(new Modifier().style("align-items: center; width: 100%; margin-bottom: 20px;")),
             Row.of(
-                Button.of("Message").modifier(new Modifier().style("background: white; color: #3b82f6; border: 1px solid #3b82f6; padding: 8px 16px; border-radius: 6px; font-weight: 600; flex: 1; margin-right: 10px;")),
-                Button.of("Profile").modifier(new Modifier().style("background: #3b82f6; color: white; padding: 8px 16px; border-radius: 6px; font-weight: 600; flex: 1;"))
+                Button.of("Message").modifier(new Modifier().style("background: var(--surface-color); color: var(--primary-color); border: 1px solid var(--primary-color); padding: 8px 16px; border-radius: 6px; font-weight: 600; flex: 1; margin-right: 10px;")),
+                Button.of("Profile").modifier(new Modifier().style("background: var(--primary-color); color: var(--on-primary-color); border:none; padding: 8px 16px; border-radius: 6px; font-weight: 600; flex: 1;"))
             ).modifier(new Modifier().style("width: 100%;"))
-        )).modifier(new Modifier().style("width: calc(33.333% - 14px); min-width: 300px; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: white; border: 1px solid #f1f5f9;"));
+        )).modifier(new Modifier().style("width: calc(33.333% - 14px); min-width: 300px; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); border: 1px solid var(--surface-alt);"));
     }
 }

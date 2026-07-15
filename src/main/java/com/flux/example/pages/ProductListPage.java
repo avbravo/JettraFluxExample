@@ -23,16 +23,16 @@ public class ProductListPage extends TemplatePage {
     protected Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme) {
         
         Widget filters = Card.of(Column.of(
-            Header.of(5, "Categories").modifier(new Modifier().style("margin-bottom: 15px;")),
-            Row.of(Checkbox.of("acc"), Text.of("Accessories").modifier(new Modifier().style("margin-left: 10px;"))).modifier(new Modifier().style("margin-bottom: 10px;")),
-            Row.of(Checkbox.of("fit"), Text.of("Fitness").modifier(new Modifier().style("margin-left: 10px;"))).modifier(new Modifier().style("margin-bottom: 10px;")),
-            Row.of(Checkbox.of("clo"), Text.of("Clothing").modifier(new Modifier().style("margin-left: 10px;"))).modifier(new Modifier().style("margin-bottom: 20px;")),
+            Header.of(5, "Categories").modifier(new Modifier().style("margin-bottom: 15px; color: var(--text-color);")),
+            Row.of(Checkbox.of("acc"), Text.of("Accessories").modifier(new Modifier().style("margin-left: 10px; color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px;")),
+            Row.of(Checkbox.of("fit"), Text.of("Fitness").modifier(new Modifier().style("margin-left: 10px; color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px;")),
+            Row.of(Checkbox.of("clo"), Text.of("Clothing").modifier(new Modifier().style("margin-left: 10px; color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 20px;")),
             
-            Header.of(5, "Price Range").modifier(new Modifier().style("margin-bottom: 15px;")),
-            Row.of(RadioButton.of("p1", "price"), Text.of("$0 - $50").modifier(new Modifier().style("margin-left: 10px;"))).modifier(new Modifier().style("margin-bottom: 10px;")),
-            Row.of(RadioButton.of("p2", "price"), Text.of("$50 - $100").modifier(new Modifier().style("margin-left: 10px;"))).modifier(new Modifier().style("margin-bottom: 10px;")),
-            Row.of(RadioButton.of("p3", "price"), Text.of("$100+").modifier(new Modifier().style("margin-left: 10px;"))).modifier(new Modifier().style("margin-bottom: 20px;"))
-        )).modifier(new Modifier().style("width: 250px; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: white; margin-right: 30px;"));
+            Header.of(5, "Price Range").modifier(new Modifier().style("margin-bottom: 15px; color: var(--text-color);")),
+            Row.of(RadioButton.of("p1", "price"), Text.of("$0 - $50").modifier(new Modifier().style("margin-left: 10px; color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px;")),
+            Row.of(RadioButton.of("p2", "price"), Text.of("$50 - $100").modifier(new Modifier().style("margin-left: 10px; color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px;")),
+            Row.of(RadioButton.of("p3", "price"), Text.of("$100+").modifier(new Modifier().style("margin-left: 10px; color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 20px;"))
+        )).modifier(new Modifier().style("width: 250px; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: var(--surface-color); border: 1px solid var(--surface-alt); margin-right: 30px;"));
 
         Widget grid = Row.of(
             buildProduct("Bamboo Watch", "$65.00", "Accessories", "INSTOCK"),
@@ -47,8 +47,8 @@ public class ProductListPage extends TemplatePage {
 
         return Column.of(
             Row.of(
-                Header.of(2, "Product List").modifier(new Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px;")),
-                TextBox.of("Search products...").modifier(new Modifier().style("padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; width: 300px;"))
+                Header.of(2, "Product List").modifier(new Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px; color: var(--text-color);")),
+                TextBox.of("Search products...").modifier(new Modifier().style("padding: 10px; border-radius: 6px; border: 1px solid var(--surface-alt); background: var(--surface-color); color: var(--text-color); width: 300px;"))
             ).modifier(new Modifier().style("justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px;")),
             mainRow
         ).modifier(new Modifier().style("width: 100%; align-items: stretch; max-width: 1200px; padding: 20px;"));
@@ -58,13 +58,13 @@ public class ProductListPage extends TemplatePage {
         String badgeColor = status.equals("INSTOCK") ? "#22c55e" : status.equals("LOWSTOCK") ? "#eab308" : "#ef4444";
         return Card.of(Column.of(
             Badge.of(status).modifier(new Modifier().style("background: " + badgeColor + "20; color: " + badgeColor + "; border-radius: 12px; padding: 4px 8px; font-weight: 600; font-size: 0.75rem; align-self: flex-end; margin-bottom: 10px;")),
-            Image.of("https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg").modifier(new Modifier().style("width: 150px; align-self: center; margin-bottom: 15px;")),
-            Text.of(category).modifier(new Modifier().style("color: #64748b; font-size: 0.85rem; margin-bottom: 5px;")),
-            Text.of(name).modifier(new Modifier().style("font-weight: 700; color: #1e293b; font-size: 1.1rem; margin-bottom: 15px;")),
+            Image.of("https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.jpg").modifier(new Modifier().style("width: 150px; align-self: center; margin-bottom: 15px; border-radius: 8px;")),
+            Text.of(category).modifier(new Modifier().style("color: var(--text-color-secondary); font-size: 0.85rem; margin-bottom: 5px;")),
+            Text.of(name).modifier(new Modifier().style("font-weight: 700; color: var(--text-color); font-size: 1.1rem; margin-bottom: 15px;")),
             Row.of(
-                Text.of(price).modifier(new Modifier().style("font-weight: 700; color: #3b82f6; font-size: 1.25rem;")),
-                Button.of("+").modifier(new Modifier().style("background: #f1f5f9; color: #1e293b; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: bold;"))
+                Text.of(price).modifier(new Modifier().style("font-weight: 700; color: var(--primary-color); font-size: 1.25rem;")),
+                Button.of("+").modifier(new Modifier().style("background: var(--surface-alt); color: var(--text-color); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-weight: bold; border:none; cursor:pointer;"))
             ).modifier(new Modifier().style("justify-content: space-between; align-items: center; width: 100%;"))
-        )).modifier(new Modifier().style("width: calc(33.333% - 14px); min-width: 200px; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: white; border: 1px solid #f8fafc; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"));
+        )).modifier(new Modifier().style("width: calc(33.333% - 14px); min-width: 200px; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: var(--surface-color); border: 1px solid var(--surface-alt); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"));
     }
 }

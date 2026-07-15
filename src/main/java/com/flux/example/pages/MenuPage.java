@@ -22,25 +22,49 @@ public class MenuPage extends TemplatePage {
     @Override
     protected Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme) {
         
-        Widget menubarCard = Card.of(Column.of(
-            Header.of(4, "Menubar").modifier(new Modifier().style("margin-bottom: 20px;")),
-            Row.of(
-                Button.of("File").modifier(new Modifier().style("background: transparent; color: #1e293b;")),
-                Button.of("Edit").modifier(new Modifier().style("background: transparent; color: #1e293b;")),
-                Button.of("View").modifier(new Modifier().style("background: transparent; color: #1e293b;")),
-                Button.of("Help").modifier(new Modifier().style("background: transparent; color: #1e293b;"))
-            ).modifier(new Modifier().style("background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;"))
-        )).modifier(new Modifier().style("padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: white; margin-bottom: 30px; width: 100%;"));
+        WidgetLet fileMenu = WidgetLet.of("File").icon("fas fa-file");
+        fileMenu.add(WidgetLet.of("New").icon("fas fa-plus").add(WidgetLet.of("Bookmark").icon("fas fa-bookmark")).add(WidgetLet.of("Video").icon("fas fa-video")));
+        fileMenu.add(WidgetLet.of("Delete").icon("fas fa-trash"));
+        fileMenu.add(WidgetLet.of("Export").icon("fas fa-file-export"));
 
-        Widget contextMenuCard = Card.of(Column.of(
-            Header.of(4, "Context Menu").modifier(new Modifier().style("margin-bottom: 20px;")),
-            Card.of(Text.of("Right click me (Simulated)")).modifier(new Modifier().style("padding: 50px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 8px; background: #f8fafc; cursor: context-menu;"))
-        )).modifier(new Modifier().style("padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: white; margin-bottom: 30px; width: 100%;"));
+        WidgetLet editMenu = WidgetLet.of("Edit").icon("fas fa-edit");
+        editMenu.add(WidgetLet.of("Left").icon("fas fa-align-left"));
+        editMenu.add(WidgetLet.of("Right").icon("fas fa-align-right"));
+        editMenu.add(WidgetLet.of("Center").icon("fas fa-align-center"));
+        editMenu.add(WidgetLet.of("Justify").icon("fas fa-align-justify"));
+
+        WidgetLet usersMenu = WidgetLet.of("Users").icon("fas fa-user");
+        usersMenu.add(WidgetLet.of("New").icon("fas fa-user-plus"));
+        usersMenu.add(WidgetLet.of("Delete").icon("fas fa-user-minus"));
+        usersMenu.add(WidgetLet.of("Search").icon("fas fa-users").add(WidgetLet.of("Filter").icon("fas fa-filter")).add(WidgetLet.of("List").icon("fas fa-bars")));
+
+        WidgetLet eventsMenu = WidgetLet.of("Events").icon("fas fa-calendar");
+        eventsMenu.add(WidgetLet.of("Edit").icon("fas fa-edit"));
+        eventsMenu.add(WidgetLet.of("Archieve").icon("fas fa-calendar-times"));
+
+        WidgetLet optionsMenu = WidgetLet.of("Options").icon("fas fa-cog");
+        optionsMenu.add(WidgetLet.of("Save").icon("fas fa-save"));
+        optionsMenu.add(WidgetLet.of("Update").icon("fas fa-sync"));
+
+        Widget menubarCard = Panel.of("Menubar", Menubar.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu));
+        Widget breadcrumbCard = Panel.of("Breadcrumb", Breadcrumb.of("Computer", "Notebook", "Accessories", "Backpacks", "Item"));
+        Widget stepsCard = Panel.of("Steps", Steps.of("Personal", "Seat", "Payment", "Confirmation").activeIndex(1));
+        
+        Widget tieredMenuCard = Panel.of("Tiered Menu", TieredMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu));
+        Widget plainMenuCard = Panel.of("Plain Menu", PlainMenu.of(WidgetLet.of("New").icon("fas fa-plus"), WidgetLet.of("Update").icon("fas fa-sync"), WidgetLet.of("Delete").icon("fas fa-trash"), WidgetLet.of("Home").icon("fas fa-home").url("/dashboard")));
+        Widget overlayMenuCard = Panel.of("Overlay Menu", OverlayMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu));
+        
+        Widget megaMenuCard = Panel.of("MegaMenu", MegaMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu));
+        Widget contextMenu = ContextMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu);
 
         return Column.of(
-            Header.of(2, "Menu Components").modifier(new Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px;")),
+            contextMenu,
+            Header.of(2, "Menus").modifier(new Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px; color: var(--text-color);")),
             menubarCard,
-            contextMenuCard
-        ).modifier(new Modifier().style("width: 100%; align-items: stretch; max-width: 1200px; padding: 20px;"));
+            breadcrumbCard,
+            stepsCard,
+            Row.of(tieredMenuCard, plainMenuCard, overlayMenuCard).modifier(new Modifier().style("gap: 20px; align-items: flex-start; flex-wrap: wrap;")),
+            megaMenuCard
+        ).modifier(new Modifier().style("width: 100%; align-items: stretch; max-width: 1200px; padding: 20px; gap: 20px;"));
     }
 }

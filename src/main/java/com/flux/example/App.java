@@ -53,7 +53,29 @@ public class App {
         // Registro de Páginas JettraFlux
         server.addHandler("/", com.flux.example.pages.login.LoginPage.class);
         server.addHandler("/login", com.flux.example.pages.login.LoginPage.class);
+        
+        // E-Commerce
         server.addHandler("/dashboard", com.flux.example.pages.DashboardPage.class);
+        server.addHandler("/product-overview", com.flux.example.pages.ProductOverviewPage.class);
+        server.addHandler("/product-list", com.flux.example.pages.ProductListPage.class);
+        server.addHandler("/new-product", com.flux.example.pages.NewProductPage.class);
+        server.addHandler("/shopping-cart", com.flux.example.pages.ShoppingCartPage.class);
+        server.addHandler("/checkout-form", com.flux.example.pages.CheckoutFormPage.class);
+        server.addHandler("/order-history", com.flux.example.pages.OrderHistoryPage.class);
+        server.addHandler("/order-summary", com.flux.example.pages.OrderSummaryPage.class);
+
+        // Apps
+        server.addHandler("/chat", com.flux.example.pages.ChatPage.class);
+        server.addHandler("/mail-inbox", com.flux.example.pages.MailInboxPage.class);
+        server.addHandler("/tasklist", com.flux.example.pages.TasklistPage.class);
+        server.addHandler("/files", com.flux.example.pages.FilesPage.class);
+        server.addHandler("/file", com.flux.example.pages.FilePage.class);
+
+        // User Profile
+        server.addHandler("/profile-list", com.flux.example.pages.ProfileListPage.class);
+        server.addHandler("/profile-basic-information", com.flux.example.pages.ProfileBasicInformationPage.class);
+
+        // UI Kit
         server.addHandler("/forms", com.flux.example.pages.FormsPage.class);
         server.addHandler("/button-demo", com.flux.example.pages.ButtonDemoPage.class);
         server.addHandler("/card-demo", com.flux.example.pages.CardDemoPage.class);
@@ -64,6 +86,12 @@ public class App {
         server.addHandler("/panel", com.flux.example.pages.PanelPage.class);
         server.addHandler("/message", com.flux.example.pages.MessagePage.class);
         server.addHandler("/misc", com.flux.example.pages.MiscPage.class);
+        server.addHandler("/tree", com.flux.example.pages.TreePage.class);
+        server.addHandler("/overlay", com.flux.example.pages.OverlayPage.class);
+        server.addHandler("/media", com.flux.example.pages.MediaPage.class);
+        server.addHandler("/menu", com.flux.example.pages.MenuPage.class);
+        server.addHandler("/charts", com.flux.example.pages.ChartsPage.class);
+        server.addHandler("/timeline", com.flux.example.pages.TimelinePage.class);
 
         // Cargamos los controladores descubiertos automáticamente
         List<Class<?>> controllers = new java.util.ArrayList<>(io.jettra.server.discoverer.DiscoveredRegistry.getDiscoveredClasses(App.class));
