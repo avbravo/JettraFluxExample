@@ -46,15 +46,41 @@ public class MenuPage extends TemplatePage {
         optionsMenu.add(WidgetLet.of("Save").icon("fas fa-save"));
         optionsMenu.add(WidgetLet.of("Update").icon("fas fa-sync"));
 
-        Widget menubarCard = Panel.of("Menubar", Menubar.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu));
-        Widget breadcrumbCard = Panel.of("Breadcrumb", Breadcrumb.of("Computer", "Notebook", "Accessories", "Backpacks", "Item"));
-        Widget stepsCard = Panel.of("Steps", Steps.of("Personal", "Seat", "Payment", "Confirmation").activeIndex(1));
+        Widget menubarCard = Card.of(Column.of(
+            Header.of(5, "Menubar").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            Menubar.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu)
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); width: 100%;"));
+
+        Widget breadcrumbCard = Card.of(Column.of(
+            Header.of(5, "Breadcrumb").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            Breadcrumb.of("Computer", "Notebook", "Accessories", "Backpacks", "Item")
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); width: 100%;"));
+
+        Widget stepsCard = Card.of(Column.of(
+            Header.of(5, "Steps").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            Steps.of("Personal", "Seat", "Payment", "Confirmation").activeIndex(1)
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); width: 100%;"));
         
-        Widget tieredMenuCard = Panel.of("Tiered Menu", TieredMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu));
-        Widget plainMenuCard = Panel.of("Plain Menu", PlainMenu.of(WidgetLet.of("New").icon("fas fa-plus"), WidgetLet.of("Update").icon("fas fa-sync"), WidgetLet.of("Delete").icon("fas fa-trash"), WidgetLet.of("Home").icon("fas fa-home").url("/dashboard")));
-        Widget overlayMenuCard = Panel.of("Overlay Menu", OverlayMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu));
+        Widget tieredMenuCard = Card.of(Column.of(
+            Header.of(5, "Tiered Menu").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            TieredMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu)
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); flex: 1; min-width: 300px;"));
         
-        Widget megaMenuCard = Panel.of("MegaMenu", MegaMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu));
+        Widget plainMenuCard = Card.of(Column.of(
+            Header.of(5, "Plain Menu").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            PlainMenu.of(WidgetLet.of("New").icon("fas fa-plus"), WidgetLet.of("Update").icon("fas fa-sync"), WidgetLet.of("Delete").icon("fas fa-trash"), WidgetLet.of("Home").icon("fas fa-home").url("/dashboard"))
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); flex: 1; min-width: 300px;"));
+        
+        Widget overlayMenuCard = Card.of(Column.of(
+            Header.of(5, "Overlay Menu").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            OverlayMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu)
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); flex: 1; min-width: 300px;"));
+        
+        Widget megaMenuCard = Card.of(Column.of(
+            Header.of(5, "MegaMenu").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            MegaMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu)
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); width: 100%;"));
+        
         Widget contextMenu = ContextMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu);
 
         return Column.of(
@@ -63,8 +89,8 @@ public class MenuPage extends TemplatePage {
             menubarCard,
             breadcrumbCard,
             stepsCard,
-            Row.of(tieredMenuCard, plainMenuCard, overlayMenuCard).modifier(new Modifier().style("gap: 20px; align-items: flex-start; flex-wrap: wrap;")),
+            Row.of(tieredMenuCard, plainMenuCard, overlayMenuCard).modifier(new Modifier().style("gap: 20px; align-items: stretch; flex-wrap: wrap; display: flex; width: 100%; margin-bottom: 20px;")),
             megaMenuCard
-        ).modifier(new Modifier().style("width: 100%; align-items: stretch; max-width: 1200px; padding: 20px; gap: 20px;"));
+        ).modifier(new Modifier().style("width: 100%; align-items: stretch; max-width: 1200px; padding: 20px; gap: 20px; display: flex; flex-direction: column;"));
     }
 }

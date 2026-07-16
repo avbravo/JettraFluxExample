@@ -23,27 +23,27 @@ public class ChartsPage extends TemplatePage {
     protected Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme) {
         
         Widget lineChart = Card.of(Column.of(
-            Header.of(4, "Line Chart").modifier(new Modifier().style("margin-bottom: 20px;")),
-            ChartsLine.of("lineChart") // JettraFlux charts line
-        )).modifier(new Modifier().style("padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: white; flex: 1; min-width: 300px;"));
+            Header.of(5, "Line Chart").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            ChartsLine.of("lineChart")
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); flex: 1; min-width: 300px; margin-bottom: 20px;"));
 
         Widget barChart = Card.of(Column.of(
-            Header.of(4, "Bar Chart").modifier(new Modifier().style("margin-bottom: 20px;")),
-            CharsBar.of("barChart") // JettraFlux chars bar
-        )).modifier(new Modifier().style("padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: white; flex: 1; min-width: 300px;"));
+            Header.of(5, "Bar Chart").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            CharsBar.of("barChart")
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); flex: 1; min-width: 300px; margin-bottom: 20px;"));
         
         Widget pieChart = Card.of(Column.of(
-            Header.of(4, "Pie Chart").modifier(new Modifier().style("margin-bottom: 20px;")),
-            CharsPie.of("pieChart") // JettraFlux chars pie
-        )).modifier(new Modifier().style("padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: white; flex: 1; min-width: 300px;"));
+            Header.of(5, "Pie Chart").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            CharsPie.of("pieChart")
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); flex: 1; min-width: 300px; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;"));
 
         Widget doughnutChart = Card.of(Column.of(
-            Header.of(4, "Doughnut Chart").modifier(new Modifier().style("margin-bottom: 20px;")),
-            CharsDoughnut.of("doughnutChart") // JettraFlux chars doughnut
-        )).modifier(new Modifier().style("padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: white; flex: 1; min-width: 300px;"));
+            Header.of(5, "Doughnut Chart").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            CharsDoughnut.of("doughnutChart")
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); flex: 1; min-width: 300px; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;"));
 
-        Widget row1 = Row.of(lineChart, barChart).modifier(new Modifier().style("gap: 20px; margin-bottom: 20px; flex-wrap: wrap;"));
-        Widget row2 = Row.of(pieChart, doughnutChart).modifier(new Modifier().style("gap: 20px; flex-wrap: wrap;"));
+        Widget row1 = Row.of(lineChart, barChart).modifier(new Modifier().style("gap: 20px; flex-wrap: wrap; display: flex; width: 100%;"));
+        Widget row2 = Row.of(pieChart, doughnutChart).modifier(new Modifier().style("gap: 20px; flex-wrap: wrap; display: flex; width: 100%;"));
 
         return Column.of(
             Header.of(2, "Charts Component").modifier(new Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px;")),
