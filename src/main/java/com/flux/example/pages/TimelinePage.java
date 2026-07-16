@@ -98,9 +98,39 @@ public class TimelinePage extends TemplatePage {
         Widget timelinesContainer = Row.of(leftAlignTimeline, alternateTimeline)
             .modifier(new Modifier().style("display: flex; flex-wrap: wrap; gap: 2rem; width: 100%; align-items: flex-start;"));
 
+        Widget horizontalTimeline = Column.of(
+            Header.of(5, "Horizontal").modifier(new Modifier().style("margin-bottom: 2rem; color: var(--text-color); font-weight: 600;")),
+            TimeLine.of(
+                TimeLineItem.of()
+                    .opposite(Text.of("15/10/2020 10:30").modifier(new Modifier().style("color: var(--text-color-secondary); font-size: 0.875rem;")))
+                    .markerIcon("fas fa-envelope")
+                    .markerColor("#3b82f6")
+                    .content(Header.of(6, "Message Sent").modifier(new Modifier().style("margin: 0; font-weight: 600; color: var(--text-color);"))),
+                
+                TimeLineItem.of()
+                    .opposite(Text.of("15/10/2020 14:00").modifier(new Modifier().style("color: var(--text-color-secondary); font-size: 0.875rem;")))
+                    .markerIcon("fas fa-check")
+                    .markerColor("#22c55e")
+                    .content(Header.of(6, "Order Processing").modifier(new Modifier().style("margin: 0; font-weight: 600; color: var(--text-color);"))),
+                
+                TimeLineItem.of()
+                    .opposite(Text.of("15/10/2020 16:15").modifier(new Modifier().style("color: var(--text-color-secondary); font-size: 0.875rem;")))
+                    .markerIcon("fas fa-truck")
+                    .markerColor("#f59e0b")
+                    .content(Header.of(6, "Shipped").modifier(new Modifier().style("margin: 0; font-weight: 600; color: var(--text-color);"))),
+                
+                TimeLineItem.of()
+                    .opposite(Text.of("16/10/2020 10:00").modifier(new Modifier().style("color: var(--text-color-secondary); font-size: 0.875rem;")))
+                    .markerIcon("fas fa-box")
+                    .markerColor("#8b5cf6")
+                    .content(Header.of(6, "Delivered").modifier(new Modifier().style("margin: 0; font-weight: 600; color: var(--text-color);")))
+            ).layout("horizontal")
+        ).modifier(new Modifier().style("flex: 1; padding: 2rem; background: transparent; margin-bottom: 20px; width: 100%;"));
+
         return Column.of(
             Header.of(2, "Timeline").modifier(new Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px; color: var(--text-color);")),
-            timelinesContainer
+            timelinesContainer,
+            horizontalTimeline
         ).modifier(new Modifier().style("width: 100%; align-items: stretch; max-width: 1200px; padding: 20px;"));
     }
 }
