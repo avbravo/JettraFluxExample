@@ -24,9 +24,10 @@ public class ProfileBasicInformationPage extends TemplatePage {
         
         Widget sidebar = Column.of(
             Text.of("Basic Information").modifier(new Modifier().style("font-weight: 600; color: var(--primary-color); padding: 10px; background: rgba(59,130,246,0.1); border-radius: 6px; margin-bottom: 5px;")),
-            Text.of("Experience").modifier(new Modifier().style("font-weight: 500; color: var(--text-color-secondary); padding: 10px; cursor: pointer;")),
-            Text.of("Education").modifier(new Modifier().style("font-weight: 500; color: var(--text-color-secondary); padding: 10px; cursor: pointer;")),
-            Text.of("Social Links").modifier(new Modifier().style("font-weight: 500; color: var(--text-color-secondary); padding: 10px; cursor: pointer;"))
+            Text.of("Business Information").modifier(new Modifier().style("font-weight: 500; color: var(--text-color-secondary); padding: 10px; cursor: pointer;")),
+            Text.of("Location Information").modifier(new Modifier().style("font-weight: 500; color: var(--text-color-secondary); padding: 10px; cursor: pointer;")),
+            Text.of("Authorization and Access").modifier(new Modifier().style("font-weight: 500; color: var(--text-color-secondary); padding: 10px; cursor: pointer;")),
+            Text.of("Account Status").modifier(new Modifier().style("font-weight: 500; color: var(--text-color-secondary); padding: 10px; cursor: pointer;"))
         ).modifier(new Modifier().style("width: 250px; padding: 20px; border-right: 1px solid var(--surface-alt); background: var(--background-color); min-height: 500px;"));
 
         Widget avatarSection = Row.of(

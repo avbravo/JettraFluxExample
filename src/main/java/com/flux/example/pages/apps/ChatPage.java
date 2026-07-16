@@ -35,7 +35,7 @@ public class ChatPage extends TemplatePage {
                 Text.of("John Doe").modifier(new Modifier().style("font-weight: bold; font-size: 1.1rem;")),
                 Text.of("Online").modifier(new Modifier().style("color: #22c55e; font-size: 0.85rem;"))
             ).modifier(new Modifier().style("margin-left: 10px;"))
-        ).modifier(new Modifier().style("padding: 20px; border-bottom: 1px solid #e2e8f0; align-items: center; background: white;"));
+        ).modifier(new Modifier().style("padding: 20px; border-bottom: 1px solid #e2e8f0; align-items: center; background: var(--surface-card);"));
 
         Widget chatMessages = Column.of(
             buildMessage("Hi, how are you doing?", "10:25 AM", false),
@@ -46,7 +46,7 @@ public class ChatPage extends TemplatePage {
         Widget chatInput = Row.of(
             TextBox.of("Type a message...").modifier(new Modifier().style("flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #cbd5e1; outline: none; margin-right: 10px;")),
             Button.of("Send").modifier(new Modifier().style("border-radius: 20px; padding: 10px 20px;"))
-        ).modifier(new Modifier().style("padding: 20px; border-top: 1px solid #e2e8f0; background: white; align-items: center;"));
+        ).modifier(new Modifier().style("padding: 20px; border-top: 1px solid #e2e8f0; background: var(--surface-card); align-items: center;"));
 
         Widget chatArea = Column.of(
             chatHeader,
@@ -78,7 +78,7 @@ public class ChatPage extends TemplatePage {
     }
 
     private Widget buildMessage(String msg, String time, boolean isSelf) {
-        String align = isSelf ? "align-self: flex-end; background: #3b82f6; color: white;" : "align-self: flex-start; background: white; color: #1e293b;";
+        String align = isSelf ? "align-self: flex-end; background: #3b82f6; color: white;" : "align-self: flex-start; background: var(--surface-card); color: #1e293b;";
         return Column.of(
             Text.of(msg).modifier(new Modifier().style("padding: 12px 16px; border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); " + align)),
             Text.of(time).modifier(new Modifier().style("font-size: 0.75rem; color: #94a3b8; margin-top: 5px; " + (isSelf ? "align-self: flex-end;" : "")))

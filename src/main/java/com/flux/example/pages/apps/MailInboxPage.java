@@ -41,14 +41,14 @@ public class MailInboxPage extends TemplatePage {
             Row.of(
                 TextBox.of("Search mail...").modifier(new Modifier().style("padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1;"))
             ).modifier(new Modifier().style("align-items: center;"))
-        ).modifier(new Modifier().style("justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #e2e8f0; width: 100%; background: white;"));
+        ).modifier(new Modifier().style("justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #e2e8f0; width: 100%; background: var(--surface-card);"));
 
         Widget mailList = Column.of(
             buildMailItem("Sarah Jenkins", "Project Update for Q3", "Here is the latest project update for the third quarter...", "10:30 AM", true),
             buildMailItem("Amazon", "Your order has shipped!", "Your recent order containing 'Bamboo Watch' has been shipped.", "Yesterday", false),
             buildMailItem("GitHub", "[JettraStack] Pull Request #42", "John Doe has requested your review on a pull request.", "May 12", false),
             buildMailItem("LinkedIn", "You appeared in 5 searches this week", "See who is looking at your profile.", "May 10", false)
-        ).modifier(new Modifier().style("flex: 1; overflow-y: auto; background: white;"));
+        ).modifier(new Modifier().style("flex: 1; overflow-y: auto; background: var(--surface-card);"));
 
         Widget mainArea = Column.of(
             toolbar,
@@ -76,7 +76,7 @@ public class MailInboxPage extends TemplatePage {
 
     private Widget buildMailItem(String sender, String subject, String snippet, String date, boolean unread) {
         String fontWeight = unread ? "font-weight: 700;" : "font-weight: 400;";
-        String bgColor = unread ? "background: #f8fafc;" : "background: white;";
+        String bgColor = unread ? "background: #f8fafc;" : "background: var(--surface-card);";
         
         return Row.of(
             Row.of(

@@ -7,11 +7,8 @@ import io.jettra.flux.widgets.Column;
 import io.jettra.flux.widgets.Footer;
 import io.jettra.flux.widgets.Top;
 import io.jettra.flux.widgets.Paragraph;
-import io.jettra.flux.widgets.Link;
 import io.jettra.flux.widgets.Header;
 import io.jettra.flux.widgets.Left;
-import io.jettra.flux.widgets.MenuItem;
-import io.jettra.flux.widgets.Menu;
 import io.jettra.flux.widgets.Icon;
 import io.jettra.flux.widgets.ThemeChanged;
 import com.flux.example.pages.FluxBaseHandler;
@@ -59,7 +56,29 @@ public abstract class TemplatePage extends FluxBaseHandler {
             .addFunction("toggleProfileMenu", 
                          "var pm = document.getElementById('profile-menu');\n" +
                          "if(pm) pm.style.display = (pm.style.display === 'none') ? 'block' : 'none';")
+            .addFunction("restoreMenus",
+                         "document.querySelectorAll('.widgetlet-children').forEach(function(c) {\n" +
+                         "  var key = c.getAttribute('data-exp-key');\n" +
+                         "  if(key && localStorage.getItem(key) === 'open') {\n" +
+                         "    c.style.display = 'block';\n" +
+                         "    var iconId = c.id.replace('_children', '_icon');\n" +
+                         "    var icon = document.getElementById(iconId);\n" +
+                         "    if(icon) icon.className = 'fas fa-chevron-down';\n" +
+                         "  }\n" +
+                         "});")
             .build();
+
+        // Ensure restoreMenus is called after DOM updates
+        js += "\n<script>\n" +
+              "document.addEventListener('DOMContentLoaded', restoreMenus);\n" +
+              "if (typeof window.MutationObserver !== 'undefined') {\n" +
+              "  var observer = new MutationObserver(function(mutations) {\n" +
+              "    restoreMenus();\n" +
+              "  });\n" +
+              "  observer.observe(document.body, { childList: true, subtree: true });\n" +
+              "}\n" +
+              "setTimeout(restoreMenus, 100);\n" + // Fallback
+              "</script>";
 
         Widget customCss = Paragraph.of(io.jettra.flux.theme.OceanTheme.Template.CustomCSS + "\n" + js);
 

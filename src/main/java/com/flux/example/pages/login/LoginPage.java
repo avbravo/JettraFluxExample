@@ -50,7 +50,7 @@ public class LoginPage extends FluxBaseHandler {
             try { redirect(exchange, "/login"); } catch (Exception e) {}
             return Column.of();
         }
-        Widget loginForm = Login.create().action(JettraServer.resolvePath("/login")).title("JettraFlux Admin").logo("https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg");
+        Widget loginForm = Login.create().action(JettraServer.resolvePath("/login")).title("JettraFlux Admin").logo("https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg").forgotPasswordUrl(JettraServer.resolvePath("/forgot-password"));
         
         Widget body = Center.of(
             Column.of(

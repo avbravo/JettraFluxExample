@@ -1,19 +1,14 @@
 package com.flux.example.pages.uikit.uicomponents;
 
-import io.jettra.flux.widgets.Row;
 import io.jettra.flux.widgets.Column;
-import io.jettra.flux.widgets.Checkbox;
 import io.jettra.flux.widgets.Card;
 import io.jettra.flux.widgets.TextField;
 import io.jettra.flux.widgets.Div;
-import io.jettra.flux.widgets.RadioButton;
 import io.jettra.flux.widgets.Form;
 import io.jettra.flux.widgets.Paragraph;
 import io.jettra.flux.widgets.Header;
-import io.jettra.flux.widgets.ElevatedButton;
 import io.jettra.flux.widgets.Label;
 import io.jettra.flux.widgets.Notification;
-import io.jettra.flux.widgets.Center;
 import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
@@ -29,7 +24,7 @@ import java.util.Map;
 public class FormsPage extends TemplatePage {
 
     @Override
-    protected String getTitle() {
+    public String getTitle() {
         return "Forms - JettraFlux Pro";
     }
 

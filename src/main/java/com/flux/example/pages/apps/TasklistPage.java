@@ -43,7 +43,7 @@ public class TasklistPage extends TemplatePage {
 
         return Column.of(
             Header.of(2, "Task List App").modifier(new Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px;")),
-            Card.of(Column.of(header, columns)).modifier(new Modifier().style("width: 100%; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: white;"))
+            Card.of(Column.of(header, columns)).modifier(new Modifier().style("width: 100%; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-card);"))
         ).modifier(new Modifier().style("width: 100%; align-items: flex-start; max-width: 1200px; padding: 20px;"));
     }
 
@@ -82,6 +82,6 @@ public class TasklistPage extends TemplatePage {
                     Text.of(date).modifier(new Modifier().style("font-size: 0.75rem; color: #94a3b8;"))
                 ).modifier(new Modifier().style("align-items: center;"))
             ).modifier(new Modifier().style("justify-content: space-between; width: 100%; align-items: center;"))
-        )).modifier(new Modifier().style("padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; background: white; cursor: grab;"));
+        )).modifier(new Modifier().style("padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; background: var(--surface-card); cursor: grab;"));
     }
 }

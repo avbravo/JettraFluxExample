@@ -54,7 +54,7 @@ public class FilesPage extends TemplatePage {
         Widget mainArea = Column.of(
             headerRow,
             filesGrid
-        ).modifier(new Modifier().style("flex: 1; padding: 30px; background: white;"));
+        ).modifier(new Modifier().style("flex: 1; padding: 30px; background: var(--surface-card);"));
 
         Widget fileApp = Row.of(sidebar, mainArea)
             .modifier(new Modifier().style("display: flex; min-height: 80vh; width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);"));
