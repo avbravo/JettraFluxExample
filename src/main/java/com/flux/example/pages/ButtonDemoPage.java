@@ -74,7 +74,18 @@ public class ButtonDemoPage extends TemplatePage {
             ).action(JettraServer.resolvePath("/button-demo")).method("POST")
         )).modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 2rem;"));
 
+        boolean showModal = "true".equals(params.get("showModal"));
+
+        Widget secureDialog = io.jettra.flux.widgets.Dialog.of(
+            Header.of(4, "Success"),
+            Paragraph.of("Action executed successfully using purely JettraFlux components!"),
+            JettraButton.of("OK").severity(JettraButton.Severity.PRIMARY).modifier(new io.jettra.flux.core.Modifier().attribute("onclick", "window.location.href='" + JettraServer.resolvePath("/button-demo") + "'"))
+        ).modifier(new io.jettra.flux.core.Modifier().style("padding: 20px; border-radius: 8px; border: none; box-shadow: 0 10px 15px rgba(0,0,0,0.1);")).attribute("id", "secureDialog");
+        
+        ((io.jettra.flux.widgets.Dialog)secureDialog).open(showModal);
+
         return Column.of(
+            secureDialog,
             Paragraph.of(io.jettra.flux.theme.ButtonCSS.get()),
             Header.of(2, "Button Components").modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px;")),
             solidButtons,
@@ -88,9 +99,7 @@ public class ButtonDemoPage extends TemplatePage {
     @ActionWidgetAllow(role = { "ADMIN", "MANAGER" }, department = "")
     public void secureAction(HttpExchange exchange, Map<String, String> params) {
         try {
-            String html = "<script>alert('Action executed successfully using purely JettraFlux components!'); window.location.href='"
-                    + JettraServer.resolvePath("/button-demo") + "';</script>";
-            renderResponse(exchange, html, 200);
+            redirect(exchange, "/button-demo?showModal=true");
         } catch (Exception e) {
         }
     }

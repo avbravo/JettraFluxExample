@@ -40,17 +40,34 @@ public class MediaPage extends TemplatePage {
         );
 
         Widget carouselCard = Panel.of("Carousel",
-            Carousel.of(
-                Image.of("https://primefaces.org/cdn/primeng/images/product/bamboo-watch.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
-                Image.of("https://primefaces.org/cdn/primeng/images/product/black-watch.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
-                Image.of("https://primefaces.org/cdn/primeng/images/product/blue-band.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
-                Image.of("https://primefaces.org/cdn/primeng/images/product/blue-t-shirt.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
-                Image.of("https://primefaces.org/cdn/primeng/images/product/bracelet.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;"))
-            ).modifier(new Modifier().style("padding: 20px;"))
+            Column.of(
+                Header.of(5, "Horizontal"),
+                Carousel.of(
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/bamboo-watch.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/black-watch.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/blue-band.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/blue-t-shirt.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/bracelet.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;"))
+                ).modifier(new Modifier().style("padding: 20px;")),
+                
+                Header.of(5, "Vertical").modifier(new Modifier().style("margin-top:20px;")),
+                Carousel.of(
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/bamboo-watch.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/black-watch.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/blue-band.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/blue-t-shirt.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;")),
+                    Image.of("https://primefaces.org/cdn/primeng/images/product/bracelet.jpg").modifier(new Modifier().style("width: 200px; height: 200px; object-fit: cover; border-radius: 8px;"))
+                ).orientation("vertical").modifier(new Modifier().style("padding: 20px;"))
+            ).modifier(new Modifier().style("width:100%;"))
+        );
+
+        Widget imageCard = Panel.of("Image",
+            Image.of("https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg").modifier(new Modifier().style("width: 100%; max-width: 400px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);"))
         );
 
         return Column.of(
             Header.of(2, "Media").modifier(new Modifier().style("margin-top: 0; font-weight: 700; margin-bottom: 20px; color: var(--text-color);")),
+            imageCard,
             galleriaCard,
             imageCompareCard,
             carouselCard

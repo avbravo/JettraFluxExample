@@ -65,11 +65,11 @@ public class MiscPage extends TemplatePage {
             
             Header.of(6, "Icons").modifier(new Modifier().style("margin-bottom: 1rem; color: var(--text-color); font-weight: 500;")),
             Row.of(
-                Tag.of("Primary").severity("primary").icon(Icon.USER),
-                Tag.of("Success").severity("success").icon(Icon.CHECK),
-                Tag.of("Info").severity("info").icon(Icon.INFO_CIRCLE),
-                Tag.of("Warning").severity("warning").icon(Icon.EXCLAMATION_TRIANGLE),
-                Tag.of("Danger").severity("danger").icon(Icon.TIMES)
+                Tag.of("Primary").severity("primary").icon("fas fa-user"),
+                Tag.of("Success").severity("success").icon("fas fa-check"),
+                Tag.of("Info").severity("info").icon("fas fa-info-circle"),
+                Tag.of("Warning").severity("warning").icon("fas fa-exclamation-triangle"),
+                Tag.of("Danger").severity("danger").icon("fas fa-times")
             ).modifier(new Modifier().style("gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;"))
         )).modifier(new Modifier().style("flex: 1; padding: 2rem; background: var(--surface-color); border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-left: 10px;"));
 
@@ -114,10 +114,10 @@ public class MiscPage extends TemplatePage {
             
             Header.of(6, "Icon").modifier(new Modifier().style("margin-bottom: 1rem; color: var(--text-color); font-weight: 500;")),
             Row.of(
-                Chip.of("Settings").icon(Icon.COG),
-                Chip.of("Contact").icon(Icon.ADDRESS_BOOK),
-                Chip.of("Alert").icon(Icon.EXCLAMATION_TRIANGLE),
-                Chip.of("Message").icon(Icon.ENVELOPE).removable(true)
+                Chip.of("Settings").icon("fas fa-cog"),
+                Chip.of("Contact").icon("fas fa-address-book"),
+                Chip.of("Alert").icon("fas fa-exclamation-triangle"),
+                Chip.of("Message").icon("fas fa-envelope").removable(true)
             ).modifier(new Modifier().style("gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;")),
             
             Header.of(6, "Image").modifier(new Modifier().style("margin-bottom: 1rem; color: var(--text-color); font-weight: 500;")),

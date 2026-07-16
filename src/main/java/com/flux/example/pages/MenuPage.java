@@ -55,12 +55,24 @@ public class MenuPage extends TemplatePage {
 
         Widget breadcrumbCard = Card.of(Column.of(
             Header.of(5, "Breadcrumb").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
-            Breadcrumb.of("Computer", "Notebook", "Accessories", "Backpacks", "Item")
+            Breadcrumb.of(
+                WidgetLet.of("").icon(Icon.HOME).url("/dashboard"),
+                WidgetLet.of("Computer").url("/computer"),
+                WidgetLet.of("Notebook").url("/computer/notebook"),
+                WidgetLet.of("Accessories").url("/computer/notebook/accessories"),
+                WidgetLet.of("Backpacks").url("/computer/notebook/accessories/backpacks"),
+                WidgetLet.of("Item")
+            )
         )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); width: 100%;"));
 
         Widget stepsCard = Card.of(Column.of(
             Header.of(5, "Steps").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
-            Steps.of("Personal", "Seat", "Payment", "Confirmation").activeIndex(1)
+            Steps.of(
+                WidgetLet.of("Personal").url("/step1"),
+                WidgetLet.of("Seat").url("/step2"),
+                WidgetLet.of("Payment").url("/step3"),
+                WidgetLet.of("Confirmation").url("/step4")
+            ).activeIndex(1)
         )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); width: 100%;"));
         
         Widget tieredMenuCard = Card.of(Column.of(
@@ -75,15 +87,31 @@ public class MenuPage extends TemplatePage {
         
         Widget overlayMenuCard = Card.of(Column.of(
             Header.of(5, "Overlay Menu").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
-            OverlayMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu)
+            OverlayMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu).trigger(Button.of("Options").modifier(new Modifier().style("background:var(--primary-color); color:white; padding:8px 16px; border-radius:6px;")))
         )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); flex: 1; min-width: 300px;"));
         
         Widget megaMenuCard = Card.of(Column.of(
-            Header.of(5, "MegaMenu").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
-            MegaMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu)
+            Header.of(5, "MegaMenu Horizontal").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            MegaMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu).orientation("horizontal")
         )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); width: 100%;"));
         
-        Widget contextMenu = ContextMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu);
+        Widget megaMenuVertCard = Card.of(Column.of(
+            Header.of(5, "MegaMenu Vertical").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            MegaMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu).orientation("vertical")
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); width: 100%;"));
+
+        Widget tabMenuCard = Card.of(Column.of(
+            Header.of(5, "Tab Menu").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            TabMenu.of(WidgetLet.of("Home").icon(Icon.HOME), WidgetLet.of("Calendar").icon(Icon.CALENDAR), WidgetLet.of("Edit").icon(Icon.EDIT), WidgetLet.of("Settings").icon(Icon.COG))
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); width: 100%;"));
+
+        Widget panelMenuCard = Card.of(Column.of(
+            Header.of(5, "Panel Menu").modifier(new Modifier().style("margin-top: 0; margin-bottom: 1.5rem; color: var(--text-color); font-weight: 600;")),
+            PanelMenu.of(fileMenu, editMenu, usersMenu)
+        )).modifier(new Modifier().style("padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); background: var(--surface-color); flex: 1; min-width: 300px;"));
+        
+        Widget contextMenu = ContextMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu).target(Card.of(Text.of("Right Click Me!")).modifier(new Modifier().style("padding:20px; border:2px dashed #ccc; text-align:center; background: var(--surface-color); border-radius:8px; cursor:context-menu; margin-bottom:20px;")));
+//        Widget contextMenu = ContextMenu.of(fileMenu, editMenu, usersMenu, eventsMenu, optionsMenu).target(Card.of(Text.of("Right Click Me!")).modifier(new Modifier().style("padding:20px; border:2px dashed #ccc; text-align:center; background:#f8fafc; border-radius:8px; cursor:context-menu; margin-bottom:20px;")));
 
         return Column.of(
             contextMenu,
@@ -91,8 +119,10 @@ public class MenuPage extends TemplatePage {
             menubarCard,
             breadcrumbCard,
             stepsCard,
-            Row.of(tieredMenuCard, plainMenuCard, overlayMenuCard).modifier(new Modifier().style("gap: 20px; align-items: stretch; flex-wrap: wrap; display: flex; width: 100%; margin-bottom: 20px;")),
-            megaMenuCard
+            Row.of(tieredMenuCard, plainMenuCard, overlayMenuCard, panelMenuCard).modifier(new Modifier().style("gap: 20px; align-items: stretch; flex-wrap: wrap; display: flex; width: 100%; margin-bottom: 20px;")),
+            tabMenuCard,
+            megaMenuCard,
+            megaMenuVertCard
         ).modifier(new Modifier().style("width: 100%; align-items: stretch; max-width: 1200px; padding: 20px; gap: 20px; display: flex; flex-direction: column;"));
     }
 }
