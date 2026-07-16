@@ -1,5 +1,7 @@
 package com.flux.example.pages.ecomerce;
 
+import io.jettra.flux.widgets.Icon;
+
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
 import io.jettra.flux.core.Modifier;
@@ -87,7 +89,7 @@ public class OrderHistoryPage extends TemplatePage {
             ).modifier(new Modifier().style("width: 100%; align-items: flex-start; margin-bottom: 25px;")),
             
             Row.of(
-                Icon.of("fas fa-truck").modifier(new Modifier().style("color: #22c55e; margin-right: 15px; font-size: 1.2rem;")),
+                Icon.of(Icon.TRUCK).modifier(new Modifier().style("color: #22c55e; margin-right: 15px; font-size: 1.2rem;")),
                 Text.of(statusStr).modifier(new Modifier().style("color: var(--text-color); font-weight: 600; font-size: 0.95rem;"))
             ).modifier(new Modifier().style("align-items: center; width: 100%; background: #22c55e10; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px;")),
             

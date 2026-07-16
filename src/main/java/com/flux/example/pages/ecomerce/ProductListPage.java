@@ -1,5 +1,7 @@
 package com.flux.example.pages.ecomerce;
 
+import io.jettra.flux.widgets.Icon;
+
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
 import io.jettra.flux.core.Modifier;
@@ -51,8 +53,8 @@ public class ProductListPage extends TemplatePage {
         Widget topToolbar = Row.of(
             Dropdown.of("Sort by Price", "Price: Low to High", "Price: High to Low").placeholder("Sort By..."),
             Row.of(
-                Icon.of("fas fa-th-large").modifier(new Modifier().style("color: var(--primary-color); font-size: 1.2rem; cursor: pointer; margin-right: 15px;")),
-                Icon.of("fas fa-bars").modifier(new Modifier().style("color: rgba(128,128,128,0.5); font-size: 1.2rem; cursor: pointer;"))
+                Icon.of(Icon.TH_LARGE).modifier(new Modifier().style("color: var(--primary-color); font-size: 1.2rem; cursor: pointer; margin-right: 15px;")),
+                Icon.of(Icon.BARS).modifier(new Modifier().style("color: rgba(128,128,128,0.5); font-size: 1.2rem; cursor: pointer;"))
             ).modifier(new Modifier().style("align-items: center;"))
         ).modifier(new Modifier().style("justify-content: space-between; align-items: center; width: 100%; padding: 15px 25px; border-radius: 12px; background: var(--surface-color); border: 1px solid rgba(128,128,128,0.2); margin-bottom: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);"));
 
@@ -69,7 +71,7 @@ public class ProductListPage extends TemplatePage {
         return Card.of(Column.of(
             Row.of(
                 Badge.of(status).modifier(new Modifier().style("background: " + badgeColor + "20; color: " + badgeColor + "; border-radius: 12px; padding: 4px 8px; font-weight: 700; font-size: 0.75rem;")),
-                Icon.of("fas fa-shopping-cart").modifier(new Modifier().style("color: rgba(128,128,128,0.5); font-size: 1.1rem; cursor: pointer;"))
+                Icon.of(Icon.SHOPPING_CART).modifier(new Modifier().style("color: rgba(128,128,128,0.5); font-size: 1.1rem; cursor: pointer;"))
             ).modifier(new Modifier().style("justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px;")),
             
             Image.of("https://primefaces.org/cdn/primeng/images/demo/product/" + imgName).modifier(new Modifier().style("width: 100%; max-height: 200px; object-fit: contain; align-self: center; margin-bottom: 15px; border-radius: 8px;")),

@@ -1,5 +1,7 @@
 package com.flux.example.pages.ecomerce;
 
+import io.jettra.flux.widgets.Icon;
+
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
 import io.jettra.flux.core.Modifier;
@@ -63,7 +65,7 @@ public class ProductOverviewPage extends TemplatePage {
             Row.of(
                 InputNumber.of(1),
                 ElevatedButton.of("Add to Cart").modifier(new Modifier().style("background: var(--primary-color); color: white; border: none; border-radius: 6px; padding: 10px 20px; font-weight: 600; cursor: pointer; margin-left: 15px; display: flex; align-items: center; gap: 8px;")),
-                Icon.of("fas fa-heart").modifier(new Modifier().style("color: rgba(128,128,128,0.5); font-size: 1.2rem; cursor: pointer; margin-left: 15px;"))
+                Icon.of(Icon.HEART).modifier(new Modifier().style("color: rgba(128,128,128,0.5); font-size: 1.2rem; cursor: pointer; margin-left: 15px;"))
             ).modifier(new Modifier().style("align-items: stretch; margin-bottom: 20px;"))
         ).modifier(new Modifier().style("flex: 1; min-width: 350px; padding-left: 20px; display: flex; flex-direction: column;"));
 
@@ -72,9 +74,9 @@ public class ProductOverviewPage extends TemplatePage {
         Widget tabContent1 = Column.of(
             Header.of(4, "Features").modifier(new Modifier().style("margin-top: 0; color: var(--text-color); font-weight: 700; margin-bottom: 15px;")),
             Text.of("Lorem ipsum dolor sit amet, consectetur adipiscing elit.").modifier(new Modifier().style("color: #64748b; margin-bottom: 10px;")),
-            Row.of(Icon.of("fas fa-check-circle").modifier(new Modifier().style("color: #22c55e; margin-right: 10px;")), Text.of("Durable material").modifier(new Modifier().style("color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px; align-items: center;")),
-            Row.of(Icon.of("fas fa-check-circle").modifier(new Modifier().style("color: #22c55e; margin-right: 10px;")), Text.of("Water resistant").modifier(new Modifier().style("color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px; align-items: center;")),
-            Row.of(Icon.of("fas fa-check-circle").modifier(new Modifier().style("color: #22c55e; margin-right: 10px;")), Text.of("Long battery life").modifier(new Modifier().style("color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px; align-items: center;"))
+            Row.of(Icon.of(Icon.CHECK_CIRCLE).modifier(new Modifier().style("color: #22c55e; margin-right: 10px;")), Text.of("Durable material").modifier(new Modifier().style("color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px; align-items: center;")),
+            Row.of(Icon.of(Icon.CHECK_CIRCLE).modifier(new Modifier().style("color: #22c55e; margin-right: 10px;")), Text.of("Water resistant").modifier(new Modifier().style("color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px; align-items: center;")),
+            Row.of(Icon.of(Icon.CHECK_CIRCLE).modifier(new Modifier().style("color: #22c55e; margin-right: 10px;")), Text.of("Long battery life").modifier(new Modifier().style("color: var(--text-color);"))).modifier(new Modifier().style("margin-bottom: 10px; align-items: center;"))
         ).modifier(new Modifier().style("padding: 20px;"));
 
         Widget tabContent2 = Column.of(

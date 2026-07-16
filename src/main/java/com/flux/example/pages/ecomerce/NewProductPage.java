@@ -1,5 +1,7 @@
 package com.flux.example.pages.ecomerce;
 
+import io.jettra.flux.widgets.Icon;
+
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
 import io.jettra.flux.core.Modifier;
@@ -56,7 +58,7 @@ public class NewProductPage extends TemplatePage {
 
 
         Widget uploadSection = Column.of(
-            Icon.of("fas fa-cloud-upload-alt").modifier(new Modifier().style("font-size: 3rem; color: #94a3b8; margin-bottom: 15px;")),
+            Icon.of(Icon.CLOUD_UPLOAD_ALT).modifier(new Modifier().style("font-size: 3rem; color: #94a3b8; margin-bottom: 15px;")),
             Text.of("Drag and drop your product image here").modifier(new Modifier().style("color: #64748b; font-weight: 600; margin-bottom: 10px;")),
             Text.of("or").modifier(new Modifier().style("color: #94a3b8; font-size: 0.85rem; margin-bottom: 15px;")),
             OutlinedButton.of("Browse Files").modifier(new Modifier().style("border-color: var(--primary-color); color: var(--primary-color); padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;"))
@@ -79,7 +81,7 @@ public class NewProductPage extends TemplatePage {
             Row.of(
                 Header.of(2, "Create Product").modifier(new Modifier().style("margin-top: 0; font-weight: 700; color: var(--text-color);")),
                 Row.of(
-                    Icon.of("fas fa-cog").modifier(new Modifier().style("color: rgba(128,128,128,0.5); font-size: 1.2rem; cursor: pointer;"))
+                    Icon.of(Icon.COG).modifier(new Modifier().style("color: rgba(128,128,128,0.5); font-size: 1.2rem; cursor: pointer;"))
                 )
             ).modifier(new Modifier().style("justify-content: space-between; align-items: center; width: 100%; margin-bottom: 30px;")),
             mainRow,

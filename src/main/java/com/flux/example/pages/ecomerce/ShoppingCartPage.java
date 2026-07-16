@@ -1,5 +1,7 @@
 package com.flux.example.pages.ecomerce;
 
+import io.jettra.flux.widgets.Icon;
+
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
 import io.jettra.flux.core.Modifier;
@@ -61,7 +63,7 @@ public class ShoppingCartPage extends TemplatePage {
             ).modifier(new Modifier().style("flex: 1;")),
             Row.of(
                 InputNumber.of(quantity),
-                Icon.of("fas fa-trash-alt").modifier(new Modifier().style("color: #ef4444; font-size: 1.2rem; cursor: pointer; margin-left: 20px;"))
+                Icon.of(Icon.TRASH_ALT).modifier(new Modifier().style("color: #ef4444; font-size: 1.2rem; cursor: pointer; margin-left: 20px;"))
             ).modifier(new Modifier().style("align-items: center;"))
         ).modifier(new Modifier().style("align-items: center; width: 100%; padding: 15px 0;"));
     }
