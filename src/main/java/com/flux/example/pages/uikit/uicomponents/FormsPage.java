@@ -1,4 +1,4 @@
-package com.flux.example.pages;
+package com.flux.example.pages.uikit.uicomponents;
 
 import io.jettra.flux.widgets.Row;
 import io.jettra.flux.widgets.Column;

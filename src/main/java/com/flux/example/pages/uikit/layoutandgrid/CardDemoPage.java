@@ -1,4 +1,4 @@
-package com.flux.example.pages;
+package com.flux.example.pages.uikit.layoutandgrid;
 
 import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;

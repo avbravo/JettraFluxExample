@@ -1,4 +1,4 @@
-package com.flux.example.pages;
+package com.flux.example.pages.uikit.layoutandgrid;
 
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
