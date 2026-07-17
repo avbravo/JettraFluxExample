@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.flux.example.pages.model;
+package com.flux.example.model;
 
 import io.jettra.flux.annotations.JettraViewModel;
 import io.jettra.flux.annotations.PropertiesLabel;
@@ -17,28 +17,23 @@ import io.jettra.rules.validations.NotNull;
 public class PersonModel {
 
     @NotNull
-              @PropertiesLabel(value = "person.name", label = "Nombre")
+    @PropertiesLabel(value = "person.name", label = "Nombre")
     String name;
-            @PropertiesLabel(value = "person.email", label = "Email")
+    @PropertiesLabel(value = "person.email", label = "Email")
     String email;
     @Min(value = 0)
-                    @PropertiesLabel(value = "person.age", label = "Edad")
+    @PropertiesLabel(value = "person.age", label = "Edad")
     Integer age;
 
     public PersonModel() {
     }
 
-    
-    
     public PersonModel(String name, String email, Integer age) {
         this.name = name;
         this.email = email;
         this.age = age;
     }
 
-    
-    
-    
     public String getName() {
         return name;
     }

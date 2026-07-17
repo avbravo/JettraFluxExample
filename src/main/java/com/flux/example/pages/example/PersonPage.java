@@ -1,5 +1,7 @@
-package com.flux.example.pages.uikit.uicomponents;
+package com.flux.example.pages.example;
 
+import com.flux.example.pages.uikit.uicomponents.*;
+import com.flux.example.model.PersonModel;
 import io.jettra.flux.widgets.Column;
 import io.jettra.flux.widgets.Card;
 import io.jettra.flux.widgets.TextField;
@@ -11,18 +13,32 @@ import io.jettra.flux.widgets.Label;
 import io.jettra.flux.widgets.Notification;
 import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;
+import io.jettra.core.inject.annotation.InjectProperties;
 import io.jettra.flux.core.Widget;
 import io.jettra.server.JettraServer;
 import io.jettra.core.security.widget.PageWidgetAllow;
 import io.jettra.core.security.widget.ActionWidgetAllow;
 import io.jettra.flux.sync.JettraPageSincronized;
 import io.jettra.flux.sync.SyncType;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role={"ADMIN","MANAGER"}, department="") 
-public class FormsPage extends TemplatePage {
-
+public class PersonPage extends TemplatePage {
+   @InjectProperties(name = "messages")
+    private Properties msg;
+   
+   /**
+    * Model 
+    */
+    @io.jettra.flux.annotations.binding.FluxBinding(model = PersonModel.class)
+    PersonModel personModel = new PersonModel();
+    List<PersonModel> persons = new ArrayList<>();
+   
+   
     @Override
     public String getTitle() {
         return "Forms - JettraFlux Pro";
@@ -30,9 +46,29 @@ public class FormsPage extends TemplatePage {
 
     @ActionWidgetAllow(role={"ADMIN","MANAGER"})
     private void saveForm(HttpExchange exchange, Map<String, String> params) {
-       IO.println("Formulario recibido con datos (Método de acción seguro): " + params);
-        io.jettra.flux.sync.JettraSyncManager.notifyChange("FormsModel", io.jettra.flux.sync.SyncType.UPDATE, getLoggedUser(exchange));
-        try { redirect(exchange, "/forms?success=true"); } catch (Exception e) {}
+        IO.println("Formulario recibido con datos (Método de acción seguro): " + params);
+        
+        java.util.List<io.jettra.rules.core.RuleResult> results = new io.jettra.flux.binding.FluxBinder(personModel)
+            .bind(params)
+            .compute()
+            .validate();
+            
+        IO.print("--> personModel "+personModel.toString() + " "+personModel.getName());
+        boolean hasErrors = false;
+        StringBuilder errorMsg = new StringBuilder();
+        for (io.jettra.rules.core.RuleResult result : results) {
+            if (!result.isValid()) {
+                hasErrors = true;
+                errorMsg.append(result.getMessage()).append(" ");
+            }
+        }
+            
+        if (hasErrors) {
+            IO.println("Error de validación: " + errorMsg.toString());
+        } else {
+            io.jettra.flux.sync.JettraSyncManager.notifyChange("FormsModel", io.jettra.flux.sync.SyncType.UPDATE, getLoggedUser(exchange));
+            try { redirect(exchange, "/forms?success=true"); } catch (Exception e) {}
+        }
     }
 
     @Override
@@ -55,13 +91,13 @@ public class FormsPage extends TemplatePage {
             Header.of(4, "Vertical").modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; margin-bottom: 15px; font-weight: 600;")),
             
             Label.of("Name").forId("name").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-            TextField.of("name", "Enter your name").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
+            TextField.of(msg != null ? msg.getProperty("person.name") : "Name", "Enter your name").id("name").binding("name").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
             
             Label.of("Email").forId("email").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-            TextField.of("email", "Enter your email").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
+            TextField.of(msg != null ? msg.getProperty("person.email") : "Email", "Enter your email").id("email").binding("email").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
             
             Label.of("Age").forId("age").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-            TextField.of("age", "Enter your age").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;"))
+            TextField.of(msg != null ? msg.getProperty("person.age") : "Age", "Enter your age").id("age").binding("age").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;"))
         ).modifier(new io.jettra.flux.core.Modifier().style("width: 100%; align-items: stretch; gap: 5px;")));
 
         // --- Horizontal Form ---
@@ -83,7 +119,10 @@ public class FormsPage extends TemplatePage {
         Widget mainForm = Form.of(
             Column.of(
                 io.jettra.flux.widgets.Grid.of(verticalForm, horizontalForm).modifier(new io.jettra.flux.core.Modifier().style("grid-template-columns: 1fr 1fr; gap: 20px; align-items: flex-start; margin-bottom: 20px;")),
-                io.jettra.flux.widgets.ElevatedButton.of("Guardar Cambios").modifier(new io.jettra.flux.core.Modifier().style("align-self: flex-start; padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;"))
+                io.jettra.flux.widgets.Row.of(
+                    io.jettra.flux.widgets.ElevatedButton.of("Guardar Cambios").modifier(new io.jettra.flux.core.Modifier().style("align-self: flex-start; padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;")),
+                    io.jettra.flux.widgets.Button.of("Volver al login").modifier(new io.jettra.flux.core.Modifier().style("align-self: flex-start; padding: 10px 20px; background-color: transparent; border: 1px solid #d1d5db; border-radius: 6px; cursor: pointer; font-weight: 600; margin-left: 10px;")).attribute("onclick", "location.href='" + JettraServer.resolvePath("/login") + "'; return false;")
+                ).modifier(new io.jettra.flux.core.Modifier().style("display: flex; flex-direction: row; align-items: center;"))
             ).modifier(new io.jettra.flux.core.Modifier().style("width: 100%;"))
         ).action(JettraServer.resolvePath("/forms?_action_method=saveForm")).method("POST");
 
