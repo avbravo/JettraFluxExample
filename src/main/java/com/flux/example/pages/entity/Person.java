@@ -4,10 +4,13 @@
  */
 package com.flux.example.pages.entity;
 
+import io.jettra.rules.validations.Min;
+import io.jettra.rules.validations.NotNull;
+
 /**
  *
  * @author avbravo
  */
-public record Person() {
+public record Person(@NotNull String name, String email,@Min(value = 0) Integer age) {
 
 }

@@ -11,6 +11,7 @@ import io.jettra.flux.widgets.Label;
 import io.jettra.flux.widgets.Notification;
 import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;
+import io.jettra.core.inject.annotation.InjectProperties;
 import io.jettra.flux.core.Widget;
 import io.jettra.server.JettraServer;
 import io.jettra.core.security.widget.PageWidgetAllow;
@@ -18,11 +19,14 @@ import io.jettra.core.security.widget.ActionWidgetAllow;
 import io.jettra.flux.sync.JettraPageSincronized;
 import io.jettra.flux.sync.SyncType;
 import java.util.Map;
+import java.util.Properties;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role={"ADMIN","MANAGER"}, department="") 
 public class FormsPage extends TemplatePage {
-
+   @InjectProperties(name = "messages")
+    private Properties msg;
+   
     @Override
     public String getTitle() {
         return "Forms - JettraFlux Pro";
@@ -30,7 +34,7 @@ public class FormsPage extends TemplatePage {
 
     @ActionWidgetAllow(role={"ADMIN","MANAGER"})
     private void saveForm(HttpExchange exchange, Map<String, String> params) {
-        System.out.println("Formulario recibido con datos (Método de acción seguro): " + params);
+       IO.println("Formulario recibido con datos (Método de acción seguro): " + params);
         io.jettra.flux.sync.JettraSyncManager.notifyChange("FormsModel", io.jettra.flux.sync.SyncType.UPDATE, getLoggedUser(exchange));
         try { redirect(exchange, "/forms?success=true"); } catch (Exception e) {}
     }
@@ -55,13 +59,13 @@ public class FormsPage extends TemplatePage {
             Header.of(4, "Vertical").modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; margin-bottom: 15px; font-weight: 600;")),
             
             Label.of("Name").forId("name").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-            TextField.of("name", "Enter your name").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
+            TextField.of(msg.getProperty("person.name"), "Enter your name").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
             
             Label.of("Email").forId("email").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-            TextField.of("email", "Enter your email").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
+            TextField.of(msg.getProperty("person.email"), "Enter your email").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
             
             Label.of("Age").forId("age").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-            TextField.of("age", "Enter your age").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;"))
+            TextField.of(msg.getProperty("person.age"), "Enter your age").modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;"))
         ).modifier(new io.jettra.flux.core.Modifier().style("width: 100%; align-items: stretch; gap: 5px;")));
 
         // --- Horizontal Form ---
