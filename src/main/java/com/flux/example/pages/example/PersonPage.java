@@ -31,10 +31,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import io.jettra.core.server.Page;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = {"ADMIN", "MANAGER"}, department = "")
-
+@Page(path = "/person")
 public class PersonPage extends TemplatePage {
 
     @InjectProperties(name = "messages")
