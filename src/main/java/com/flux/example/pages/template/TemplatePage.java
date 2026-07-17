@@ -1,19 +1,25 @@
 package com.flux.example.pages.template;
 
-import io.jettra.flux.widgets.Scaffold;
-import io.jettra.flux.widgets.Dashboard;
-import io.jettra.flux.widgets.Row;
-import io.jettra.flux.widgets.Column;
-import io.jettra.flux.widgets.Footer;
-import io.jettra.flux.widgets.Top;
-import io.jettra.flux.widgets.Paragraph;
-import io.jettra.flux.widgets.Header;
-import io.jettra.flux.widgets.Left;
-import io.jettra.flux.widgets.Icon;
-import io.jettra.flux.widgets.ThemeChanged;
+
 import com.flux.example.pages.FluxBaseHandler;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
+
+import io.jettra.flux.widgets.ActionIcon;
+import io.jettra.flux.widgets.Column;
+import io.jettra.flux.widgets.Dashboard;
+import io.jettra.flux.widgets.Footer;
+import io.jettra.flux.widgets.Header;
+import io.jettra.flux.widgets.Icon;
+import io.jettra.flux.widgets.Left;
+import io.jettra.flux.widgets.Paragraph;
+import io.jettra.flux.widgets.Row;
+import io.jettra.flux.widgets.Scaffold;
+import io.jettra.flux.widgets.SidebarCategory;
+import io.jettra.flux.widgets.SidebarLogo;
+import io.jettra.flux.widgets.ThemeChanged;
+import io.jettra.flux.widgets.Top;
+import io.jettra.flux.widgets.WidgetLet;
 import io.jettra.server.JettraServer;
 import java.util.Map;
 
@@ -82,57 +88,62 @@ public abstract class TemplatePage extends FluxBaseHandler {
 
         Widget customCss = Paragraph.of(io.jettra.flux.theme.OceanTheme.Template.CustomCSS + "\n" + js);
 
-        io.jettra.flux.widgets.WidgetLet ecommMenu = io.jettra.flux.widgets.WidgetLet.of("E-Commerce").icon(io.jettra.flux.widgets.Icon.HOME);
-        ecommMenu.add(io.jettra.flux.widgets.WidgetLet.of("Dashboard").icon(Icon.CHART_LINE).url(JettraServer.resolvePath("/dashboard")));
-        ecommMenu.add(io.jettra.flux.widgets.WidgetLet.of("Product Overview").icon(Icon.SEARCH).url(JettraServer.resolvePath("/product-overview")));
-        ecommMenu.add(io.jettra.flux.widgets.WidgetLet.of("Product List").icon(Icon.LIST).url(JettraServer.resolvePath("/product-list")));
-        ecommMenu.add(io.jettra.flux.widgets.WidgetLet.of("New Product").icon(Icon.PLUS).url(JettraServer.resolvePath("/new-product")));
-        ecommMenu.add(io.jettra.flux.widgets.WidgetLet.of("Shopping Cart").icon(Icon.SHOPPING_CART).url(JettraServer.resolvePath("/shopping-cart")));
-        ecommMenu.add(io.jettra.flux.widgets.WidgetLet.of("Checkout Form").icon(Icon.CHECK).url(JettraServer.resolvePath("/checkout-form")));
-        ecommMenu.add(io.jettra.flux.widgets.WidgetLet.of("Order History").icon(Icon.HISTORY).url(JettraServer.resolvePath("/order-history")));
-        ecommMenu.add(io.jettra.flux.widgets.WidgetLet.of("Order Summary").icon(Icon.RECEIPT).url(JettraServer.resolvePath("/order-summary")));
+         WidgetLet ecommMenu =  WidgetLet.of("E-Commerce").icon( Icon.HOME);
+        ecommMenu.add(WidgetLet.of("Dashboard").icon(Icon.CHART_LINE).url(JettraServer.resolvePath("/dashboard")));
+        ecommMenu.add( WidgetLet.of("Product Overview").icon(Icon.SEARCH).url(JettraServer.resolvePath("/product-overview")));
+        ecommMenu.add( WidgetLet.of("Product List").icon(Icon.LIST).url(JettraServer.resolvePath("/product-list")));
+        ecommMenu.add( WidgetLet.of("New Product").icon(Icon.PLUS).url(JettraServer.resolvePath("/new-product")));
+        ecommMenu.add( WidgetLet.of("Shopping Cart").icon(Icon.SHOPPING_CART).url(JettraServer.resolvePath("/shopping-cart")));
+        ecommMenu.add( WidgetLet.of("Checkout Form").icon(Icon.CHECK).url(JettraServer.resolvePath("/checkout-form")));
+        ecommMenu.add( WidgetLet.of("Order History").icon(Icon.HISTORY).url(JettraServer.resolvePath("/order-history")));
+        ecommMenu.add( WidgetLet.of("Order Summary").icon(Icon.RECEIPT).url(JettraServer.resolvePath("/order-summary")));
+// Example
+         WidgetLet exampleMenu =  WidgetLet.of("Example").icon( Icon.COG);
+       exampleMenu.add( WidgetLet.of("Person").icon(Icon.CHART_LINE).url(JettraServer.resolvePath("/person")));
 
-        io.jettra.flux.widgets.WidgetLet appsMenu = io.jettra.flux.widgets.WidgetLet.of("Apps").icon(io.jettra.flux.widgets.Icon.TH_LARGE);
-        appsMenu.add(io.jettra.flux.widgets.WidgetLet.of("Chat").icon(io.jettra.flux.widgets.Icon.COMMENTS).url(JettraServer.resolvePath("/chat")));
-        appsMenu.add(io.jettra.flux.widgets.WidgetLet.of("Mail Inbox").icon(io.jettra.flux.widgets.Icon.ENVELOPE).url(JettraServer.resolvePath("/mail-inbox")));
-        appsMenu.add(io.jettra.flux.widgets.WidgetLet.of("Task List").icon(io.jettra.flux.widgets.Icon.CHECK).url(JettraServer.resolvePath("/tasklist")));
-        appsMenu.add(io.jettra.flux.widgets.WidgetLet.of("Files").icon(Icon.FOLDER).url(JettraServer.resolvePath("/files")));
-        appsMenu.add(io.jettra.flux.widgets.WidgetLet.of("File").icon(Icon.FILE).url(JettraServer.resolvePath("/file")));
+        // Apps
+         WidgetLet appsMenu =  WidgetLet.of("Apps").icon( Icon.TH_LARGE);
+        appsMenu.add( WidgetLet.of("Chat").icon( Icon.COMMENTS).url(JettraServer.resolvePath("/chat")));
+        appsMenu.add( WidgetLet.of("Mail Inbox").icon( Icon.ENVELOPE).url(JettraServer.resolvePath("/mail-inbox")));
+        appsMenu.add( WidgetLet.of("Task List").icon( Icon.CHECK).url(JettraServer.resolvePath("/tasklist")));
+        appsMenu.add( WidgetLet.of("Files").icon(Icon.FOLDER).url(JettraServer.resolvePath("/files")));
+        appsMenu.add( WidgetLet.of("File").icon(Icon.FILE).url(JettraServer.resolvePath("/file")));
 
-        io.jettra.flux.widgets.WidgetLet userManagementMenu = io.jettra.flux.widgets.WidgetLet.of("User Management").icon(io.jettra.flux.widgets.Icon.USER);
-        userManagementMenu.add(io.jettra.flux.widgets.WidgetLet.of("Profile List").icon(Icon.USERS).url(JettraServer.resolvePath("/profile-list")));
-        userManagementMenu.add(io.jettra.flux.widgets.WidgetLet.of("Basic Information").icon(io.jettra.flux.widgets.Icon.INFO_CIRCLE).url(JettraServer.resolvePath("/profile-basic-information")));
+         WidgetLet userManagementMenu =  WidgetLet.of("User Management").icon( Icon.USER);
+        userManagementMenu.add( WidgetLet.of("Profile List").icon(Icon.USERS).url(JettraServer.resolvePath("/profile-list")));
+        userManagementMenu.add( WidgetLet.of("Basic Information").icon( Icon.INFO_CIRCLE).url(JettraServer.resolvePath("/profile-basic-information")));
 
-        io.jettra.flux.widgets.WidgetLet uiKitMenu = io.jettra.flux.widgets.WidgetLet.of("UI Components").icon(io.jettra.flux.widgets.Icon.LAYER_GROUP);
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Input").icon(Icon.EDIT).url(JettraServer.resolvePath("/input")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Forms").icon(Icon.ALIGN_JUSTIFY).url(JettraServer.resolvePath("/forms")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Icon").icon(Icon.ALIGN_JUSTIFY).url(JettraServer.resolvePath("/icon")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Button Demo").icon(io.jettra.flux.widgets.Icon.MOUSE_POINTER).url(JettraServer.resolvePath("/button-demo")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Table").icon(io.jettra.flux.widgets.Icon.CHART_BAR).url(JettraServer.resolvePath("/table")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("DataView").icon(io.jettra.flux.widgets.Icon.LIST).url(JettraServer.resolvePath("/dataview")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Tree").icon(Icon.SITEMAP).url(JettraServer.resolvePath("/tree")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Panel").icon(io.jettra.flux.widgets.Icon.TH_LARGE).url(JettraServer.resolvePath("/panel")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Overlay").icon(Icon.CLONE).url(JettraServer.resolvePath("/overlay")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Media").icon(Icon.IMAGE).url(JettraServer.resolvePath("/media")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Menu").icon(Icon.BARS).url(JettraServer.resolvePath("/menu")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Message").icon(io.jettra.flux.widgets.Icon.COMMENTS).url(JettraServer.resolvePath("/message")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Charts").icon(Icon.CHART_PIE).url(JettraServer.resolvePath("/charts")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Timeline").icon(Icon.CALENDAR_ALT).url(JettraServer.resolvePath("/timeline")));
-        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Misc").icon(io.jettra.flux.widgets.Icon.CUBE).url(JettraServer.resolvePath("/misc")));
+         WidgetLet uiKitMenu =  WidgetLet.of("UI Components").icon( Icon.LAYER_GROUP);
+        uiKitMenu.add( WidgetLet.of("Input").icon(Icon.EDIT).url(JettraServer.resolvePath("/input")));
+        uiKitMenu.add( WidgetLet.of("Forms").icon(Icon.ALIGN_JUSTIFY).url(JettraServer.resolvePath("/forms")));
+        uiKitMenu.add( WidgetLet.of("Icon").icon(Icon.ALIGN_JUSTIFY).url(JettraServer.resolvePath("/icon")));
+        uiKitMenu.add( WidgetLet.of("Button Demo").icon( Icon.MOUSE_POINTER).url(JettraServer.resolvePath("/button-demo")));
+        uiKitMenu.add( WidgetLet.of("Table").icon( Icon.CHART_BAR).url(JettraServer.resolvePath("/table")));
+        uiKitMenu.add( WidgetLet.of("DataView").icon( Icon.LIST).url(JettraServer.resolvePath("/dataview")));
+        uiKitMenu.add( WidgetLet.of("Tree").icon(Icon.SITEMAP).url(JettraServer.resolvePath("/tree")));
+        uiKitMenu.add( WidgetLet.of("Panel").icon( Icon.TH_LARGE).url(JettraServer.resolvePath("/panel")));
+        uiKitMenu.add( WidgetLet.of("Overlay").icon(Icon.CLONE).url(JettraServer.resolvePath("/overlay")));
+        uiKitMenu.add( WidgetLet.of("Media").icon(Icon.IMAGE).url(JettraServer.resolvePath("/media")));
+        uiKitMenu.add( WidgetLet.of("Menu").icon(Icon.BARS).url(JettraServer.resolvePath("/menu")));
+        uiKitMenu.add( WidgetLet.of("Message").icon( Icon.COMMENTS).url(JettraServer.resolvePath("/message")));
+        uiKitMenu.add( WidgetLet.of("Charts").icon(Icon.CHART_PIE).url(JettraServer.resolvePath("/charts")));
+        uiKitMenu.add( WidgetLet.of("Timeline").icon(Icon.CALENDAR_ALT).url(JettraServer.resolvePath("/timeline")));
+        uiKitMenu.add( WidgetLet.of("Misc").icon( Icon.CUBE).url(JettraServer.resolvePath("/misc")));
         
-        io.jettra.flux.widgets.WidgetLet uiLayoutMenu = io.jettra.flux.widgets.WidgetLet.of("Layout & Grid").icon(io.jettra.flux.widgets.Icon.WINDOW_MAXIMIZE);
-        uiLayoutMenu.add(io.jettra.flux.widgets.WidgetLet.of("Card Demo").icon(io.jettra.flux.widgets.Icon.WINDOW_MAXIMIZE).url(JettraServer.resolvePath("/card-demo")));
-        uiLayoutMenu.add(io.jettra.flux.widgets.WidgetLet.of("Grid Layout").icon(Icon.BORDER_ALL).url(JettraServer.resolvePath("/grid-demo")));
+         WidgetLet uiLayoutMenu =  WidgetLet.of("Layout & Grid").icon( Icon.WINDOW_MAXIMIZE);
+        uiLayoutMenu.add( WidgetLet.of("Card Demo").icon( Icon.WINDOW_MAXIMIZE).url(JettraServer.resolvePath("/card-demo")));
+        uiLayoutMenu.add( WidgetLet.of("Grid Layout").icon(Icon.BORDER_ALL).url(JettraServer.resolvePath("/grid-demo")));
         
-        io.jettra.flux.widgets.WidgetLet rootUiKitMenu = io.jettra.flux.widgets.WidgetLet.of("UI Kit").icon(io.jettra.flux.widgets.Icon.LAYER_GROUP);
+         WidgetLet rootUiKitMenu =  WidgetLet.of("UI Kit").icon( Icon.LAYER_GROUP);
         rootUiKitMenu.add(uiKitMenu);
         rootUiKitMenu.add(uiLayoutMenu);
 
         // --- Left Sidebar (Ocean Style) ---
         Widget menu = Left.of(
-            io.jettra.flux.widgets.SidebarLogo.of(io.jettra.flux.widgets.Icon.LAYER_GROUP, "Ocean"),
-            io.jettra.flux.widgets.SidebarCategory.of("Navigation"),
+             SidebarLogo.of( Icon.LAYER_GROUP, "Ocean"),
+             SidebarCategory.of("Navigation"),
             ecommMenu,
+            exampleMenu,
             appsMenu,
             userManagementMenu,
             rootUiKitMenu
@@ -157,13 +168,13 @@ public abstract class TemplatePage extends FluxBaseHandler {
         // --- Professional Top Bar ---
         Widget topBar = Top.of(
             Row.of(
-                io.jettra.flux.widgets.ActionIcon.of(io.jettra.flux.widgets.Icon.BARS + " top-bars-icon", "toggleSidebar()"),
+                 ActionIcon.of( Icon.BARS + " top-bars-icon", "toggleSidebar()"),
                 Header.of(4, "Dashboard").modifier(new io.jettra.flux.core.Modifier().cssClass("top-dashboard-title"))
             ).modifier(new io.jettra.flux.core.Modifier().cssClass("top-left-section")),
             
             Row.of(
-                Icon.of(io.jettra.flux.widgets.Icon.SEARCH),
-                Icon.of(io.jettra.flux.widgets.Icon.BELL),
+                Icon.of( Icon.SEARCH),
+                Icon.of( Icon.BELL),
                 Paragraph.of(langHtml),
                 ThemeChanged.of().current(currentTheme),
                 Paragraph.of(profileHtml)

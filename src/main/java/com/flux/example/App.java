@@ -1,5 +1,6 @@
 package com.flux.example;
 
+import com.flux.example.pages.example.PersonPage;
 import com.flux.example.pages.uikit.uicomponents.IconPage;
 import io.jettra.rest.server.JettraRestServer;
 import io.jettra.server.JettraServer;
@@ -65,6 +66,9 @@ public class App {
         server.addHandler("/checkout-form", com.flux.example.pages.ecomerce.CheckoutFormPage.class);
         server.addHandler("/order-history", com.flux.example.pages.ecomerce.OrderHistoryPage.class);
         server.addHandler("/order-summary", com.flux.example.pages.ecomerce.OrderSummaryPage.class);
+        
+        //Example
+        server.addHandler("/person", PersonPage.class);
 
         // Apps
         server.addHandler("/chat", com.flux.example.pages.apps.ChatPage.class);
