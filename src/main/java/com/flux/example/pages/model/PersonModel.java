@@ -4,11 +4,13 @@
  */
 package com.flux.example.pages.model;
 
+import io.jettra.flux.annotations.JettraViewModel;
+
 /**
  *
  * @author avbravo
  */
 @JettraViewModel
-public class FormsModel {
+public class PersonModel {
     
 }
