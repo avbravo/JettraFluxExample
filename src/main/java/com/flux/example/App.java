@@ -1,5 +1,6 @@
 package com.flux.example;
 
+import com.flux.example.pages.uikit.uicomponents.IconPage;
 import io.jettra.rest.server.JettraRestServer;
 import io.jettra.server.JettraServer;
 import io.jettra.server.config.ConfigInjector;
@@ -42,13 +43,13 @@ public class App {
         App app = new App();
         app.initUI();
         // Configurar la ruta de redirección en ErrorPage, usando contextpath (y el puerto implícitamente por el host)
-        io.jettra.wui.complex.ErrorPage.path = "http://localhost:" + app.port + app.contextpath;
+        io.jettra.flux.complex.ErrorPage.path = "http://localhost:" + app.port + app.contextpath;
 
         IO.println("Levantando servidor de enrutamiento JettraServer empotrado...");
         JettraServer server = new JettraServer();
         server.setErrorPage("/error");
-        server.addHandler("/error", io.jettra.wui.complex.ErrorPage.class);
-        server.addHandler("/swagger-ui", io.jettra.wui.complex.SwaggerUIPage.class);
+        server.addHandler("/error", io.jettra.flux.complex.ErrorPage.class);
+        server.addHandler("/swagger-ui", io.jettra.flux.complex.SwaggerUIPage.class);
 
         // Registro de Páginas JettraFlux
         server.addHandler("/", com.flux.example.pages.login.LoginPage.class);
@@ -80,6 +81,7 @@ public class App {
         server.addHandler("/forms", com.flux.example.pages.uikit.uicomponents.FormsPage.class);
         server.addHandler("/button-demo", com.flux.example.pages.uikit.uicomponents.ButtonDemoPage.class);
         server.addHandler("/card-demo", com.flux.example.pages.uikit.layoutandgrid.CardDemoPage.class);
+        server.addHandler("/icon",IconPage.class);        
         server.addHandler("/grid-demo", com.flux.example.pages.uikit.layoutandgrid.GridDemoPage.class);
         server.addHandler("/table", com.flux.example.pages.uikit.uicomponents.TablePage.class);
         server.addHandler("/dataview", com.flux.example.pages.uikit.uicomponents.DataViewPage.class);

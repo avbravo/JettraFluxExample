@@ -32,8 +32,8 @@ public class TestLauncher {
                 App.serverInstance = new io.jettra.server.JettraServer();
                 App.serverInstance.setPort(port); // Override port!
                 App.serverInstance.setErrorPage("/error");
-                App.serverInstance.addHandler("/error", io.jettra.wui.complex.ErrorPage.class);
-                App.serverInstance.addHandler("/swagger-ui", io.jettra.wui.complex.SwaggerUIPage.class);
+                App.serverInstance.addHandler("/error", io.jettra.flux.complex.ErrorPage.class);
+                App.serverInstance.addHandler("/swagger-ui", io.jettra.flux.complex.SwaggerUIPage.class);
 
                 java.util.List<Class<?>> controllers = new java.util.ArrayList<>(io.jettra.server.discoverer.DiscoveredRegistry.getDiscoveredClasses(App.class));
                 App.serverInstance.addHandler("/openapi.json", new io.jettra.server.openapi.OpenApiHandler(controllers));

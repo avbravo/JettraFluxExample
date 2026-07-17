@@ -97,6 +97,11 @@ public abstract class FluxBaseHandler implements HttpHandler {
         
         Map<String, String> params = new HashMap<>(parseQueryParams(exchange.getRequestURI().getQuery()));
         
+        if ("true".equals(params.get("_jtSyncCheck"))) {
+            handleSyncCheck(exchange, params);
+            return;
+        }
+
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
             params.putAll(parseRequestBody(exchange));
             
@@ -157,14 +162,20 @@ public abstract class FluxBaseHandler implements HttpHandler {
         io.jettra.flux.theme.ThemeData theme = getThemeByName(themeName);
         Widget ui = buildUI(exchange, params, themeName);
         if (ui != null) {
+            StringBuilder syncJs = new StringBuilder();
+            injectSyncLogic(syncJs);
+            injectSecurityHeartbeat(syncJs);
+            
             String html = "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n" +
                           "<meta charset=\"UTF-8\">\n" +
                           "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                           "<title>" + getTitle() + "</title>\n" +
                           "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css\">\n" +
                           theme.generateGlobalCss() + "\n" +
+                          syncJs.toString() + "\n" +
                           "</head>\n<body style=\"margin: 0; padding: 0; box-sizing: border-box;\">\n" +
                           ui.render(theme) + "\n" +
+                          "<div id='j-sync-popup-container'></div>\n" +
                           "</body>\n</html>";
             renderResponse(exchange, html, 200);
         }
@@ -319,5 +330,117 @@ public abstract class FluxBaseHandler implements HttpHandler {
             } catch (Exception e) {}
         }
         return map;
+    }
+
+    private void handleSyncCheck(HttpExchange exchange, Map<String, String> params) throws IOException {
+        long startTime = io.jettra.flux.sync.JettraSyncManager.SERVER_START_TIME;
+        io.jettra.flux.sync.JettraPageSincronized syncAnno = this.getClass().getAnnotation(io.jettra.flux.sync.JettraPageSincronized.class);
+        
+        if (syncAnno == null) {
+            renderResponse(exchange, String.format("{\"serverStartTime\": %d}", startTime), 200);
+            return;
+        }
+        String entity = syncAnno.entity().isEmpty() ? this.getClass().getSimpleName().replace("Page", "Model") : syncAnno.entity();
+        io.jettra.flux.sync.JettraSyncManager.SyncInfo info = io.jettra.flux.sync.JettraSyncManager.getLastChange(entity);
+        
+        if (info == null) {
+            renderResponse(exchange, String.format("{\"serverStartTime\": %d}", startTime), 200);
+        } else {
+            String json = String.format("{\"type\":\"%s\", \"user\":\"%s\", \"ts\":%d, \"serverStartTime\": %d}", 
+                info.type, info.user, info.timestamp, startTime);
+            renderResponse(exchange, json, 200);
+        }
+    }
+
+    private void injectSecurityHeartbeat(StringBuilder builder) {
+        long startTime = io.jettra.flux.sync.JettraSyncManager.SERVER_START_TIME;
+        String loginPath = io.jettra.server.JettraServer.resolvePath("/login");
+        
+        builder.append("<script>\n")
+               .append("  const J_SERVER_START_TIME = ").append(startTime).append(";\n")
+               .append("  const J_LOGIN_PATH = '").append(loginPath).append("';\n")
+               .append("  \n")
+               .append("  function checkJettraHeartbeat() {\n")
+               .append("    if (window.location.pathname === J_LOGIN_PATH) return;\n")
+               .append("    \n")
+               .append("    fetch(window.location.pathname + '?_jtSyncCheck=true')\n")
+               .append("      .then(r => {\n")
+               .append("        if (!r.ok) throw new Error('Server down');\n")
+               .append("        return r.json();\n")
+               .append("      })\n")
+               .append("      .then(data => {\n")
+               .append("        if (data.serverStartTime && data.serverStartTime !== J_SERVER_START_TIME) {\n")
+               .append("           console.warn('Server restarted, redirecting to login...');\n")
+               .append("           window.location.href = J_LOGIN_PATH;\n")
+               .append("        }\n")
+               .append("      })\n")
+               .append("      .catch(err => {\n")
+               .append("        console.error('JettraHeartbeat Error:', err);\n")
+               .append("        window.location.href = J_LOGIN_PATH;\n")
+               .append("      });\n")
+               .append("  }\n")
+               .append("  \n")
+               .append("  setInterval(checkJettraHeartbeat, 10000);\n")
+               .append("</script>\n");
+    }
+
+    private void injectSyncLogic(StringBuilder builder) {
+        io.jettra.flux.sync.JettraPageSincronized syncAnno = this.getClass().getAnnotation(io.jettra.flux.sync.JettraPageSincronized.class);
+        if (syncAnno == null) return;
+
+        String entity = syncAnno.entity().isEmpty() ? this.getClass().getSimpleName().replace("Page", "Model") : syncAnno.entity();
+        long loadTime = System.currentTimeMillis();
+
+        builder.append("<script>\n")
+               .append("  const J_SYNC_ENTITY = '").append(entity).append("';\n")
+               .append("  const J_SYNC_LOAD_TIME = ").append(loadTime).append(";\n")
+               .append("  const J_SYNC_TYPE = '").append(syncAnno.value()).append("';\n")
+               .append("  \n")
+               .append("  function checkJettraSync() {\n")
+               .append("    fetch(window.location.pathname + '?_jtSyncCheck=true')\n")
+               .append("      .then(r => r.json())\n")
+               .append("      .then(data => {\n")
+               .append("        if (data.ts && data.ts > J_SYNC_LOAD_TIME) {\n")
+               .append("          if (J_SYNC_TYPE === 'ALL' || J_SYNC_TYPE === data.type) {\n")
+               .append("            showJettraSyncPopup(data);\n")
+               .append("          }\n")
+               .append("        }\n")
+               .append("      });\n")
+               .append("  }\n")
+               .append("  \n")
+               .append("  function showJettraSyncPopup(data) {\n")
+               .append("    const container = document.getElementById('j-sync-popup-container');\n")
+               .append("    if (container.innerHTML !== '') return;\n")
+               .append("    \n")
+               .append("    let actionText = '';\n")
+               .append("    switch(data.type) {\n")
+               .append("        case 'CREATE': actionText = 'creó un nuevo registro'; break;\n")
+               .append("        case 'UPDATE': actionText = 'actualizó los datos'; break;\n")
+               .append("        case 'DELETE': actionText = 'eliminó un registro'; break;\n")
+               .append("        case 'MOVE': actionText = 'movió un elemento'; break;\n")
+               .append("        default: actionText = 'realizó cambios';\n")
+               .append("    }\n")
+               .append("    \n")
+               .append("    const msg = `${data.user} ${actionText}. ¿Desea actualizar la vista?`;\n")
+               .append("    const popup = document.createElement('div');\n")
+               .append("    popup.className = 'j-sync-popup-3d';\n")
+               .append("    popup.innerHTML = `\n")
+               .append("      <div class='j-sync-content' style='background: rgba(30, 41, 59, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: white; display: flex; gap: 15px; align-items: center; position: fixed; bottom: 20px; right: 20px; z-index: 9999;'>\n")
+               .append("        <div class='j-sync-icon' style='font-size: 24px;'>📡</div>\n")
+               .append("        <div class='j-sync-text'>\n")
+               .append("          <strong style='display:block; margin-bottom:5px; font-size:16px;'>Sincronización</strong>\n")
+               .append("          <p style='margin:0; font-size:14px; color:#cbd5e1;'>${msg}</p>\n")
+               .append("        </div>\n")
+               .append("        <div class='j-sync-actions' style='display: flex; gap: 10px; margin-left: 10px;'>\n")
+               .append("          <button onclick='window.location.reload()' style='background: #3b82f6; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600;'>Sincronizar</button>\n")
+               .append("          <button onclick='this.closest(\".j-sync-popup-3d\").remove()' style='background: rgba(255,255,255,0.1); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;'>Cerrar</button>\n")
+               .append("        </div>\n")
+               .append("      </div>\n")
+               .append("    `;\n")
+               .append("    container.appendChild(popup);\n")
+               .append("  }\n")
+               .append("  \n")
+               .append("  setInterval(checkJettraSync, 5000);\n")
+               .append("</script>\n");
     }
 }

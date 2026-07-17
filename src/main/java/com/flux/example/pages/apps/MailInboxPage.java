@@ -5,10 +5,10 @@ import io.jettra.flux.core.Widget;
 import io.jettra.flux.core.Modifier;
 import io.jettra.flux.widgets.*;
 import io.jettra.core.security.widget.PageWidgetAllow;
-import io.jettra.wui.sync.JettraPageSincronized;
-import io.jettra.wui.sync.SyncType;
 import java.util.Map;
 import com.flux.example.pages.template.TemplatePage;
+import io.jettra.flux.sync.JettraPageSincronized;
+import io.jettra.flux.sync.SyncType;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })

@@ -8,12 +8,12 @@ import io.jettra.flux.widgets.Header;
 import io.jettra.flux.widgets.Paragraph;
 import io.jettra.flux.widgets.Datatable;
 import io.jettra.core.security.widget.PageWidgetAllow;
-import io.jettra.wui.sync.JettraPageSincronized;
-import io.jettra.wui.sync.SyncType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import com.flux.example.pages.template.TemplatePage;
+import io.jettra.flux.sync.JettraPageSincronized;
+import io.jettra.flux.sync.SyncType;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role={"ADMIN", "MANAGER", "USER"})

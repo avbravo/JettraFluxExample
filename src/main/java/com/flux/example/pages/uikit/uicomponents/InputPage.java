@@ -6,7 +6,6 @@ import io.jettra.flux.widgets.Column;
 import io.jettra.flux.widgets.Row;
 import io.jettra.flux.widgets.Card;
 import io.jettra.flux.widgets.Header;
-import io.jettra.flux.widgets.Paragraph;
 import io.jettra.flux.widgets.TextField;
 import io.jettra.flux.widgets.TextArea;
 import io.jettra.flux.widgets.Checkbox;
@@ -14,10 +13,10 @@ import io.jettra.flux.widgets.RadioButton;
 import io.jettra.flux.widgets.ToggleSwitch;
 import io.jettra.flux.widgets.Label;
 import io.jettra.core.security.widget.PageWidgetAllow;
-import io.jettra.wui.sync.JettraPageSincronized;
-import io.jettra.wui.sync.SyncType;
 import java.util.Map;
 import com.flux.example.pages.template.TemplatePage;
+import io.jettra.flux.sync.JettraPageSincronized;
+import io.jettra.flux.sync.SyncType;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })

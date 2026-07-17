@@ -2,8 +2,6 @@ package com.flux.example.pages.uikit.uicomponents;
 
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
-import io.jettra.wui.sync.JettraPageSincronized;
-import io.jettra.wui.sync.SyncType;
 import java.util.Map;
 import com.flux.example.pages.template.TemplatePage;
 
@@ -15,6 +13,8 @@ import io.jettra.flux.widgets.Row;
 import io.jettra.flux.widgets.JettraButton;
 import io.jettra.core.security.widget.ActionWidgetAllow;
 import io.jettra.core.security.widget.PageWidgetAllow;
+import io.jettra.flux.sync.JettraPageSincronized;
+import io.jettra.flux.sync.SyncType;
 import io.jettra.server.JettraServer;
 
 @JettraPageSincronized(SyncType.ALL)

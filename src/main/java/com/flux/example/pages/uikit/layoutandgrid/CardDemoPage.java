@@ -4,13 +4,13 @@ import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.core.security.widget.PageWidgetAllow;
 import io.jettra.flux.core.Widget;
+import io.jettra.flux.sync.JettraPageSincronized;
+import io.jettra.flux.sync.SyncType;
 import io.jettra.flux.widgets.Card;
 import io.jettra.flux.widgets.Scaffold;
 import io.jettra.flux.widgets.Top;
 import io.jettra.flux.widgets.Label;
 import io.jettra.flux.widgets.Paragraph;
-import io.jettra.wui.sync.JettraPageSincronized;
-import io.jettra.wui.sync.SyncType;
 import java.util.Map;
 
 @JettraPageSincronized(SyncType.ALL)

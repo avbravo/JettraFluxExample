@@ -13,10 +13,10 @@ import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
 import io.jettra.server.JettraServer;
-import io.jettra.wui.sync.JettraPageSincronized;
-import io.jettra.wui.sync.SyncType;
 import io.jettra.core.security.widget.PageWidgetAllow;
 import io.jettra.core.security.widget.ActionWidgetAllow;
+import io.jettra.flux.sync.JettraPageSincronized;
+import io.jettra.flux.sync.SyncType;
 import java.util.Map;
 
 @JettraPageSincronized(SyncType.ALL)
@@ -31,6 +31,7 @@ public class FormsPage extends TemplatePage {
     @ActionWidgetAllow(role={"ADMIN","MANAGER"})
     private void saveForm(HttpExchange exchange, Map<String, String> params) {
         System.out.println("Formulario recibido con datos (Método de acción seguro): " + params);
+        io.jettra.flux.sync.JettraSyncManager.notifyChange("FormsModel", io.jettra.flux.sync.SyncType.UPDATE, getLoggedUser(exchange));
         try { redirect(exchange, "/forms?success=true"); } catch (Exception e) {}
     }
 

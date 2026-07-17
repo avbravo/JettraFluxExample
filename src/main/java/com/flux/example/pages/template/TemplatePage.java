@@ -106,6 +106,7 @@ public abstract class TemplatePage extends FluxBaseHandler {
         io.jettra.flux.widgets.WidgetLet uiKitMenu = io.jettra.flux.widgets.WidgetLet.of("UI Components").icon(io.jettra.flux.widgets.Icon.LAYER_GROUP);
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Input").icon(Icon.EDIT).url(JettraServer.resolvePath("/input")));
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Forms").icon(Icon.ALIGN_JUSTIFY).url(JettraServer.resolvePath("/forms")));
+        uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Icon").icon(Icon.ALIGN_JUSTIFY).url(JettraServer.resolvePath("/icon")));
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Button Demo").icon(io.jettra.flux.widgets.Icon.MOUSE_POINTER).url(JettraServer.resolvePath("/button-demo")));
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("Table").icon(io.jettra.flux.widgets.Icon.CHART_BAR).url(JettraServer.resolvePath("/table")));
         uiKitMenu.add(io.jettra.flux.widgets.WidgetLet.of("DataView").icon(io.jettra.flux.widgets.Icon.LIST).url(JettraServer.resolvePath("/dataview")));
