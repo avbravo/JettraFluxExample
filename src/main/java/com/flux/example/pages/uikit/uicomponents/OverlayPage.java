@@ -12,6 +12,7 @@ import io.jettra.flux.sync.SyncType;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })
+@io.jettra.core.server.Page(path = "/overlay")
 public class OverlayPage extends TemplatePage {
 
     @Override

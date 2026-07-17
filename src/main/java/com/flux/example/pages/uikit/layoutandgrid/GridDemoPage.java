@@ -12,8 +12,10 @@ import io.jettra.server.config.JettraConfigProperty;
 import io.jettra.core.security.widget.PageWidgetAllow;
 import java.util.Map;
 import com.flux.example.pages.template.TemplatePage;
+import io.jettra.core.server.Page;
 
 @PageWidgetAllow(role={"ADMIN", "MANAGER", "USER"}, department="")
+@Page(path = "/grid-demo")
 public class GridDemoPage extends TemplatePage {
 
     @JettraConfigProperty(name = "app.title")

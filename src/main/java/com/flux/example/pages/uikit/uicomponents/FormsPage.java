@@ -21,6 +21,7 @@ import java.util.Map;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role={"ADMIN","MANAGER"}, department="") 
+@io.jettra.core.server.Page(path = "/forms")
 public class FormsPage extends TemplatePage {
 
     @Override

@@ -12,6 +12,7 @@ import io.jettra.flux.sync.SyncType;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })
+@io.jettra.core.server.Page(path = "/file")
 public class FilePage extends TemplatePage {
 
     @Override

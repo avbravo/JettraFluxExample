@@ -8,12 +8,14 @@ import io.jettra.flux.widgets.Column;
 import io.jettra.flux.widgets.Notification;
 import io.jettra.flux.widgets.Center;
 import com.sun.net.httpserver.HttpExchange;
+import io.jettra.core.server.Page;
 import io.jettra.flux.core.Widget;
 import io.jettra.server.JettraServer;
 
 import java.util.Map;
 
 @io.jettra.core.login.NoLoginRequired
+@Page(path = "/forgot-password")
 public class ForgotPasswordPage extends FluxBaseHandler {
 
     @Override

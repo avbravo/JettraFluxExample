@@ -23,6 +23,7 @@ import io.jettra.flux.widgets.Icon;
  */
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })
+@io.jettra.core.server.Page(path = "/icon")
 public class IconPage extends TemplatePage{
 
     @Override

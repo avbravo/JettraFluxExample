@@ -13,12 +13,14 @@ import io.jettra.flux.widgets.Row;
 import io.jettra.flux.widgets.JettraButton;
 import io.jettra.core.security.widget.ActionWidgetAllow;
 import io.jettra.core.security.widget.PageWidgetAllow;
+import io.jettra.core.server.Page;
 import io.jettra.flux.sync.JettraPageSincronized;
 import io.jettra.flux.sync.SyncType;
 import io.jettra.server.JettraServer;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })
+@Page(path = "/button-demo")
 public class ButtonDemoPage extends TemplatePage {
 
     @Override

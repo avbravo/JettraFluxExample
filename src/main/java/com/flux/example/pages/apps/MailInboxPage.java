@@ -12,6 +12,7 @@ import io.jettra.flux.sync.SyncType;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })
+@io.jettra.core.server.Page(path = "/mail-inbox")
 public class MailInboxPage extends TemplatePage {
 
     @Override

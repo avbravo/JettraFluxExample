@@ -3,6 +3,7 @@ package com.flux.example.pages.uikit.layoutandgrid;
 import com.flux.example.pages.template.TemplatePage;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.core.security.widget.PageWidgetAllow;
+import io.jettra.core.server.Page;
 import io.jettra.flux.core.Widget;
 import io.jettra.flux.sync.JettraPageSincronized;
 import io.jettra.flux.sync.SyncType;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })
+@Page(path = "/card-demo")
 public class CardDemoPage  extends TemplatePage {
 
  

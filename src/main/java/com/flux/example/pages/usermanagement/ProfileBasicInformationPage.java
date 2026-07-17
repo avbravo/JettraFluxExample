@@ -12,6 +12,7 @@ import io.jettra.flux.sync.SyncType;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER", "USER" })
+@io.jettra.core.server.Page(path = "/profile-basic-information")
 public class ProfileBasicInformationPage extends TemplatePage {
 
     @Override

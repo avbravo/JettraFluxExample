@@ -8,6 +8,7 @@ import io.jettra.flux.widgets.Column;
 import io.jettra.flux.widgets.Notification;
 import io.jettra.flux.widgets.Center;
 import com.sun.net.httpserver.HttpExchange;
+import io.jettra.core.server.Page;
 import io.jettra.flux.core.Widget;
 import io.jettra.flux.model.CredentialFlux;
 import io.jettra.json.SessionScoped;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @io.jettra.core.login.NoLoginRequired
 @SessionScoped
+@Page(path = "/login")
 public class LoginPage extends FluxBaseHandler {
 
     @Override

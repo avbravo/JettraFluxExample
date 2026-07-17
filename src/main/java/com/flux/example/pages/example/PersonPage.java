@@ -117,7 +117,7 @@ public class PersonPage extends TemplatePage {
                                 ElevatedButton.of("Guardar Cambios").modifier(new Modifier().style("align-self: flex-start; padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;"))
                         ).modifier(new Modifier().style("display: flex; flex-direction: row; align-items: center;"))
                 ).modifier(new Modifier().style("width: 100%;"))
-        ).action(JettraServer.resolvePath("/forms?_action_method=saveForm")).method("POST");
+        ).action(JettraServer.resolvePath("/person?_action_method=saveForm")).method("POST");
 
         // --- Center Content ---
         return Column.of(
