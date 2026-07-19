@@ -61,8 +61,10 @@ public class LoginPage extends FluxBaseHandler {
         );
 
         if (params.containsKey("error")) {
-            Widget errorAlert = Notification.of(Paragraph.of("Error: Username y/o password no válidos"))
-                .modifier(new io.jettra.flux.core.Modifier().style("background-color: #fee2e2; color: #b91c1c; padding: 10px 15px; border-radius: 6px; border: 1px solid #f87171; margin-bottom: 20px; font-weight: 500; text-align: center; width: 100%; max-width: 400px;"));
+            Widget errorAlert = Notification.of(
+                Paragraph.of("Error: Username y/o password no válidos"),
+                Paragraph.of("<script>alert('Error: Username y/o password no válidos');</script>")
+            ).modifier(new io.jettra.flux.core.Modifier().style("background-color: #fee2e2; color: #b91c1c; padding: 10px 15px; border-radius: 6px; border: 1px solid #f87171; margin-bottom: 20px; font-weight: 500; text-align: center; width: 100%; max-width: 400px;"));
             body = Center.of(
                 Column.of(
                     errorAlert,

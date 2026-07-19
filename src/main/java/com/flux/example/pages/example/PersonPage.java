@@ -74,8 +74,11 @@ public class PersonPage extends TemplatePage {
 
         if (hasErrors) {
             IO.println("Error de validación: " + errorMsg.toString());
+            try {
+                redirect(exchange, "/person?error=" + java.net.URLEncoder.encode(errorMsg.toString(), "UTF-8"));
+            } catch (Exception e) {}
         } else {
-            JettraSyncManager.notifyChange("FormsModel", SyncType.UPDATE, getLoggedUser(exchange));
+            JettraSyncManager.notifyChange("PersonModel", SyncType.UPDATE, getLoggedUser(exchange));
             try {
                 redirect(exchange, "/person?success=true");
             } catch (Exception e) {
@@ -85,6 +88,16 @@ public class PersonPage extends TemplatePage {
 
     @Override
     protected Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme) {
+        String lang = params.getOrDefault("lang", "en");
+        try {
+            String propName = "messages" + ("es".equals(lang) ? "_es" : "") + ".properties";
+            java.io.InputStream is = getClass().getClassLoader().getResourceAsStream(propName);
+            if (is != null) {
+                if (msg == null) msg = new Properties();
+                msg.load(is);
+            }
+        } catch (Exception e) {}
+
         // Fallback para ActionBinder en caso de no usar _action_method (Se deja por compatibilidad si es necesario, 
         // pero preferimos el _action_method)
         new io.jettra.flux.core.ActionBinder(params)
@@ -96,6 +109,9 @@ public class PersonPage extends TemplatePage {
         Widget alert = null;
         if ("true".equals(params.get("success"))) {
             alert = Notification.of(Paragraph.of("¡Formulario enviado correctamente!"));
+        } else if (params.get("error") != null) {
+            alert = Notification.of(Paragraph.of("Error: " + params.get("error")))
+                .modifier(new Modifier().style("background-color: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 6px; margin-bottom: 10px; width: 100%;"));
         }
 
         // --- Vertical Form ---
