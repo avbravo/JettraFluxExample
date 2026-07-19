@@ -88,7 +88,17 @@ public class PersonPage extends TemplatePage {
 
     @Override
     protected Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme) {
-        String lang = params.getOrDefault("lang", "en");
+        String lang = "en";
+        String cookies = exchange.getRequestHeaders().getFirst("Cookie");
+        if (cookies != null) {
+            for (String c : cookies.split(";")) {
+                c = c.trim();
+                if (c.startsWith("jettra_lang=")) {
+                    lang = c.substring("jettra_lang=".length());
+                    break;
+                }
+            }
+        }
         try {
             String propName = "messages" + ("es".equals(lang) ? "_es" : "") + ".properties";
             java.io.InputStream is = getClass().getClassLoader().getResourceAsStream(propName);
