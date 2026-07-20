@@ -105,6 +105,19 @@ public abstract class FluxBaseHandler implements HttpHandler {
             handleSyncCheck(exchange, params);
             return;
         }
+        
+        if (params.containsKey("change_lang")) {
+            io.jettra.flux.core.LanguageFlux.changeLanguage(exchange, params.get("change_lang"));
+            String path = exchange.getRequestURI().getPath();
+            String cPath = io.jettra.server.JettraServer.getContextPath();
+            String relPath = path;
+            if (cPath != null && path.startsWith(cPath)) {
+                relPath = path.substring(cPath.length());
+            }
+            if (relPath.isEmpty()) relPath = "/";
+            redirect(exchange, relPath);
+            return;
+        }
 
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
             params.putAll(parseRequestBody(exchange));
@@ -240,9 +253,12 @@ public abstract class FluxBaseHandler implements HttpHandler {
         exchange.getResponseHeaders().set("Set-Cookie", "username=; Path=" + cPath + "; Max-Age=0");
         exchange.getResponseHeaders().add("Set-Cookie", "role=; Path=" + cPath + "; Max-Age=0");
         exchange.getResponseHeaders().add("Set-Cookie", "department=; Path=" + cPath + "; Max-Age=0");
-        JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "username", null);
-        JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "role", null);
-        JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "department", null);
+        if (JettraContext.getCurrent() != null) {
+            JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "username", "");
+            JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "role", "");
+            JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "department", "");
+            JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "credentialFlux", "");
+        }
     }
 
     protected String getLoggedUser(HttpExchange exchange) {
