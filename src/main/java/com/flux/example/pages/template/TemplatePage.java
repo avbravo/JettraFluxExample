@@ -52,41 +52,7 @@ public abstract class TemplatePage extends FluxBaseHandler {
             }
         }
         
-        String js = io.jettra.flux.core.JSBuilder.create()
-            .addFunction("toggleSidebar", 
-                         "var left = document.querySelector('.espresso-left');\n" +
-                         "if (left) left.classList.toggle('open');")
-            .addFunction("changeLang", "lang", 
-                         "document.cookie = 'jettra_lang=' + lang + '; path=/';\n" +
-                         "window.location.reload();")
-            .addFunction("toggleProfileMenu", 
-                         "var pm = document.getElementById('profile-menu');\n" +
-                         "if(pm) pm.style.display = (pm.style.display === 'none') ? 'block' : 'none';")
-            .addFunction("restoreMenus",
-                         "document.querySelectorAll('.widgetlet-children').forEach(function(c) {\n" +
-                         "  var key = c.getAttribute('data-exp-key');\n" +
-                         "  if(key && localStorage.getItem(key) === 'open') {\n" +
-                         "    c.style.display = 'block';\n" +
-                         "    var iconId = c.id.replace('_children', '_icon');\n" +
-                         "    var icon = document.getElementById(iconId);\n" +
-                         "    if(icon) icon.className = 'fas fa-chevron-down';\n" +
-                         "  }\n" +
-                         "});")
-            .build();
-
-        // Ensure restoreMenus is called after DOM updates
-        js += "\n<script>\n" +
-              "document.addEventListener('DOMContentLoaded', restoreMenus);\n" +
-              "if (typeof window.MutationObserver !== 'undefined') {\n" +
-              "  var observer = new MutationObserver(function(mutations) {\n" +
-              "    restoreMenus();\n" +
-              "  });\n" +
-              "  observer.observe(document.body, { childList: true, subtree: true });\n" +
-              "}\n" +
-              "setTimeout(restoreMenus, 100);\n" + // Fallback
-              "</script>";
-
-        Widget customCss = Paragraph.of(io.jettra.flux.theme.OceanTheme.Template.CustomCSS + "\n" + js);
+        Widget customCss = Paragraph.of(io.jettra.flux.theme.OceanTheme.Template.CustomCSS + "\n" + io.jettra.flux.theme.OceanTheme.Template.CustomJS);
 
          WidgetLet ecommMenu =  WidgetLet.of("E-Commerce").icon( Icon.HOME);
         ecommMenu.add(WidgetLet.of("Dashboard").icon(Icon.CHART_LINE).url(JettraServer.resolvePath("/dashboard")));
@@ -150,20 +116,21 @@ public abstract class TemplatePage extends FluxBaseHandler {
         ).modifier(new io.jettra.flux.core.Modifier().cssClass("professional-left"));
 
         // User Profile Dropdown
-        String profileHtml = "<div style=\"position: relative; display: inline-block; cursor: pointer;\" onclick=\"toggleProfileMenu()\">" +
-                             "<div style=\"display: flex; align-items: center;\">" +
-                             "  " + photoHtml +
-                             "  <span style=\"font-size:14px; font-weight:500;\">" + displayName + "</span> <i class=\"fas fa-caret-down\" style=\"margin-left:5px;\"></i>" +
-                             "</div>" +
-                             "<div id=\"profile-menu\" style=\"display:none; position:absolute; right:0; top:40px; background:white; box-shadow:0 4px 6px rgba(0,0,0,0.1); border-radius:4px; width:150px; z-index:100; border:1px solid #ddd;\">" +
-                             "  <a href=\"" + JettraServer.resolvePath("/login?logout=true") + "\" style=\"display:block; padding:10px; text-decoration:none; color:#333; font-size:14px;\"><i class=\"fas fa-sign-out-alt\"></i> Logout</a>" +
-                             "</div></div>";
+        Widget profileTrigger = Row.of(
+            io.jettra.flux.widgets.RawHtml.of(photoHtml),
+            io.jettra.flux.widgets.Span.of(displayName).modifier(new io.jettra.flux.core.Modifier().style("font-size:14px; font-weight:500; margin-left:5px;")),
+            Icon.of("fas fa-caret-down").modifier(new io.jettra.flux.core.Modifier().style("margin-left:5px;"))
+        ).modifier(new io.jettra.flux.core.Modifier().style("align-items:center; cursor:pointer;"));
+
+        Widget profileMenu = io.jettra.flux.widgets.OverlayMenu.of(
+            WidgetLet.of("Logout").icon(Icon.SIGN_OUT_ALT).url(JettraServer.resolvePath("/login?logout=true"))
+        ).trigger(profileTrigger);
 
         // Language Switcher
-        String langHtml = "<select onchange=\"changeLang(this.value)\" style=\"padding: 4px; border-radius: 4px; border: 1px solid #ccc; font-size: 12px;\">" +
-                          "  <option value=\"en\">EN</option>" +
-                          "  <option value=\"es\">ES</option>" +
-                          "</select>";
+        Widget langSwitcher = io.jettra.flux.widgets.SelectOneIcon.of(
+            io.jettra.flux.widgets.Span.of("🇺🇸").modifier(new io.jettra.flux.core.Modifier().attribute("onclick", "changeLang('en')").attribute("title", "English").style("cursor:pointer; font-size:1.2rem; margin-right:8px; display:inline-block;")),
+            io.jettra.flux.widgets.Span.of("🇪🇸").modifier(new io.jettra.flux.core.Modifier().attribute("onclick", "changeLang('es')").attribute("title", "Español").style("cursor:pointer; font-size:1.2rem; display:inline-block;"))
+        );
 
         // --- Professional Top Bar ---
         Widget topBar = Top.of(
@@ -175,9 +142,9 @@ public abstract class TemplatePage extends FluxBaseHandler {
             Row.of(
                 Icon.of( Icon.SEARCH),
                 Icon.of( Icon.BELL),
-                Paragraph.of(langHtml),
+                langSwitcher,
                 ThemeChanged.of().current(currentTheme),
-                Paragraph.of(profileHtml)
+                profileMenu
             ).modifier(new io.jettra.flux.core.Modifier().cssClass("top-right-section").style("gap: 15px; align-items: center;"))
         );
 
