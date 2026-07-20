@@ -43,19 +43,25 @@ public abstract class TemplatePage extends FluxBaseHandler {
 
         io.jettra.flux.model.CredentialFlux credential = (io.jettra.flux.model.CredentialFlux) io.jettra.server.core.JettraContext.getCurrent().get(io.jettra.server.core.JettraContext.Scope.SESSION, "credentialFlux");
         String displayName = username;
-        String photoHtml = "<div style=\"width:32px; height:32px; border-radius:50%; background-color:#3b82f6; color:white; display:flex; align-items:center; justify-content:center; font-weight:bold; margin-right:8px;\">" + userInitial + "</div>";
+        
+        Widget photoWidget = io.jettra.flux.widgets.Avatar.label(userInitial).shape("circle")
+            .modifier(new io.jettra.flux.core.Modifier().style("background-color:#3b82f6; color:white; font-weight:bold; margin-right:8px;"));
 
         if (credential != null) {
             displayName = credential.name() != null && !credential.name().isEmpty() ? credential.name() : username;
             if (credential.photo() != null && !credential.photo().isEmpty()) {
-                photoHtml = "<img src=\"" + credential.photo() + "\" style=\"width:32px; height:32px; border-radius:50%; margin-right:8px; object-fit:cover;\" />";
+                photoWidget = io.jettra.flux.widgets.Avatar.image(credential.photo()).shape("circle")
+                    .modifier(new io.jettra.flux.core.Modifier().style("margin-right:8px;"));
             } else {
-                photoHtml = "<div style=\"width:32px; height:32px; border-radius:50%; background-color:#3b82f6; color:white; display:flex; align-items:center; justify-content:center; font-weight:bold; margin-right:8px;\"><i class=\"fas fa-user\"></i></div>";
+                photoWidget = io.jettra.flux.widgets.Avatar.icon("fas fa-user").shape("circle")
+                    .modifier(new io.jettra.flux.core.Modifier().style("background-color:#3b82f6; color:white; font-weight:bold; margin-right:8px;"));
             }
         }
 
         Widget customCss = Paragraph.of(io.jettra.flux.theme.OceanTheme.Template.CustomCSS + "\n" + io.jettra.flux.theme.OceanTheme.Template.CustomJS);
 
+        
+        // Menu
         WidgetLet ecommMenu = WidgetLet.of("E-Commerce").icon(Icon.HOME);
         ecommMenu.add(WidgetLet.of("Dashboard").icon(Icon.CHART_LINE).url(JettraServer.resolvePath("/dashboard")));
         ecommMenu.add(WidgetLet.of("Product Overview").icon(Icon.SEARCH).url(JettraServer.resolvePath("/product-overview")));
@@ -119,8 +125,9 @@ public abstract class TemplatePage extends FluxBaseHandler {
 
         // User Profile Dropdown
         Widget profileTrigger = Row.of(
-                io.jettra.flux.widgets.RawHtml.of(photoHtml),
-                Icon.of("fas fa-caret-down").modifier(new io.jettra.flux.core.Modifier().style("margin-left:5px;"))
+            photoWidget,
+            io.jettra.flux.widgets.Span.of("").modifier(new io.jettra.flux.core.Modifier().style("font-weight:bold;")),
+            Icon.of("fas fa-caret-down").modifier(new io.jettra.flux.core.Modifier().style("margin-left:5px;"))
         ).modifier(new io.jettra.flux.core.Modifier().style("align-items:center; cursor:pointer;").attribute("title", displayName));
 
         Widget profileMenu = ((io.jettra.flux.widgets.OverlayMenu) io.jettra.flux.widgets.OverlayMenu.of(

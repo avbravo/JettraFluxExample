@@ -50,11 +50,12 @@ public class PersonPage extends TemplatePage {
 
     @Override
     public String getTitle() {
-        return "Forms - JettraFlux Pro";
+        return msg.getProperty("personpage.title");
     }
 
     @ActionWidgetAllow(role = { "ADMIN", "MANAGER" })
     private void saveForm(HttpExchange exchange, Map<String, String> params) {
+    
         IO.println("Formulario recibido con datos (Método de acción seguro): " + params);
 
         List<RuleResult> results = new FluxBinder(personModel)
@@ -63,6 +64,7 @@ public class PersonPage extends TemplatePage {
                 .validate();
 
         IO.print("--> personModel " + personModel.toString() + " " + personModel.getName());
+       
         boolean hasErrors = false;
         StringBuilder errorMsg = new StringBuilder();
         for (RuleResult result : results) {
@@ -89,27 +91,7 @@ public class PersonPage extends TemplatePage {
 
     @Override
     protected Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme) {
-        String lang = "en";
-        String cookies = exchange.getRequestHeaders().getFirst("Cookie");
-        if (cookies != null) {
-            for (String c : cookies.split(";")) {
-                c = c.trim();
-                if (c.startsWith("jettra_lang=")) {
-                    lang = c.substring("jettra_lang=".length());
-                    break;
-                }
-            }
-        }
-        try {
-            String propName = "messages" + ("es".equals(lang) ? "_es" : "") + ".properties";
-            java.io.InputStream is = getClass().getClassLoader().getResourceAsStream(propName);
-            if (is != null) {
-                if (msg == null)
-                    msg = new Properties();
-                msg.load(is);
-            }
-        } catch (Exception e) {
-        }
+        // Language properties are loaded automatically via @InjectProperties DependencyInjector
 
         // Fallback para ActionBinder en caso de no usar _action_method (Se deja por
         // compatibilidad si es necesario,
@@ -131,23 +113,23 @@ public class PersonPage extends TemplatePage {
 
         // --- Vertical Form ---
         Widget verticalForm = Card.of(Column.of(
-                Header.of(4, "Vertical")
+                Header.of(4, msg.getProperty("personpage.subtitle"))
                         .modifier(new Modifier().style("margin-top: 0; margin-bottom: 15px; font-weight: 600;")),
                 Label.of(msg.getProperty("person.name")).forId("name")
                         .modifier(new Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-                TextField.of(msg != null ? msg.getProperty("person.name") : "Name", "Enter your name").id("name")
+                TextField.of(msg != null ? msg.getProperty("person.name") : "Name", msg.getProperty("app.label.enteryour") + ""+msg.getProperty("person.name")).id("name")
                         .binding("name")
                         .modifier(new Modifier().style(
                                 "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
                 Label.of(msg.getProperty("person.email")).forId("email")
                         .modifier(new Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-                TextField.of(msg != null ? msg.getProperty("person.email") : "Email", "Enter your email").id("email")
+                TextField.of(msg != null ? msg.getProperty("person.email") : "Email", msg.getProperty("app.label.enteryour") + ""+msg.getProperty("person.email")).id("email")
                         .binding("email")
                         .modifier(new Modifier().style(
                                 "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
                 Label.of(msg.getProperty("person.age")).forId("age")
                         .modifier(new Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-                TextField.of(msg != null ? msg.getProperty("person.age") : "Age", "Enter your age").id("age")
+                TextField.of(msg != null ? msg.getProperty("person.age") : "Age", msg.getProperty("app.label.enteryour") + ""+msg.getProperty("person.age")).id("age")
                         .binding("age")
                         .modifier(new Modifier().style(
                                 "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")))
@@ -159,7 +141,7 @@ public class PersonPage extends TemplatePage {
                         Grid.of(verticalForm).modifier(new Modifier().style(
                                 "grid-template-columns: 1fr 1fr; gap: 20px; align-items: flex-start; margin-bottom: 20px;")),
                         Row.of(
-                                ElevatedButton.of(msg != null ? msg.getProperty("system.button.save") : "Save")
+                                ElevatedButton.of(msg != null ? msg.getProperty("btn.save") : "Save")
                                         .modifier(new Modifier().style(
                                                 "align-self: flex-start; padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;")))
                                 .modifier(new Modifier()
@@ -169,7 +151,7 @@ public class PersonPage extends TemplatePage {
 
         // --- Center Content ---
         return Column.of(
-                Header.of(2, "Person ")
+                Header.of(2, msg.getProperty("personpage.title"))
                         .modifier(new Modifier().style("margin-top: 0; font-weight: 600; margin-bottom: 20px;")),
                 (alert != null ? alert : Div.of()),
                 mainForm)
