@@ -46,12 +46,17 @@ public class LoginPage extends FluxBaseHandler {
     }
 
     @Override
-    protected Widget buildUI(HttpExchange exchange, Map<String, String> params, String currentTheme) {
+    protected boolean onGet(HttpExchange exchange, Map<String, String> params) throws java.io.IOException {
         if ("true".equals(params.get("logout"))) {
             clearSessionCookie(exchange);
-            try { redirect(exchange, "/login"); } catch (Exception e) {}
-            return Column.of();
+            redirect(exchange, "/login");
+            return true;
         }
+        return false;
+    }
+
+    @Override
+    protected Widget buildUI(HttpExchange exchange, Map<String, String> params, String currentTheme) {
         Widget loginForm = Login.create().action(JettraServer.resolvePath("/login")).title("JettraFlux Admin").logo("https://primefaces.org/cdn/primeng/images/galleria/galleria1.jpg").forgotPasswordUrl(JettraServer.resolvePath("/forgot-password"));
         
         Widget body = Center.of(

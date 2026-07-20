@@ -118,19 +118,31 @@ public abstract class TemplatePage extends FluxBaseHandler {
         // User Profile Dropdown
         Widget profileTrigger = Row.of(
             io.jettra.flux.widgets.RawHtml.of(photoHtml),
-            io.jettra.flux.widgets.Span.of(displayName).modifier(new io.jettra.flux.core.Modifier().style("font-size:14px; font-weight:500; margin-left:5px;")),
             Icon.of("fas fa-caret-down").modifier(new io.jettra.flux.core.Modifier().style("margin-left:5px;"))
-        ).modifier(new io.jettra.flux.core.Modifier().style("align-items:center; cursor:pointer;"));
+        ).modifier(new io.jettra.flux.core.Modifier().style("align-items:center; cursor:pointer;").attribute("title", displayName));
 
         Widget profileMenu = io.jettra.flux.widgets.OverlayMenu.of(
             WidgetLet.of("Logout").icon(Icon.SIGN_OUT_ALT).url(JettraServer.resolvePath("/login?logout=true"))
         ).trigger(profileTrigger);
 
         // Language Switcher
-        Widget langSwitcher = io.jettra.flux.widgets.SelectOneIcon.of(
-            io.jettra.flux.widgets.Span.of("🇺🇸").modifier(new io.jettra.flux.core.Modifier().attribute("onclick", "changeLang('en')").attribute("title", "English").style("cursor:pointer; font-size:1.2rem; margin-right:8px; display:inline-block;")),
-            io.jettra.flux.widgets.Span.of("🇪🇸").modifier(new io.jettra.flux.core.Modifier().attribute("onclick", "changeLang('es')").attribute("title", "Español").style("cursor:pointer; font-size:1.2rem; display:inline-block;"))
-        );
+        String cookieHeader = exchange.getRequestHeaders().getFirst("Cookie");
+        String currentLang = "en";
+        if (cookieHeader != null && cookieHeader.contains("jettra_lang=es")) {
+            currentLang = "es";
+        }
+
+        Widget langTrigger;
+        io.jettra.flux.widgets.WidgetLet langOption;
+        if ("es".equals(currentLang)) {
+            langTrigger = io.jettra.flux.widgets.Span.of("🇪🇸").modifier(new io.jettra.flux.core.Modifier().attribute("title", "Español").style("cursor:pointer; font-size:1.2rem;"));
+            langOption = (io.jettra.flux.widgets.WidgetLet) io.jettra.flux.widgets.WidgetLet.of("🇺🇸").url(JettraServer.resolvePath("/change-lang?lang=en")).modifier(new io.jettra.flux.core.Modifier().attribute("title", "English"));
+        } else {
+            langTrigger = io.jettra.flux.widgets.Span.of("🇺🇸").modifier(new io.jettra.flux.core.Modifier().attribute("title", "English").style("cursor:pointer; font-size:1.2rem;"));
+            langOption = (io.jettra.flux.widgets.WidgetLet) io.jettra.flux.widgets.WidgetLet.of("🇪🇸").url(JettraServer.resolvePath("/change-lang?lang=es")).modifier(new io.jettra.flux.core.Modifier().attribute("title", "Español"));
+        }
+        
+        Widget langSwitcher = io.jettra.flux.widgets.OverlayMenu.of(langOption).trigger(langTrigger);
 
         // --- Professional Top Bar ---
         Widget topBar = Top.of(
