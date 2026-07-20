@@ -34,7 +34,7 @@ import java.util.Properties;
 import io.jettra.core.server.Page;
 
 @JettraPageSincronized(SyncType.ALL)
-@PageWidgetAllow(role = {"ADMIN", "MANAGER"}, department = "")
+@PageWidgetAllow(role = { "ADMIN", "MANAGER" }, department = "")
 @Page(path = "/person")
 public class PersonPage extends TemplatePage {
 
@@ -53,7 +53,7 @@ public class PersonPage extends TemplatePage {
         return "Forms - JettraFlux Pro";
     }
 
-    @ActionWidgetAllow(role = {"ADMIN", "MANAGER"})
+    @ActionWidgetAllow(role = { "ADMIN", "MANAGER" })
     private void saveForm(HttpExchange exchange, Map<String, String> params) {
         IO.println("Formulario recibido con datos (Método de acción seguro): " + params);
 
@@ -76,7 +76,8 @@ public class PersonPage extends TemplatePage {
             IO.println("Error de validación: " + errorMsg.toString());
             try {
                 redirect(exchange, "/person?error=" + java.net.URLEncoder.encode(errorMsg.toString(), "UTF-8"));
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         } else {
             JettraSyncManager.notifyChange("PersonModel", SyncType.UPDATE, getLoggedUser(exchange));
             try {
@@ -103,12 +104,15 @@ public class PersonPage extends TemplatePage {
             String propName = "messages" + ("es".equals(lang) ? "_es" : "") + ".properties";
             java.io.InputStream is = getClass().getClassLoader().getResourceAsStream(propName);
             if (is != null) {
-                if (msg == null) msg = new Properties();
+                if (msg == null)
+                    msg = new Properties();
                 msg.load(is);
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
-        // Fallback para ActionBinder en caso de no usar _action_method (Se deja por compatibilidad si es necesario, 
+        // Fallback para ActionBinder en caso de no usar _action_method (Se deja por
+        // compatibilidad si es necesario,
         // pero preferimos el _action_method)
         new io.jettra.flux.core.ActionBinder(params)
                 .on("nombre", p -> {
@@ -121,35 +125,55 @@ public class PersonPage extends TemplatePage {
             alert = Notification.of(Paragraph.of("¡Formulario enviado correctamente!"));
         } else if (params.get("error") != null) {
             alert = Notification.of(Paragraph.of("Error: " + params.get("error")))
-                .modifier(new Modifier().style("background-color: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 6px; margin-bottom: 10px; width: 100%;"));
+                    .modifier(new Modifier().style(
+                            "background-color: #fee2e2; color: #b91c1c; padding: 10px; border-radius: 6px; margin-bottom: 10px; width: 100%;"));
         }
 
         // --- Vertical Form ---
         Widget verticalForm = Card.of(Column.of(
-                Header.of(4, "Vertical").modifier(new Modifier().style("margin-top: 0; margin-bottom: 15px; font-weight: 600;")),
-                Label.of("Name").forId("name").modifier(new Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-                TextField.of(msg != null ? msg.getProperty("person.name") : "Name", "Enter your name").id("name").binding("name").modifier(new Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
-                Label.of("Email").forId("email").modifier(new Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-                TextField.of(msg != null ? msg.getProperty("person.email") : "Email", "Enter your email").id("email").binding("email").modifier(new Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
-                Label.of("Age").forId("age").modifier(new Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-                TextField.of(msg != null ? msg.getProperty("person.age") : "Age", "Enter your age").id("age").binding("age").modifier(new Modifier().style("margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;"))
-        ).modifier(new Modifier().style("width: 100%; align-items: stretch; gap: 5px;")));
+                Header.of(4, "Vertical")
+                        .modifier(new Modifier().style("margin-top: 0; margin-bottom: 15px; font-weight: 600;")),
+                Label.of(msg.getProperty("person.name")).forId("name")
+                        .modifier(new Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
+                TextField.of(msg != null ? msg.getProperty("person.name") : "Name", "Enter your name").id("name")
+                        .binding("name")
+                        .modifier(new Modifier().style(
+                                "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
+                Label.of(msg.getProperty("person.email")).forId("email")
+                        .modifier(new Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
+                TextField.of(msg != null ? msg.getProperty("person.email") : "Email", "Enter your email").id("email")
+                        .binding("email")
+                        .modifier(new Modifier().style(
+                                "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
+                Label.of(msg.getProperty("person.age")).forId("age")
+                        .modifier(new Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
+                TextField.of(msg != null ? msg.getProperty("person.age") : "Age", "Enter your age").id("age")
+                        .binding("age")
+                        .modifier(new Modifier().style(
+                                "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")))
+                .modifier(new Modifier().style("width: 100%; align-items: stretch; gap: 5px;")));
 
         // Submit form wrapper
         Widget mainForm = Form.of(
                 Column.of(
-                        Grid.of(verticalForm).modifier(new Modifier().style("grid-template-columns: 1fr 1fr; gap: 20px; align-items: flex-start; margin-bottom: 20px;")),
+                        Grid.of(verticalForm).modifier(new Modifier().style(
+                                "grid-template-columns: 1fr 1fr; gap: 20px; align-items: flex-start; margin-bottom: 20px;")),
                         Row.of(
-                                ElevatedButton.of("Guardar Cambios").modifier(new Modifier().style("align-self: flex-start; padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;"))
-                        ).modifier(new Modifier().style("display: flex; flex-direction: row; align-items: center;"))
-                ).modifier(new Modifier().style("width: 100%;"))
-        ).action(JettraServer.resolvePath("/person?_action_method=saveForm")).method("POST");
+                                ElevatedButton.of(msg != null ? msg.getProperty("system.button.save") : "Save")
+                                        .modifier(new Modifier().style(
+                                                "align-self: flex-start; padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;")))
+                                .modifier(new Modifier()
+                                        .style("display: flex; flex-direction: row; align-items: center;")))
+                        .modifier(new Modifier().style("width: 100%;")))
+                .action(JettraServer.resolvePath("/person?_action_method=saveForm")).method("POST");
 
         // --- Center Content ---
         return Column.of(
-                Header.of(2, "Person ").modifier(new Modifier().style("margin-top: 0; font-weight: 600; margin-bottom: 20px;")),
+                Header.of(2, "Person ")
+                        .modifier(new Modifier().style("margin-top: 0; font-weight: 600; margin-bottom: 20px;")),
                 (alert != null ? alert : Div.of()),
-                mainForm
-        ).modifier(new Modifier().style("width: 100%; align-items: flex-start; max-width: 1200px; padding: 20px;"));
+                mainForm)
+                .modifier(new Modifier()
+                        .style("width: 100%; align-items: flex-start; max-width: 1200px; padding: 20px;"));
     }
 }
