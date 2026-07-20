@@ -172,72 +172,24 @@ public class PersonPage extends TemplatePage {
                                 ElevatedButton.of(Row.of(Icon.of("fas fa-globe"), Text.of(" Send Global").modifier(new io.jettra.flux.core.Modifier().style("margin-left:5px;"))))
                                         .modifier(new io.jettra.flux.core.Modifier().style("margin-left:10px; background-color: #0d6efd; color: white; padding: 10px 15px; border:none; border-radius:6px; cursor:pointer; font-weight:600;"))
                                         .onClick(c -> {
-                                            io.jettra.server.core.JettraContext ctx = io.jettra.server.core.JettraContext.getCurrent();
-                                            String role = ctx != null ? (String) ctx.get(io.jettra.server.core.JettraContext.Scope.SESSION, "role") : "";
-                                            if (!"ADMIN".equals(role) && !"MANAGER".equals(role)) return; // Security Check
-                                            
-                                            java.util.Map<String, java.util.Map<String, Object>> allSessions = io.jettra.server.core.JettraContext.getSessions();
-                                            if (allSessions != null) {
-                                                for (java.util.Map.Entry<String, java.util.Map<String, Object>> entry : allSessions.entrySet()) {
-                                                    java.util.Map<String, Object> sessionVars = entry.getValue();
-                                                    if (sessionVars != null) {
-                                                        java.util.Map<String, io.jettra.flux.widgets.NotificationTop> notifs = (java.util.Map<String, io.jettra.flux.widgets.NotificationTop>) sessionVars.get("template_notifications");
-                                                        if (notifs != null) {
-                                                            io.jettra.flux.widgets.NotificationTop globalNt = notifs.get("global_notif");
-                                                            if (globalNt != null && globalNt.getType() == io.jettra.flux.widgets.NotificationTop.NotificationTopType.GLOBAL) {
-                                                                globalNt.value = (globalNt.value != null ? globalNt.value : 0) + 1;
-                                                                globalNt.addMessage("Alerta Global: Sistema actualizado");
-                                                            }
-                                                        }
-                                                    }
-                                                }
+                                            if (hasRoleAdminOrManager()) {
+                                                io.jettra.flux.widgets.NotificationTop.broadcast("global_notif", io.jettra.flux.widgets.NotificationTop.NotificationTopType.GLOBAL, "Alerta Global: Sistema actualizado");
                                             }
                                         }),
                                         
                                 ElevatedButton.of(Row.of(Icon.of("fas fa-envelope"), Text.of(" Send Personal").modifier(new io.jettra.flux.core.Modifier().style("margin-left:5px;"))))
                                         .modifier(new io.jettra.flux.core.Modifier().style("margin-left:10px; background-color: #17a2b8; color: white; padding: 10px 15px; border:none; border-radius:6px; cursor:pointer; font-weight:600;"))
                                         .onClick(c -> {
-                                            io.jettra.server.core.JettraContext ctx = io.jettra.server.core.JettraContext.getCurrent();
-                                            String role = ctx != null ? (String) ctx.get(io.jettra.server.core.JettraContext.Scope.SESSION, "role") : "";
-                                            if (!"ADMIN".equals(role) && !"MANAGER".equals(role)) return; // Security Check
-                                            
-                                            if (ctx != null) {
-                                                java.util.Map<String, io.jettra.flux.widgets.NotificationTop> notifs = (java.util.Map<String, io.jettra.flux.widgets.NotificationTop>) ctx.get(io.jettra.server.core.JettraContext.Scope.SESSION, "template_notifications");
-                                                if (notifs != null) {
-                                                    io.jettra.flux.widgets.NotificationTop personalNt = notifs.get("personal_notif");
-                                                    if (personalNt != null && personalNt.getType() == io.jettra.flux.widgets.NotificationTop.NotificationTopType.PERSONAL) {
-                                                        personalNt.value = (personalNt.value != null ? personalNt.value : 0) + 1;
-                                                        personalNt.addMessage("Mensaje Privado: Tienes un nuevo correo");
-                                                    }
-                                                }
+                                            if (hasRoleAdminOrManager()) {
+                                                io.jettra.flux.widgets.NotificationTop.broadcast("personal_notif", io.jettra.flux.widgets.NotificationTop.NotificationTopType.PERSONAL, "Mensaje Privado: Tienes un nuevo correo");
                                             }
                                         }),
                                         
                                 ElevatedButton.of(Row.of(Icon.of("fas fa-bullhorn"), Text.of(" Send Channel").modifier(new io.jettra.flux.core.Modifier().style("margin-left:5px;"))))
                                         .modifier(new io.jettra.flux.core.Modifier().style("margin-left:10px; background-color: #dc3545; color: white; padding: 10px 15px; border:none; border-radius:6px; cursor:pointer; font-weight:600;"))
                                         .onClick(c -> {
-                                            io.jettra.server.core.JettraContext ctx = io.jettra.server.core.JettraContext.getCurrent();
-                                            String role = ctx != null ? (String) ctx.get(io.jettra.server.core.JettraContext.Scope.SESSION, "role") : "";
-                                            if (!"ADMIN".equals(role) && !"MANAGER".equals(role)) return; // Security Check
-                                            
-                                            String currId = ctx != null ? ctx.getSessionId() : null;
-                                            java.util.Map<String, java.util.Map<String, Object>> allSessions = io.jettra.server.core.JettraContext.getSessions();
-                                            if (allSessions != null) {
-                                                for (java.util.Map.Entry<String, java.util.Map<String, Object>> entry : allSessions.entrySet()) {
-                                                    if (currId == null || !entry.getKey().equals(currId)) {
-                                                        java.util.Map<String, Object> sessionVars = entry.getValue();
-                                                        if (sessionVars != null) {
-                                                            java.util.Map<String, io.jettra.flux.widgets.NotificationTop> notifs = (java.util.Map<String, io.jettra.flux.widgets.NotificationTop>) sessionVars.get("template_notifications");
-                                                            if (notifs != null) {
-                                                                io.jettra.flux.widgets.NotificationTop channelNt = notifs.get("channel_notif");
-                                                                if (channelNt != null && channelNt.getType() == io.jettra.flux.widgets.NotificationTop.NotificationTopType.CHANNEL && "admin_channel".equals(channelNt.getChannel())) {
-                                                                    channelNt.value = (channelNt.value != null ? channelNt.value : 0) + 1;
-                                                                    channelNt.addMessage("Canal Admins: Nuevo reporte disponible");
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
+                                            if (hasRoleAdminOrManager()) {
+                                                io.jettra.flux.widgets.NotificationTop.broadcast("channel_notif", io.jettra.flux.widgets.NotificationTop.NotificationTopType.CHANNEL, "Canal Admins: Nuevo reporte disponible");
                                             }
                                         })
                                 )
@@ -254,5 +206,11 @@ public class PersonPage extends TemplatePage {
                 mainForm)
                 .modifier(new io.jettra.flux.core.Modifier()
                         .style("width: 100%; align-items: flex-start; max-width: 1200px; padding: 20px;"));
+    }
+
+    private boolean hasRoleAdminOrManager() {
+        io.jettra.server.core.JettraContext ctx = io.jettra.server.core.JettraContext.getCurrent();
+        String role = ctx != null ? (String) ctx.get(io.jettra.server.core.JettraContext.Scope.SESSION, "role") : "";
+        return "ADMIN".equals(role) || "MANAGER".equals(role);
     }
 }
