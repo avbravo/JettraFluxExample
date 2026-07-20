@@ -19,12 +19,34 @@ import io.jettra.flux.widgets.SidebarLogo;
 import io.jettra.flux.widgets.ThemeChanged;
 import io.jettra.flux.widgets.Top;
 import io.jettra.flux.widgets.WidgetLet;
+import io.jettra.flux.widgets.NotificationTop;
 import io.jettra.server.JettraServer;
 import java.util.Map;
+
 
 public abstract class TemplatePage extends FluxBaseHandler {
 
     protected abstract Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme);
+
+    public static NotificationTop getNotificationTop(String idnotification) {
+        io.jettra.server.core.JettraContext ctx = io.jettra.server.core.JettraContext.getCurrent();
+        if (ctx == null) return null;
+        
+        Map<String, NotificationTop> notifications = 
+            (Map<String, NotificationTop>) ctx.get(io.jettra.server.core.JettraContext.Scope.SESSION, "template_notifications");
+            
+        if (notifications == null) {
+            notifications = new java.util.HashMap<>();
+            ctx.set(io.jettra.server.core.JettraContext.Scope.SESSION, "template_notifications", notifications);
+        }
+        
+        NotificationTop nt = notifications.get(idnotification);
+        if (nt == null) {
+            nt = NotificationTop.of().binding(idnotification);
+            notifications.put(idnotification, nt);
+        }
+        return nt;
+    }
 
     @Override
     protected Widget buildUI(HttpExchange exchange, Map<String, String> params, String currentTheme) {
@@ -153,7 +175,10 @@ public abstract class TemplatePage extends FluxBaseHandler {
 
         Widget langSwitcher = ((io.jettra.flux.widgets.OverlayMenu) io.jettra.flux.widgets.OverlayMenu.of(langOption).trigger(langTrigger)).alignRight();
 
-        // --- Professional Top Bar ---
+        NotificationTop globalNotif = getNotificationTop("global_notif").type(NotificationTop.NotificationTopType.GLOBAL).icon(Icon.of("fas fa-globe"));
+        NotificationTop personalNotif = getNotificationTop("personal_notif").type(NotificationTop.NotificationTopType.PERSONAL).icon(Icon.of("fas fa-envelope"));
+        NotificationTop channelNotif = getNotificationTop("channel_notif").type(NotificationTop.NotificationTopType.CHANNEL).channel("admin_channel").icon(Icon.of("fas fa-bullhorn"));
+
         Widget topBar = Top.of(
                 Row.of(
                         ActionIcon.of(Icon.BARS + " top-bars-icon", "toggleSidebar()"),
@@ -161,7 +186,9 @@ public abstract class TemplatePage extends FluxBaseHandler {
                 ).modifier(new io.jettra.flux.core.Modifier().cssClass("top-left-section")),
                 Row.of(
                         Icon.of(Icon.SEARCH),
-                        Icon.of(Icon.BELL),
+                        globalNotif,
+                        personalNotif,
+                        channelNotif,
                         langSwitcher,
                         ThemeChanged.of().current(currentTheme),
                         profileMenu

@@ -1,7 +1,5 @@
 package com.flux.example;
 
-import com.flux.example.pages.example.PersonPage;
-import com.flux.example.pages.uikit.uicomponents.IconPage;
 import io.jettra.rest.server.JettraRestServer;
 import io.jettra.server.JettraServer;
 import io.jettra.server.config.ConfigInjector;
