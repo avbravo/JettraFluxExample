@@ -33,8 +33,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import io.jettra.core.server.Page;
+import io.jettra.flux.widgets.Alert;
 import io.jettra.flux.widgets.Icon;
 import io.jettra.flux.widgets.Text;
+import io.jettra.server.core.JettraContext;
 
 @JettraPageSincronized(SyncType.ALL)
 @PageWidgetAllow(role = { "ADMIN", "MANAGER" }, department = "")
@@ -86,28 +88,7 @@ public class PersonPage extends TemplatePage {
         } else {
             JettraSyncManager.notifyChange("PersonModel", SyncType.UPDATE, getLoggedUser(exchange));
             
-            io.jettra.server.core.JettraContext ctx = io.jettra.server.core.JettraContext.getCurrent();
-            String currId = ctx != null ? ctx.getSessionId() : null;
-            
-            java.util.Map<String, java.util.Map<String, Object>> allSessions = io.jettra.server.core.JettraContext.getSessions();
-            if (allSessions != null) {
-                for (java.util.Map.Entry<String, java.util.Map<String, Object>> entry : allSessions.entrySet()) {
-                    if (currId == null || !entry.getKey().equals(currId)) {
-                        java.util.Map<String, Object> sessionVars = entry.getValue();
-                        if (sessionVars != null) {
-                            java.util.Map<String, io.jettra.flux.widgets.NotificationTop> notifs = 
-                                (java.util.Map<String, io.jettra.flux.widgets.NotificationTop>) sessionVars.get("template_notifications");
-                            if (notifs != null) {
-                                io.jettra.flux.widgets.NotificationTop otherNt = notifs.get("main_notification");
-                                if (otherNt != null) {
-                                    otherNt.value = (otherNt.value != null ? otherNt.value : 0) + 1;
-                                    otherNt.addMessage("Nueva persona agregada: " + personModel.getName());
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            io.jettra.flux.widgets.NotificationTop.broadcast("main_notification", io.jettra.flux.widgets.NotificationTop.NotificationTopType.GLOBAL, "Nueva persona agregada: " + personModel.getName());
 
             try {
                 redirect(exchange, "/person?success=true");
@@ -118,8 +99,9 @@ public class PersonPage extends TemplatePage {
 
     @Override
     protected Widget buildCenter(HttpExchange exchange, Map<String, String> params, String currentTheme) {
-        Properties msg = (Properties) JettraContext.getCurrent().get(JettraContext.Scope.REQUEST, "messages");
+       // Properties msg = (Properties) JettraContext.getCurrent().get(JettraContext.Scope.REQUEST, "messages");
         
+       // Muestra como guardar y recuperar objetos de la sesion
         PersonModel personModel = (PersonModel) JettraContext.getCurrent().get(JettraContext.Scope.SESSION, "personForm");
         if (personModel == null) {
             personModel = new PersonModel();
@@ -128,10 +110,10 @@ public class PersonPage extends TemplatePage {
 
         Widget alert = null;
         if ("true".equals(params.get("success"))) {
-            alert = Alert.of(msg.getProperty("app.label.success")).severity("success")
+            alert = Alert.of(Text.of(msg.getProperty("app.label.success"))).severity("success")
                     .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 20px; width: 100%;"));
         } else if ("true".equals(params.get("error"))) {
-            alert = Alert.of(msg.getProperty("app.label.error")).severity("danger")
+            alert = Alert.of(Text.of(msg.getProperty("app.label.error"))).severity("danger")
                     .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 20px; width: 100%;"));
         }
 
@@ -209,8 +191,7 @@ public class PersonPage extends TemplatePage {
     }
 
     private boolean hasRoleAdminOrManager() {
-        io.jettra.server.core.JettraContext ctx = io.jettra.server.core.JettraContext.getCurrent();
-        String role = ctx != null ? (String) ctx.get(io.jettra.server.core.JettraContext.Scope.SESSION, "role") : "";
+        String role = io.jettra.server.core.JettraContext.Scope.SESSION.getRole();
         return "ADMIN".equals(role) || "MANAGER".equals(role);
     }
 }
