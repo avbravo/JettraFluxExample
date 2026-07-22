@@ -73,6 +73,7 @@ public class LoginPage extends FluxBaseHandler {
                     Paragraph.of("El nombre de usuario o la contraseña ingresados no son válidos. Por favor verifique sus credenciales.")
                             .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 20px; color: #374151; font-size: 14px;")),
                     io.jettra.flux.widgets.ElevatedButton.of("Aceptar")
+                            .attribute("type", "button")
                             .attribute("onclick", "this.closest('.espresso-modal-overlay').style.display='none'; return false;")
                             .modifier(new io.jettra.flux.core.Modifier().style("background-color: #ef4444; color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: 500; align-self: flex-end;"))
                 ).modifier(new io.jettra.flux.core.Modifier().style("width: 100%; max-width: 400px; gap: 10px;"))
