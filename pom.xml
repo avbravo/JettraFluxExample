@@ -108,7 +108,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.facli.server.App</mainClass>
+                            <mainClass>${main.class.path}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

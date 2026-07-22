@@ -18,12 +18,12 @@ public class PersonModel {
 
     @NotNull
     @PropertiesLabel(value = "person.name", label = "Nombre")
-    String name;
+    public String name = "name";
     @PropertiesLabel(value = "person.email", label = "Email")
-    String email;
+    public String email = "email";
     @Min(value = 0)
     @PropertiesLabel(value = "person.age", label = "Edad")
-    Integer age;
+    public Integer age = 0;
 
     public PersonModel() {
     }

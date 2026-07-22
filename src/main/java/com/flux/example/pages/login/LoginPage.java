@@ -66,13 +66,21 @@ public class LoginPage extends FluxBaseHandler {
         );
 
         if (params.containsKey("error")) {
-            Widget errorAlert = Notification.of(
-                Paragraph.of("Error: Username y/o password no válidos"),
-                Paragraph.of("<script>alert('Error: Username y/o password no válidos');</script>")
-            ).modifier(new io.jettra.flux.core.Modifier().style("background-color: #fee2e2; color: #b91c1c; padding: 10px 15px; border-radius: 6px; border: 1px solid #f87171; margin-bottom: 20px; font-weight: 500; text-align: center; width: 100%; max-width: 400px;"));
+            Widget errorDialog = io.jettra.flux.widgets.Modal.of(
+                Column.of(
+                    io.jettra.flux.widgets.Header.of(4, "Advertencia de Autenticación")
+                            .modifier(new io.jettra.flux.core.Modifier().style("color: #b91c1c; margin-top: 0; margin-bottom: 10px; font-weight: 600;")),
+                    Paragraph.of("El nombre de usuario o la contraseña ingresados no son válidos. Por favor verifique sus credenciales.")
+                            .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 20px; color: #374151; font-size: 14px;")),
+                    io.jettra.flux.widgets.ElevatedButton.of("Aceptar")
+                            .attribute("onclick", "this.closest('.espresso-modal-overlay').style.display='none'; return false;")
+                            .modifier(new io.jettra.flux.core.Modifier().style("background-color: #ef4444; color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: 500; align-self: flex-end;"))
+                ).modifier(new io.jettra.flux.core.Modifier().style("width: 100%; max-width: 400px; gap: 10px;"))
+            ).open(true);
+
             body = Center.of(
                 Column.of(
-                    errorAlert,
+                    errorDialog,
                     loginForm
                 )
             );

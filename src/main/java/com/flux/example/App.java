@@ -66,7 +66,7 @@ public class App {
 //        server.addHandler("/order-summary", com.flux.example.pages.ecomerce.OrderSummaryPage.class);
         
         //Example
-//        server.addHandler("/person", PersonPage.class);
+        server.addHandler("/person", com.flux.example.pages.example.PersonPage.class);
 
         // Apps
 //        server.addHandler("/chat", com.flux.example.pages.apps.ChatPage.class);

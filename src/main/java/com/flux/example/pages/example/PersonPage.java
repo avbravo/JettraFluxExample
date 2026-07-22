@@ -64,18 +64,22 @@ public class PersonPage extends TemplatePage {
         IO.println("Formulario recibido con datos (Método de acción seguro): " + params);
 
         List<RuleResult> results = new FluxBinder(personModel)
+                .messages(msg)
                 .bind(params)
                 .compute()
                 .validate();
 
         IO.print("--> personModel " + personModel.toString() + " " + personModel.getName());
-       
+       IO.println("results --> "+results);
         boolean hasErrors = false;
         StringBuilder errorMsg = new StringBuilder();
         for (RuleResult result : results) {
             if (!result.isValid()) {
                 hasErrors = true;
-                errorMsg.append(result.getMessage()).append(" ");
+                if (errorMsg.length() > 0) {
+                    errorMsg.append(" | ");
+                }
+                errorMsg.append(result.getMessage());
             }
         }
 
@@ -108,35 +112,55 @@ public class PersonPage extends TemplatePage {
             JettraContext.getCurrent().set(JettraContext.Scope.SESSION, "personForm", personModel);
         }
 
+        String successMsgStr = (msg != null && msg.getProperty("app.label.success") != null) ? msg.getProperty("app.label.success") : "Registro guardado exitosamente.";
+        String defaultErrorMsgStr = (msg != null && msg.getProperty("app.label.error") != null) ? msg.getProperty("app.label.error") : "Error al guardar el registro.";
+        String enterYour = (msg != null && msg.getProperty("app.label.enteryour") != null) ? msg.getProperty("app.label.enteryour") : "Ingrese su ";
+        String nameLabel = (msg != null && msg.getProperty("person.name") != null) ? msg.getProperty("person.name") : "Nombre";
+        String emailLabel = (msg != null && msg.getProperty("person.email") != null) ? msg.getProperty("person.email") : "Correo";
+        String ageLabel = (msg != null && msg.getProperty("person.age") != null) ? msg.getProperty("person.age") : "Edad";
+        String subtitleStr = (msg != null && msg.getProperty("personpage.subtitle") != null) ? msg.getProperty("personpage.subtitle") : "Registros de Persona";
+
         Widget alert = null;
         if ("true".equals(params.get("success"))) {
-            alert = Alert.of(Text.of(msg.getProperty("app.label.success"))).severity("success")
+            alert = Alert.of(Text.of(successMsgStr)).severity("success")
                     .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 20px; width: 100%;"));
-        } else if ("true".equals(params.get("error"))) {
-            alert = Alert.of(Text.of(msg.getProperty("app.label.error"))).severity("danger")
-                    .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 20px; width: 100%;"));
+        } else if (params.containsKey("error")) {
+            String rawErr = params.get("error");
+            String errorMsgStr = "true".equals(rawErr) ? defaultErrorMsgStr : rawErr;
+            alert = Alert.of(
+                Column.of(
+                    Header.of(4, "Error de Validación de Reglas (JettraRules)")
+                            .modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; margin-bottom: 5px; color: #b91c1c; font-weight: 600; font-size: 15px;")),
+                    Paragraph.of(errorMsgStr)
+                            .modifier(new io.jettra.flux.core.Modifier().style("color: #7f1d1d; font-weight: 500; font-size: 14px; margin: 0;"))
+                ).modifier(new io.jettra.flux.core.Modifier().style("align-items: flex-start; gap: 4px;"))
+            ).severity("danger")
+             .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 20px; width: 100%; border: 1px solid #f87171; background-color: #fee2e2; border-radius: 6px; padding: 12px 16px;"));
         }
 
         // --- Vertical Form ---
         Widget verticalForm = Card.of(Column.of(
-                Header.of(4, msg.getProperty("personpage.subtitle"))
+                Header.of(4, subtitleStr)
                         .modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; margin-bottom: 15px; font-weight: 600;")),
-                Label.of(msg.getProperty("person.name")).forId("name")
+                Label.of(nameLabel).forId("name")
                         .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-                TextField.of(msg != null ? msg.getProperty("person.name") : "Name", msg.getProperty("app.label.enteryour") + ""+msg.getProperty("person.name")).id("name")
-                        .binding("name")
+                TextField.of(nameLabel, enterYour + nameLabel).id("name")
+                        .binding(personModel.name)
+                        .value(personModel.getName())
                         .modifier(new io.jettra.flux.core.Modifier().style(
                                 "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
-                Label.of(msg.getProperty("person.email")).forId("email")
+                Label.of(emailLabel).forId("email")
                         .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-                TextField.of(msg != null ? msg.getProperty("person.email") : "Email", msg.getProperty("app.label.enteryour") + ""+msg.getProperty("person.email")).id("email")
-                        .binding("email")
+                TextField.of(emailLabel, enterYour + emailLabel).id("email")
+                        .binding(personModel.email)
+                        .value(personModel.getEmail())
                         .modifier(new io.jettra.flux.core.Modifier().style(
                                 "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
-                Label.of(msg.getProperty("person.age")).forId("age")
+                Label.of(ageLabel).forId("age")
                         .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
-                TextField.of(msg != null ? msg.getProperty("person.age") : "Age", msg.getProperty("app.label.enteryour") + ""+msg.getProperty("person.age")).id("age")
-                        .binding("age")
+                TextField.of(ageLabel, enterYour + ageLabel).id("age")
+                        .binding(personModel.age)
+                        .value(personModel.getAge())
                         .modifier(new io.jettra.flux.core.Modifier().style(
                                 "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")))
                 .modifier(new io.jettra.flux.core.Modifier().style("width: 100%; align-items: stretch; gap: 5px;")));
