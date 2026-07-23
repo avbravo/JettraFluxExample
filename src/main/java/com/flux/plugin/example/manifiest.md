@@ -1,5 +1,0 @@
-# Plugin :Example
-
-**Code**: PE
-
-
