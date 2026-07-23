@@ -1,4 +1,4 @@
-package com.flux.example.pages.usermanagement;
+package com.flux.plugin.example.pages.usermanagement;
 
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
