@@ -1,6 +1,6 @@
 package com.flux.example.pages;
 
-import com.flux.example.model.PersonModel;
+import com.flux.plugin.example.model.PersonModel;
 import io.jettra.flux.binding.FluxBinder;
 import io.jettra.rules.core.RuleResult;
 import io.jettra.test.annotation.JettraTest;

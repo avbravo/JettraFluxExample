@@ -66,9 +66,9 @@ public class App {
 //        server.addHandler("/order-summary", com.flux.example.pages.ecomerce.OrderSummaryPage.class);
         
         //Example
-        server.addHandler("/person", com.flux.example.pages.example.PersonPage.class);
-        server.addHandler("/reglas", com.flux.example.pages.example.ReglasPage.class);
-        server.addHandler("/rules", com.flux.example.pages.example.RulesPage.class);
+        server.addHandler("/person", com.flux.plugin.example.pages.example.PersonPage.class);
+        server.addHandler("/reglas", com.flux.plugin.example.pages.example.ReglasPage.class);
+        server.addHandler("/rules", com.flux.plugin.example.pages.example.RulesPage.class);
 
         // Apps
 //        server.addHandler("/chat", com.flux.example.pages.apps.ChatPage.class);
@@ -93,7 +93,7 @@ public class App {
 //        server.addHandler("/panel", com.flux.example.pages.uikit.uicomponents.PanelPage.class);
 //        server.addHandler("/message", com.flux.example.pages.uikit.uicomponents.MessagePage.class);
 //        server.addHandler("/misc", com.flux.example.pages.uikit.uicomponents.MiscPage.class);
-        server.addHandler("/tree", com.flux.example.pages.uikit.uicomponents.TreePage.class);
+        server.addHandler("/tree", com.flux.plugin.example.pages.uikit.uicomponents.TreePage.class);
 //        server.addHandler("/overlay", com.flux.example.pages.uikit.uicomponents.OverlayPage.class);
 //        server.addHandler("/media", com.flux.example.pages.uikit.uicomponents.MediaPage.class);
 //        server.addHandler("/menu", com.flux.example.pages.uikit.uicomponents.MenuPage.class);

@@ -1,6 +1,6 @@
 package com.flux.example.pages;
 
-import com.flux.example.pages.uikit.uicomponents.FormsPage;
+import com.flux.plugin.example.pages.uikit.uicomponents.FormsPage;
 import io.jettra.test.annotation.JettraTest;
 import io.jettra.test.core.JettraAssert;
 
