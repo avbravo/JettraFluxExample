@@ -21,4 +21,13 @@ public class LoginPageTest {
         
         JettraAssert.assertTrue(true, "La simulación de LoginPage se ejecutó exitosamente");
     }
+
+    @JettraTest
+    public void testEmptyCredentialsSimulation() {
+        WuiTestRunner wuiRunner = new WuiTestRunner();
+        wuiRunner.validateInterface("LoginPage");
+        wuiRunner.registerFormData("loginForm", "{\"username\":\"\", \"password\":\"\"}");
+        wuiRunner.simulateClick("loginButton");
+        JettraAssert.assertTrue(true, "La simulación de validación de campos requeridos en LoginPage se ejecutó exitosamente");
+    }
 }

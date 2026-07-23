@@ -28,21 +28,22 @@ public class LoginPage extends FluxBaseHandler {
 
     @Override
     protected boolean onPost(HttpExchange exchange, Map<String, String> params) throws java.io.IOException {
-        if (params.containsKey("username")) {
-            String user = params.get("username");
-            String pass = params.get("password");
-            if (isValidUser(user, pass)) {
-                CredentialFlux credentialFlux = new CredentialFlux(user, user + "Prueba", "ADMIN", "", "");
-                io.jettra.server.core.JettraContext.getCurrent().set(io.jettra.server.core.JettraContext.Scope.SESSION, "credentialFlux", credentialFlux);
-                setSessionCookie(exchange, user, credentialFlux.role(), credentialFlux.department());
-                redirect(exchange, "/dashboard");
-                return true;
-            } else {
-                redirect(exchange, "/login?error=invalid_credentials");
-                return true;
-            }
+        String user = params.get("username");
+        String pass = params.get("password");
+        if (user == null || user.trim().isEmpty() || pass == null || pass.trim().isEmpty()) {
+            redirect(exchange, "/login?error=empty_fields");
+            return true;
         }
-        return false;
+        if (isValidUser(user, pass)) {
+            CredentialFlux credentialFlux = new CredentialFlux(user, user + "Prueba", "ADMIN", "", "");
+            io.jettra.server.core.JettraContext.getCurrent().set(io.jettra.server.core.JettraContext.Scope.SESSION, "credentialFlux", credentialFlux);
+            setSessionCookie(exchange, user, credentialFlux.role(), credentialFlux.department());
+            redirect(exchange, "/dashboard");
+            return true;
+        } else {
+            redirect(exchange, "/login?error=invalid_credentials");
+            return true;
+        }
     }
 
     @Override
@@ -66,11 +67,24 @@ public class LoginPage extends FluxBaseHandler {
         );
 
         if (params.containsKey("error")) {
+            String errorParam = params.get("error");
+            String titleStr = "Advertencia de Autenticación";
+            String msgStr = "El nombre de usuario o la contraseña ingresados no son válidos. Por favor verifique sus credenciales.";
+            
+            if ("empty_fields".equals(errorParam) || "empty".equals(errorParam)) {
+                titleStr = "Campos Requeridos";
+                msgStr = "Error: Username y password son requeridos.";
+            }
+
+            Widget notificationBanner = Notification.of(
+                Paragraph.of(msgStr).modifier(new io.jettra.flux.core.Modifier().style("margin: 0; color: #b91c1c; font-weight: 600;"))
+            ).modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 15px; padding: 12px 16px; background-color: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; width: 100%; max-width: 400px; box-sizing: border-box;"));
+
             Widget errorDialog = io.jettra.flux.widgets.Modal.of(
                 Column.of(
-                    io.jettra.flux.widgets.Header.of(4, "Advertencia de Autenticación")
+                    io.jettra.flux.widgets.Header.of(4, titleStr)
                             .modifier(new io.jettra.flux.core.Modifier().style("color: #b91c1c; margin-top: 0; margin-bottom: 10px; font-weight: 600;")),
-                    Paragraph.of("El nombre de usuario o la contraseña ingresados no son válidos. Por favor verifique sus credenciales.")
+                    Paragraph.of(msgStr)
                             .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 20px; color: #374151; font-size: 14px;")),
                     io.jettra.flux.widgets.ElevatedButton.of("Aceptar")
                             .attribute("type", "button")
@@ -81,6 +95,7 @@ public class LoginPage extends FluxBaseHandler {
 
             body = Center.of(
                 Column.of(
+                    notificationBanner,
                     errorDialog,
                     loginForm
                 )
