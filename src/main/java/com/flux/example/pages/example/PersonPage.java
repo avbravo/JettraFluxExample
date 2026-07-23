@@ -145,21 +145,21 @@ public class PersonPage extends TemplatePage {
                 Label.of(nameLabel).forId("name")
                         .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
                 TextField.of(nameLabel, enterYour + nameLabel).id("name")
-                        .binding(personModel.name)
+                        .binding(PersonModel.class, "name")
                         .value(personModel.getName())
                         .modifier(new io.jettra.flux.core.Modifier().style(
                                 "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
                 Label.of(emailLabel).forId("email")
                         .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
                 TextField.of(emailLabel, enterYour + emailLabel).id("email")
-                        .binding(personModel.email)
+                        .binding(PersonModel.class, "email")
                         .value(personModel.getEmail())
                         .modifier(new io.jettra.flux.core.Modifier().style(
                                 "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")),
                 Label.of(ageLabel).forId("age")
                         .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 5px; font-weight: 500; display: block;")),
                 TextField.of(ageLabel, enterYour + ageLabel).id("age")
-                        .binding(personModel.age)
+                        .binding(PersonModel.class, "age")
                         .value(personModel.getAge())
                         .modifier(new io.jettra.flux.core.Modifier().style(
                                 "margin-bottom: 15px; width: 100%; border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 12px;")))
@@ -202,14 +202,18 @@ public class PersonPage extends TemplatePage {
                                 .modifier(new io.jettra.flux.core.Modifier()
                                         .style("display: flex; flex-direction: row; align-items: center;")))
                         .modifier(new io.jettra.flux.core.Modifier().style("width: 100%;")))
-                .action(JettraServer.resolvePath("/person?_action_method=saveForm")).method("POST");
+                .action(JettraServer.resolvePath("/person?_action_method=saveForm")).method("POST").attribute("id", "personForm");
+
+        // Automatically attach browser-level JettraRules Web Validation JavaScript Widget
+        Widget webRulesScriptWidget = FluxBinder.generateWebRulesWidget(PersonModel.class, "personForm");
 
         // --- Center Content ---
         return Column.of(
                 Header.of(2, msg.getProperty("personpage.title"))
                         .modifier(new io.jettra.flux.core.Modifier().style("margin-top: 0; font-weight: 600; margin-bottom: 20px;")),
                 (alert != null ? alert : Div.of()),
-                mainForm)
+                mainForm,
+                webRulesScriptWidget)
                 .modifier(new io.jettra.flux.core.Modifier()
                         .style("width: 100%; align-items: flex-start; max-width: 1200px; padding: 20px;"));
     }

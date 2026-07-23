@@ -6,6 +6,7 @@ package com.flux.example.model;
 
 import io.jettra.flux.annotations.JettraViewModel;
 import io.jettra.flux.annotations.PropertiesLabel;
+import io.jettra.rules.validations.Email;
 import io.jettra.rules.validations.Min;
 import io.jettra.rules.validations.NotNull;
 
@@ -19,6 +20,7 @@ public class PersonModel {
     @NotNull
     @PropertiesLabel(value = "person.name", label = "Nombre")
     public String name = "name";
+    @Email
     @PropertiesLabel(value = "person.email", label = "Email")
     public String email = "email";
     @Min(value = 0)

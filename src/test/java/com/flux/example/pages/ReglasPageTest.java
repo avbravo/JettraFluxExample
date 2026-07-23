@@ -43,8 +43,9 @@ public class ReglasPageTest {
     public void testReglasPageSimulation() {
         WuiTestRunner wuiRunner = new WuiTestRunner();
         wuiRunner.validateInterface("ReglasPage");
+        wuiRunner.validateInterface("RulesPage");
         wuiRunner.registerFormData("reglasForm", "{\"id\":\"REG-01\", \"saldo\":\"100\", \"descuento\":\"10\"}");
         wuiRunner.simulateClick("btnSave");
-        JettraAssert.assertTrue(true, "Simulación de ReglasPage ejecutada exitosamente");
+        JettraAssert.assertTrue(true, "Simulación de ReglasPage y RulesPage ejecutada exitosamente");
     }
 }

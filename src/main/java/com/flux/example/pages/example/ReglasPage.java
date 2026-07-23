@@ -79,13 +79,13 @@ public class ReglasPage extends TemplatePage {
                     Header.of(3, "Formulario JettraRules (@Rules y @Compute)"),
                     Paragraph.of("Validación en navegador (Web JS) y servidor (Java método):"),
                     Label.of("ID").forId("id"),
-                    TextField.of("id", "ID").value(reglasModel.getId()).attribute("id", "id"),
+                    TextField.of("id", "ID").value(reglasModel.getId()).attribute("id", "id").binding(ReglasModel.class, "id"),
                     Label.of("Saldo").forId("saldo"),
-                    TextField.of("saldo", "Saldo").value(reglasModel.getSaldo().toString()).attribute("id", "saldo"),
+                    TextField.of("saldo", "Saldo").value(reglasModel.getSaldo().toString()).attribute("id", "saldo").binding(ReglasModel.class, "saldo"),
                     Label.of("Descuento").forId("descuento"),
-                    TextField.of("descuento", "Descuento").value(reglasModel.getDescuento().toString()).attribute("id", "descuento"),
+                    TextField.of("descuento", "Descuento").value(reglasModel.getDescuento().toString()).attribute("id", "descuento").binding(ReglasModel.class, "descuento"),
                     Label.of("Saldo Neto (@Compute)").forId("saldoNeto"),
-                    TextField.of("saldoNeto", "Saldo Neto").value(reglasModel.getSaldoNeto().toString()).attribute("id", "saldoNeto").attribute("readonly", "readonly")
+                    TextField.of("saldoNeto", "Saldo Neto").value(reglasModel.getSaldoNeto().toString()).attribute("id", "saldoNeto").binding(ReglasModel.class, "saldoNeto").attribute("readonly", "readonly")
                              .modifier(new Modifier().style("background-color: rgba(255,255,255,0.1); cursor: not-allowed; font-weight: bold;")),
                     ElevatedButton.of("Guardar").attribute("id", "btnSave").modifier(new Modifier().style("margin-top: 15px; width: 100%; background-color: var(--primary-color, #3b82f6); color: white; border: none;"))
                 ).modifier(new Modifier().style("gap: 10px;"))
