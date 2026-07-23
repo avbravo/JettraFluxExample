@@ -1,6 +1,6 @@
 package com.flux.plugin.example.pages.apps;
 
-import com.flux.example.pages.FluxBaseHandler;
+import io.jettra.flux.pages.FluxBaseHandler;
 import com.sun.net.httpserver.HttpExchange;
 
 import io.jettra.core.security.widget.PageWidgetAllow;

@@ -1,6 +1,6 @@
 package com.flux.example.pages.login;
 
-import com.flux.example.pages.FluxBaseHandler;
+import io.jettra.flux.pages.FluxBaseHandler;
 import io.jettra.flux.widgets.Paragraph;
 import io.jettra.flux.widgets.Scaffold;
 import io.jettra.flux.widgets.Login;

@@ -1,6 +1,6 @@
 package com.flux.example.pages.template;
 
-import com.flux.example.pages.FluxBaseHandler;
+import io.jettra.flux.pages.FluxBaseHandler;
 import com.sun.net.httpserver.HttpExchange;
 import io.jettra.flux.core.Widget;
 
