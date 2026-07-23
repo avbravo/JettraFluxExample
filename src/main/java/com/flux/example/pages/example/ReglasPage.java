@@ -97,7 +97,9 @@ public class ReglasPage extends TemplatePage {
 
         Widget alert = null;
         if (params.containsKey("error")) {
-            alert = Alert.of(Text.of("Error: " + params.get("error"))).severity("danger");
+            String errStr = params.get("error");
+            if (errStr != null) errStr = errStr.replace("+", " ");
+            alert = Alert.of(Text.of("Error: " + errStr)).severity("danger");
         } else if (params.containsKey("success")) {
             alert = Alert.of(Text.of("Registro guardado exitosamente")).severity("success");
         }

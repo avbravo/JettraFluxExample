@@ -126,6 +126,9 @@ public class PersonPage extends TemplatePage {
                     .modifier(new io.jettra.flux.core.Modifier().style("margin-bottom: 20px; width: 100%;"));
         } else if (params.containsKey("error")) {
             String rawErr = params.get("error");
+            if (rawErr != null) {
+                rawErr = rawErr.replace("+", " ");
+            }
             String errorMsgStr = "true".equals(rawErr) ? defaultErrorMsgStr : rawErr;
             alert = Alert.of(
                 Column.of(
