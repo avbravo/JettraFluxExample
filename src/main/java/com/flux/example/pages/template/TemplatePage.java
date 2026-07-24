@@ -136,6 +136,7 @@ public abstract class TemplatePage extends FluxBaseHandler {
         rootUiKitMenu.add(uiLayoutMenu);
 
         // --- Left Sidebar (Ocean Style) ---
+
         Widget menu = Left.of(
                 SidebarLogo.of(Icon.LAYER_GROUP, "Ocean"),
                 SidebarCategory.of("Navigation"),
